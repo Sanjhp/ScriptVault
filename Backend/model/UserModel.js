@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 const userSchema = mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: false,
     },
     email: {
         type: String,
@@ -12,19 +12,19 @@ const userSchema = mongoose.Schema({
     },
     phone: {
         type: String,
-        required: true
+        required: false,
     },
     dob: {
         type: String,
-        required: true
+        required: false,
     },
     PAN: {
         type: String,
-        required: true
+        required: false,
     },
     password: {
         type: String,
-        required: true
+        required: false,
     },
     otp: {
         value: { type: String },
@@ -35,12 +35,12 @@ const userSchema = mongoose.Schema({
     { timestamps: true }
 );
 
-//Generate token
 userSchema.methods.generateAuthToken = async function () {
     try {
         const token = jwt.sign({ _id: this._id }, process.env.SECRET_KEY, {
             expiresIn: '24h',
         });
+
         return token;
     } catch (error) {
         // Handle error 
