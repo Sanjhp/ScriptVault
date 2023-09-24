@@ -1,33 +1,28 @@
-import { StatusCodes } from 'http-status-codes'
-import jwt from 'jsonwebtoken'
-import User from '../models/UserModel.js'
+import jwt from "jsonwebtoken";
 
-const verifyToken = async(req,res,next)=>{
-    try {
-        let token = req.headers["authorization"] || req.body.token || req.query.token
+const config = process.env;
 
-        if(!token){
-          return res.status(StatusCodes.BAD_REQUEST).json({ success: false, message: "Access Denied" })
-        }   
-        //  token = token.replace('Bearer ',"")
-        token = token.split(" ")[1];
-        const decode = jwt.verify(token,process.env.SECRET_KEY)
-        const user = await User.findById(decode._id)
-       
-        if(!user){
-            return res.status(StatusCodes.BAD_REQUEST).json({ success: false, message: "Invalid token" })
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  
+  if (!authHeader) {
+    return res.status(403).send("A token is required for authentication");
+  }
 
-        }else{
-            await user.populate('role')
-            req.user = user
-            req.token = token
-            next()
-        }
+  const token = authHeader.replace("Bearer ", ""); // Remove 'Bearer ' prefix
 
-    } catch (error) {
-        // console.log(error)
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, message: "unAuthorized" })
-    }
-}
+  if (!token) {
+    return res.status(403).send("A token is required for authentication");
+  }
 
-export default verifyToken
+  try {
+    const decoded = jwt.verify(token, config.SECRET_KEY);
+    req.user = decoded;
+    return next();
+  } catch (err) {
+    console.log('err', err)
+    return res.status(401).send("Invalid Token");
+  }
+};
+
+export default verifyToken;
