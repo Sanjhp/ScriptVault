@@ -5,8 +5,8 @@ import { Link, useNavigate } from "react-router-dom"; // Import useHistory
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -120,9 +120,9 @@ function LoginPage() {
     <div>
       <div className={background}></div>
       <div className={loginCard}>
-        <h2 className={h2}>
+        {/* <h2 className={h2}>
           {forgotPasswordMode ? "Forgot Password" : "LOGIN"}
-        </h2>
+        </h2> */}
         {error && <p className={errorMessage}>{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className={inputContainer}>
@@ -142,25 +142,25 @@ function LoginPage() {
               <p className={styles.error}>{errors.email.message}</p>
             )}
           </div>
-          {!forgotPasswordMode && (
-            <div className={inputContainer}>
-              <label className={label} htmlFor="password">
-                Password
-              </label>
-              <input
-                className={input}
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              {errors && errors.password && (
-                <p className={styles.error}>{errors.password.message}</p>
-              )}
-            </div>
-          )}
+          {/* {!forgotPasswordMode && ( */}
+          <div className={inputContainer}>
+            <label className={label} htmlFor="password">
+              Password
+            </label>
+            <input
+              className={input}
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            {errors && errors.password && (
+              <p className={styles.error}>{errors.password.message}</p>
+            )}
+          </div>
+          {/* )} */}
           {!forgotPasswordMode && (
             <div className={rememberMe}>
               <label className={rememberMeLabel}>
@@ -176,7 +176,8 @@ function LoginPage() {
             </div>
           )}
           <button className={button} type="submit">
-            {forgotPasswordMode ? "Send Reset Email" : "Login"}
+            Login
+            {/* {forgotPasswordMode ? "Send Reset Email" : "Login"} */}
             {loading && <div class="loader"></div>}
           </button>
         </form>
@@ -197,20 +198,19 @@ function LoginPage() {
               Sign up
             </Link>
           </p>
-          {!forgotPasswordMode && (
+          {/* {!forgotPasswordMode && ( */}
             <p>
               <span
                 className={forgotPasswordLink}
-                onClick={toggleForgotPasswordMode}
+                onClick={()=>navigate("/forget-password")}
               >
                 Forgot Password
               </span>
             </p>
-          )}
+          {/* )} */}
         </div>
       </div>
       <ToastContainer />
-
     </div>
   );
 }
