@@ -1,0 +1,82 @@
+.portfolioList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.portfolioItem {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: calc(50% - 250px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px #d7cfcf;
+}
+
+.investButton {
+  margin-top: auto;
+  align-self: center;
+}
+
+.investmentType {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.investmentName {
+  margin-bottom: 5px;
+}
+
+.investmentCategory {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.investmentValues {
+  display: flex;
+  justify-content: space-between;
+}
+
+.investmentAmount {
+  color: #009688;
+}
+
+.currentValue {
+  color: #ff5722;
+}
+
+.pieChart {
+  width: 300px;
+}
+
+.chartjs-doughnut-legend {
+  font-size: 12px !important;
+  font-weight: normal !important;
+}
+
+.chartAndLegend {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 20px 0px 20px 0px;
+}
+
+.chartLegend {
+  list-style: none;
+  padding: 0;
+  margin: auto 0px auto 31px;
+}
+.legendItem {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.legendColor {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border-radius: 50%;
+}
