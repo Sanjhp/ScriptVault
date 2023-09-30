@@ -1,43 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
   /* NAVBAR ====================== */
 
   .nav-wrapper a {
@@ -149,4 +109,101 @@
     color: #26a699a4 !important;
   }
   
-   
+    /* PROFILE ===================== */
+  
+  .profileWrapper {
+    margin: 4vw 0;
+    width: 70vw;
+    margin: auto;
+  }
+  .profileWrapper > div {
+    margin: 2vw 0;
+  }
+  .profileWrapper .heading {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+  .policyName .name {
+    display: grid;
+    grid-template-columns: 0.3fr 2fr;
+    align-items: center;
+  }
+  .policyName .name img {
+    border-radius: 50%;
+    width: 4.5vw;
+    padding: 0.5vw;
+    margin: auto;
+    box-shadow: 0 0 6px #00000085;
+  }
+  .policyName .name h2 {
+    font-size: 2.5vw;
+  }
+  .heading .yearReturn {
+    margin: auto;
+  }
+  .heading .policyFeed span {
+    margin: 0 1vw;
+    align-items: center;
+    background-color: white;
+    color: #6d6d75;
+    font-weight: 500;
+    border: 1px solid #a8a8a8;
+    box-shadow: none;
+  }
+  .heading .policyFeed #star {
+    border: none !important;
+  }
+  .heading .policyFeed #star i {
+    font-size: 0.9vw;
+    color: rgb(255, 186, 27);
+  }
+  .heading .percentReturn h2 {
+    font-weight: 700;
+    font-size: 2vw;
+  }
+  .heading .oneYearReturn h6 {
+    color: #6d6d75;
+    font-weight: 400;
+  }
+  .profileWrapper .sparkline {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .profileWrapper .sparklineData {
+    width: 100%;
+    margin: auto;
+  }
+  .profileWrapper .policyDetails p {
+    padding: 0.5vw 2vw;
+    line-height: 2vw;
+    font-size: 1.1vw;
+    color: #6d6d75;
+  }
+  .profileWrapper .policyDetails p::first-letter {
+    font-size: 2vw;
+  }
+  .profileWrapper .fundDetails, .profileWrapper .prosCons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 3vw;
+  }
+  .profileWrapper .fundDetails .collection-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+  .fundDetails .collection-item, .prosCons .collection-item {
+    font-weight: 500;
+    font-size: 1.1vw;
+  }
+  .fundDetails .collection li div:not(:first-child), .prosCons .collection li span {
+    font-weight: 500;
+    color: #6d6d75;
+    font-size: 1vw;
+  }
+  .aboutPolicy p {
+    /* padding: 0.5vw 2vw; */
+    line-height: 2vw;
+    font-size: 1.1vw;
+    color: #6d6d75;
+  }

@@ -4,6 +4,7 @@ import 'dotenv/config';
 import connectionDB from './db/connectDb.js';
 import path from 'path';
 import  userRouter  from "./routes/userRoutes.js"
+import  investmentRouter  from "./routes/investmentRoutes.js"
 const PORT = process.env.PORT || 5000
 
 connectionDB()
@@ -16,6 +17,7 @@ app.use(cors())
 
 // Routes 
 app.use('/api/users', userRouter)
+app.use('/api/invest', investmentRouter)
 
 app.listen(PORT, () => {
     console.log(`Server is runing PORT:${PORT}`)
