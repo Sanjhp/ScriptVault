@@ -15,7 +15,6 @@ import Invest from './Components/Invest/Invest';
 function App() {
   return (
     <Router>
-      {/* <Navbar /> */}
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/explore" element={<Explore />} />
