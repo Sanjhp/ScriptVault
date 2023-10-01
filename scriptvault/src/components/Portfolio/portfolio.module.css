@@ -1,6 +1,11 @@
 .portfolioList {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
+}
+
+.portfolioItem:hover {
+  background-color: #bbf7d0;
 }
 
 .portfolioItem {
