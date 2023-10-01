@@ -49,7 +49,7 @@ body {
 }
 
 .wl_heading {
-    background-color: var(--primary-color);
+    background-color: #bbf7d0;
     border: 1px solid var(--light-gray);
     padding: 1px;
     /* overflow-y: hidden; */
@@ -57,9 +57,9 @@ body {
 }
 
 .watchlist h2 {
-    padding-left: 22em;
+    padding-left: 26em;
     font-size: 25px;
-    color: var(--white);
+    color: var(--black);
 }
 
 .stock {
