@@ -8,15 +8,16 @@ import ForgetPassword from "./Pages/ForgetPassword/ForgetPassword";
 import ResetPassword from "./Pages/ResetPassword/ResetPassword";
 import Explore from "./Pages/Explore/Explore";
 import DetailsPage from "./Pages/DetailsPage/DetailsPage";
-// import Navbar from './components/Navbar/Navbar';
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Invest from "./Components/Invest/Invest";
 import Watchlist from "./Pages/Watchlist/Watchlist";
+import Navbar from "./Components/LoginNavbar";
+// import Navbar from "./Pages/Home/sections/Navbar";
 
 function App() {
   return (
     <Router>
-      {/* <Navbar /> */}
+      <Navbar />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/explore" element={<Explore />} />
