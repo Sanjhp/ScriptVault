@@ -36,7 +36,7 @@ const Home = () => {
             fully encrypted and securely stored
           </span>
           <div className="min-[280px]:w-128 max-[639px]:w-128 sm:w-128 md:w-128 lg:w-64 min-[280px]:text-2xl lg:text-xl min-[280px]:text-center max-[639px]:text-center sm:text-center md:text-center lg:text-center">
-            <PrimaryButton to="/get-started" name="Get Started Now"/>
+            <PrimaryButton to="/explore" name="Get Started Now"/>
           </div>
         </div>
 

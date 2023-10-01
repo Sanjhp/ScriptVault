@@ -11,6 +11,7 @@ import DetailsPage from "./Pages/DetailsPage/DetailsPage";
 // import Navbar from './components/Navbar/Navbar';
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Invest from "./Components/Invest/Invest";
+import Watchlist from "./Pages/Watchlist/Watchlist";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/explore" element={<Explore />} />
         <Route exact path="/details-page" element={<DetailsPage />} />
+        <Route exact path="/watchlist" element={<Watchlist />} />
         <Route exact path="/signup" element={<SignupPage />} />
         <Route exact path="/signin" element={<SigninPage />} />
         <Route exact path="/forget-password" element={<ForgetPassword />} />
