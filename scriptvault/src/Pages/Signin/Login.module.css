@@ -25,12 +25,12 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle closest-side, rgba(108, 99, 255, 0.3), #000000);
+    background: radial-gradient(circle closest-side, #bbf7d0, #ffffff);
         z-index: -1;
 }
 
 .loginCard {
-    background-color: rgba(29, 29, 28, 0.8);
+    background-color: rgba(62, 62, 60, 0.8);
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
