@@ -8,6 +8,10 @@
   justify-content: space-between;
 }
 
+.netWorthPartition:hover {
+  background-color: #bbf7d0;
+}
+
 .netWorthPartition {
   flex: 1 1;
   background-color: #fffdfd;
@@ -15,6 +19,7 @@
   box-shadow: -8px 11px 5px #d7cfcf;
   text-align: center;
   margin-top: 20px;
+  
 }
 
 .label {

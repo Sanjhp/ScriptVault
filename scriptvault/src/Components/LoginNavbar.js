@@ -4,14 +4,15 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import PrimaryButton from "./PrimaryButton";
-import SecondaryButton from "./SecondaryButton";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navList = [
-    { name: "Login", to: "/login" },
-    { name: "Signup", to: "/login" },
+    { name: "Dashboard", to: "/dashboard" },
+    { name: "Explore", to: "/explore" },
+    { name: "Watchlist", to: "/watchlist" },
+    { name: "Profile", to: "/profile" },
+    { name: "Logout", to: "/logout" },
   ];
   return (
     <div className="bg-white flex flex-row min-[200px]:justify-between max-[639px]:justify-between sm:justify-between md:justify-between lg:justify-around sticky top:0 left:0 px-2 py-2 min-[200px]:border-b-[0px] max-[639px]:border-b-[0px] sm:border-b-[0px] md:border-b-[2px] md: border-gray-200 md:border-solid mb-20 inset-x-0 top-0 z-50">
@@ -19,13 +20,14 @@ const Navbar = () => {
         src="https://i.ibb.co/BGTKjCQ/Script-Vault.png"
         className="w-[200px]"
       />
-      <div className="grid grid-cols-2 gap-1 min-[200px]:hidden max-[639px]:hidden sm:hidden lg:grid">
-        <div className="grid justify-center items-center">
-          <PrimaryButton name="Signup" to="/signup" />
-        </div>
-        <div className="grid justify-center items-center">
-          <SecondaryButton to="/signin" name="signin" />
-        </div>
+      <div className="grid grid-cols-5 gap-1 min-[200px]:hidden max-[639px]:hidden sm:hidden lg:grid">
+        {navList.map((item) => (
+          <div key={item.name} className="grid justify-center items-center">
+            <Link to={item.to} className="text-gray-900 hover:bg-gray-50 p-2">
+              {item.name}
+            </Link>
+          </div>
+        ))}
       </div>
       <div className="grid grid-cols-2 gap-1 min-[200px]:grid max-[639px]:grid lg:hidden">
         <div
@@ -40,7 +42,7 @@ const Navbar = () => {
         as="div"
         className="lg:hidden"
         open={mobileMenuOpen}
-        onClose={setMobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
       >
         <div className="fixed inset-0 z-50" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">

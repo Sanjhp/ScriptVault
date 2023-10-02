@@ -110,6 +110,8 @@ function Portfolio() {
           "rgba(54, 162, 235, 0.6)",
           "rgba(255, 206, 86, 0.6)",
           "rgba(75, 192, 192, 0.6)",
+          "rgba(67, 150, 200, 0.6)",
+
           // Add more colors if needed
         ],
       },
