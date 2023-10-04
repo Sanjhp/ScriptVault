@@ -30,10 +30,10 @@
 }
 
 .loginCard {
-    background-color: rgba(62, 62, 60, 0.8);
+    /* background-color: rgba(62, 62, 60, 0.8); */
     padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); */
     width: 60%;
     max-width: 400px;
     margin: auto;
@@ -42,11 +42,16 @@
     position: relative;
     z-index: 1;
     color: #ffffff;
+    width: 100%;
+    max-width: 525px;
+    margin: 0 auto;
+    padding-right: 0;
+    padding-left: 0;
 }
 
 .h2 {
     font-size: 24px;
-    color: #ffffff;
+    color: #080707;
     margin-bottom: 20px;
 }
 
@@ -90,7 +95,7 @@
 }
 
 .label {
-    color: #ffffff;
+    color: #0f0f0f;
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
@@ -102,7 +107,7 @@
     border-radius: 5px;
     font-size: 16px;
     width: 100%;
-    color: #ffffff;
+    color: #050505;
     background-color: rgba(255, 255, 255, 0.750);
 }
 
@@ -113,7 +118,7 @@
 .rememberMeLabel {
     display: inline;
     font-weight: normal;
-    color: #ffffff;
+    color: #343131;
 }
 
 .rememberMeCheckbox {
@@ -122,5 +127,51 @@
 }
 
 .loginOptions {
-    margin-top: 20px;
+    margin-top:20px;
+}
+
+.loginContainer{
+    display: flex;
+    width: 100%;
+  height: 100%;
+  min-height: 600px;
+  padding: 0 2rem;
+  margin-top: 1.5rem;
+  margin-right: 50px;
+}
+.leftContainer,
+.rightContainer {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.leftContainer{
+     width: 40%;
+}
+.rightContainer{
+     width: 60%;
+     max-width: 525px;
+    margin: 0 auto;
+}
+.leftContainerContent{
+    text-align: center;
+}
+
+.leftContainerContent h2{
+    font-size: 3rem;
+    font-weight: 600;
+}
+.leftContainerContent p{
+    font-size: 1.3rem;
+}
+
+.rightContainerContent h2{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.rightContainerContent p{
+    font-size: 20px;
+    color: #5F5982;
 }
