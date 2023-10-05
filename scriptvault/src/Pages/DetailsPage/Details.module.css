@@ -77,11 +77,11 @@
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 3vw;
   }
-  .profileWrapper .fundDetails .collection-item {
+  .profileWrapper .fundDetails .collectionItem {
     display: grid;
     grid-template-columns: 1fr 2fr;
   }
-  .fundDetails .collection-item, .prosCons .collection-item {
+  .fundDetails .collectionItem, .prosCons .collectionItem {
     font-weight: 500;
     font-size: 1.1vw;
   }
