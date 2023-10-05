@@ -11,17 +11,17 @@ import DetailsPage from "./Pages/DetailsPage/DetailsPage";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Invest from "./Components/Invest/Invest";
 import Watchlist from "./Pages/Watchlist/Watchlist";
-import Navbar from "./Components/LoginNavbar";
+import Header from "./Components/LoginNavbar";
 // import Navbar from "./Pages/Home/sections/Navbar";
 
 function App() {
   return (
     <Router>
-      <Navbar />
+      <Header />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/explore" element={<Explore />} />
-        <Route exact path="/details-page" element={<DetailsPage />} />
+        <Route exact path="/details-page/:symbol" element={<DetailsPage />} />
         <Route exact path="/watchlist" element={<Watchlist />} />
         <Route exact path="/signup" element={<SignupPage />} />
         <Route exact path="/signin" element={<SigninPage />} />

@@ -24,7 +24,7 @@ const Calltoaction = () => {
           fully encrypted and securely stored
         </span>
         <div className="text-center">
-          <PrimaryButton to="/get-started" name="Get Started"/>
+          <PrimaryButton to="/signup" name="Get Started"/>
         </div>
       </div>
     </div>

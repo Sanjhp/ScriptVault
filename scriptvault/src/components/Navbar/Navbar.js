@@ -11,7 +11,7 @@ const Navbar = () => {
     { name: "Dashboard", to: "/dashboard" },
     { name: "Explore", to: "/explore" },
     { name: "Analytics", to: "/analytics" },
-    { name: "Profile", to: "/profile" },
+    { name: "Profile", to: "/update-profile" },
   ];
   return (
     <div className="bg-white flex flex-row min-[200px]:justify-between max-[639px]:justify-between sm:justify-between md:justify-between lg:justify-around sticky top:0 left:0 px-2 py-2 min-[200px]:border-b-[0px] max-[639px]:border-b-[0px] sm:border-b-[0px] md:border-b-[2px] md: border-gray-200 md:border-solid mb-20 inset-x-0 top-0 z-50">
