@@ -88,11 +88,19 @@
 // export default Navbar;
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = ({ token }) => {
+const Navbar = ({ token, onLogout }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    onLogout();
+    navigate("./");
+  };
+
   return (
-    <header className="bg-white flex items-center justify-between p-4 shadow-lg">
+    // <header className="bg-white flex items-center justify-between p-4 shadow-lg">
+    <header className="bg-white flex flex-row min-[200px]:justify-between max-[639px]:justify-between sm:justify-between md:justify-between lg:justify-around sticky top:0 left:0 px-2 py-2 min-[200px]:border-b-[0px] max-[639px]:border-b-[0px] sm:border-b-[0px] md:border-b-[2px] md: border-gray-200 md:border-solid mb-20 inset-x-0 top-0 z-50">
       <div className="flex items-center">
         <Link to="/">
           <img
@@ -105,49 +113,37 @@ const Navbar = ({ token }) => {
 
       <nav>
         {token ? (
-          <ul className="flex space-x-4">
+          <ul className="flex space-x-4 items-center">
             <li>
-              <Link to="/dashboard">
-                <span className="text-xl">🏠</span>
-                Dashboard
-              </Link>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
             <li>
-              <Link to="/explore">
-                <span className="text-xl">🔍</span>
-                Explore
-              </Link>
+              <Link to="/explore">Explore</Link>
             </li>
             <li>
-              <Link to="/watchlist">
-                <span className="text-xl">📺</span>
-                Watchlist
-              </Link>
+              <Link to="/watchlist">Watchlist</Link>
             </li>
             <li>
-              <Link to="/profile">
-                <span className="text-xl">👤</span>
-                Profile
-              </Link>
+              <Link to="/profile">Profile</Link>
             </li>
             <li>
-              <Link to="/logout">
+              <button onClick={handleLogout} className="cursor-pointer">
                 <span className="text-xl">🚪</span>
                 Logout
-              </Link>
+              </button>
             </li>
           </ul>
         ) : (
           // <div className="flex space-x-4">
           <div className="grid grid-cols-2 gap-1 min-[200px]:hidden max-[639px]:hidden sm:hidden lg:grid">
-            <div className="bg-white-300 border-[1px] border-green-300 px-3 py-3 text-black rounded hover:bg-white hover:text-green-300 hover:border-[1px] hover:border-green-300 hover:border-solid">
+            <div className="bg-white-300 border-[1px] border-green-300 px-2 py-2 text-black rounded hover:bg-white hover:text-green-300 hover:border-[1px] hover:border-green-300 hover:border-solid">
               <Link to="/signin">
-                <span className="text-xl">Sign In</span>
+                <span className="text-md">Sign In</span>
               </Link>
             </div>
-            <div className="bg-black px-3 py-3 text-white rounded hover:bg-white hover:text-black hover:border-[1px] hover:border-black hover:border-solid">
+            <div className="bg-black px-2 py-2 text-white rounded hover:bg-white hover:text-black hover:border-[1px] hover:border-black hover:border-solid">
               <Link to="/signup">
-                <span className="text-xl">Sign Up</span>
+                <span className="text-md">Sign Up</span>
               </Link>
             </div>
           </div>
