@@ -6,6 +6,7 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
+import SignInButton from "./SignInButton";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -21,7 +22,7 @@ const Navbar = () => {
       />
       <div className="grid grid-cols-2 gap-1 min-[200px]:hidden max-[639px]:hidden sm:hidden lg:grid">
         <div className="grid justify-center items-center">
-          <PrimaryButton name="Signup" to="/signup" />
+          <SignInButton name="Signup" to="/signup" />
         </div>
         <div className="grid justify-center items-center">
           <SecondaryButton to="/signin" name="signin" />
