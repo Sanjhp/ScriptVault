@@ -1,18 +1,20 @@
-import React ,{useEffect, useState}from "react";
+import React, { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
-import styles from "./Dashboard.module.css"; 
+import styles from "./Dashboard.module.css";
 import { useLocation } from "react-router-dom";
+import Watchlist from "../Watchlist/Watchlist";
 
 Chart.register(ArcElement);
 
 function Dashboard() {
   const location = useLocation();
-  const { stockDetails, stockDetailsList: initialStockDetailsList } = location.state ?? { stockDetails: null, stockDetailsList: [] };
+  const { stockDetails, stockDetailsList: initialStockDetailsList } =
+    location.state ?? { stockDetails: null, stockDetailsList: [] };
 
-  const [stockDetailsList, setStockDetailsList] = useState(initialStockDetailsList);
-
-
+  const [stockDetailsList, setStockDetailsList] = useState(
+    initialStockDetailsList
+  );
 
   const dummyPortfolioData = [
     {
@@ -167,7 +169,7 @@ function Dashboard() {
         </ul>
       </div> */}
 
-      <div className={styles.portfolioList}>
+      {/* <div className={styles.portfolioList}>
         {stockDetailsList.map((stock) => (
           <div key={stock.id} className={styles.portfolioItem}>
             <p>{stock.bankName}</p>
@@ -185,7 +187,9 @@ function Dashboard() {
             <button className={styles.investButton}>Invest</button>
           </div>
         ))}
-      </div>
+      </div> */}
+
+      <Watchlist />
     </div>
   );
 }

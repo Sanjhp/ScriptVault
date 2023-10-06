@@ -46,6 +46,27 @@ const Profile = () => {
   const [price, setPrice] = useState("622.33");
   const elements = useElements();
 
+  const handleDataForBackend = (async) => {
+    try {
+      // Construct the data object to send to the backend
+      const fundData = {
+        fund_id: stockData.Symbol,
+        fund_name: stockData.Name,
+        sector: stockData.Sector,
+        cost: stockData.BookValue,
+      };
+
+      // Make an HTTP POST request to your backend API
+      const response = axios.post(
+        `${process.env.REACT_APP_BASE_URL}/fund/createInvestment`,
+        fundData
+      );
+      console.log("Backend response:", response.data);
+    } catch (error) {
+      console.error("Error buying stock:", error);
+    }
+  };
+
   // const handleBuy = () => {
   //   console.log(`Buying ${quantity} stocks with Stop Loss set `);
   //   navigate("/dashboard");
@@ -81,6 +102,8 @@ const Profile = () => {
 
     // Handle the server response, e.g., show a success message
     console.log("Payment successful:", response.data);
+
+    handleDataForBackend();
 
     // Close the modal
     closeModal();

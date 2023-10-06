@@ -34,7 +34,7 @@ const Home = () => {
   //www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=BA&apikey=demo
   const [searchResults, setSearchResults] = useState([]);
   console.log("searchResults :>> ", searchResults);
-  const [searchQuery, setSearchQuery] = useState("BA");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +42,7 @@ const Home = () => {
         const apiKey = "C04721VTHLJFESKF";
         const apiUrl = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchQuery}&apikey=${apiKey}`;
         const response = await axios.get(apiUrl);
-        setSearchResults(response.data.bestMatches || []); 
+        setSearchResults(response.data.bestMatches || []);
       } catch (error) {
         console.error("Error:", error);
       }

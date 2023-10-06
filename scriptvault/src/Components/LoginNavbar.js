@@ -19,7 +19,7 @@ const Navbar = ({}) => {
   };
 
   return (
-    <header className="bg-white flex items-center justify-between p-4 shadow-lg px-16">
+    <header className="bg-white flex items-center justify-between p-4 shadow-lg px-12">
       <div className="flex items-center">
         <Link to="/">
           <img
@@ -45,18 +45,18 @@ const Navbar = ({}) => {
                 Explore
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/watchlist">
                 <span className="text-xl"></span>
                 Watchlist
               </Link>
-            </li>
-            <li>
+            </li> */}
+            {/* <li>
               <Link to="/profile">
                 <span className="text-xl"></span>
                 Profile
               </Link>
-            </li>
+            </li> */}
             <li>
               <button onClick={handleLogout}>
                 <span className="text-xl"></span>
