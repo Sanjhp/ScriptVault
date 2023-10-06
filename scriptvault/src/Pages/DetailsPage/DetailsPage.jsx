@@ -79,47 +79,6 @@ const Profile = () => {
     }
   };
 
-  // const handleBuy = () => {
-  //   console.log(`Buying ${quantity} stocks with Stop Loss set `);
-  //   navigate("/dashboard");
-  // };
-
-  // const handleBuy = async () => {
-  //   const stripe = await stripePromise;
-  //   const cardElement = elements.getElement(CardElement);
-
-  //   if (!stripe || !cardElement) {
-  //     console.error("Stripe or CardElement not available.");
-  //     return;
-  //   }
-
-  //   // Create a PaymentMethod with the card information
-  //   const { paymentMethod, error } = await stripe.createPaymentMethod({
-  //     type: "card",
-  //     card: cardElement,
-  //   });
-
-  //   if (error) {
-  //     console.error("Error creating PaymentMethod:", error);
-  //     return;
-  //   }
-
-  //   // Use the paymentMethod.id to process the payment on your server
-  //   const response = await axios.post("/your-server-endpoint", {
-  //     paymentMethodId: paymentMethod.id,
-  //     amount: parseFloat(price) * quantity * 100,
-  //     user_id: id, // Include the user ID here
-  //   });
-
-  //   console.log("Payment successful:", response.data);
-
-  //   handleDataForBackend();
-
-  //   closeModal();
-
-  //   navigate("/dashboard");
-  // };
-
   const handleBuy = async () => {
     handleDataForBackend();
 
