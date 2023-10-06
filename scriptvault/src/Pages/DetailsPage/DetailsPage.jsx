@@ -2,22 +2,54 @@ import React, { useState, useEffect } from "react";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import data from "../../Components/Jsondata/Fundingdata.json";
 import styles from "./Details.module.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import Modal from "react-modal";
+import { loadStripe } from "@stripe/stripe-js";
+// const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    width: "40%",
+  },
+};
 console.log(data?.[0].id);
 const count = 0;
 
 const Profile = () => {
   const { symbol } = useParams();
   const [stockData, setStockData] = useState(null);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  // const [stopLoss, setStopLoss] = useState("");
+  const navigate = useNavigate();
+  const [price, setPrice] = useState("622.33");
 
-  // const [apiRes, setApiRes] = useState([]);
+  const handleBuy = () => {
+    console.log(`Buying ${quantity} stocks with Stop Loss set `);
+    navigate("/dashboard");
+  };
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setQuantity(1);
+    setIsOpen(false);
+  }
+
   console.log("stockData :>> ", stockData);
   useEffect(() => {
     const fetchStockData = async () => {
       try {
-        const apiKey = "demo";
+        // const apiKey = "demo";
+        const apiKey = "C04721VTHLJFESKF";
         const apiUrl = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${apiKey}`;
         const response = await axios.get(apiUrl);
         console.log("response :>> ", response);
@@ -31,7 +63,7 @@ const Profile = () => {
   }, [symbol]);
 
   if (!stockData) {
-    return <div>Loading...</div>; // Add loading state while data is being fetched
+    return <div>Loading...</div>;
   }
   return (
     <div className={styles.profileWrapper}>
@@ -42,7 +74,6 @@ const Profile = () => {
               <img alt="logo" src={data?.[count]?.companyImg} />
             </div>
             <div>
-              {/* <h2>{data?.[count]?.policyName}</h2> */}
               <h2>{stockData?.Name}</h2>
             </div>
           </div>
@@ -50,7 +81,7 @@ const Profile = () => {
             <span className={styles.btn}>Equality</span>
             <span className={styles.btn}>Large Cap</span>
             <span className={styles.btn}>
-              5.0{" "}
+              5.0
               <span id="star">
                 <i className={`${styles.materialIcons} ${styles.star}`}>star</i>
               </span>{" "}
@@ -67,13 +98,19 @@ const Profile = () => {
             <h6> {data?.[count]?.year} Return </h6>{" "}
           </div>
           <div className={styles.percentReturn}>
-            {" "}
             <h2>{data?.[count]?.yearsGrowth}</h2>{" "}
           </div>
           <div className={styles.oneYearReturn}>
-            {" "}
             <h6> {data?.[count]?.years} Return </h6>{" "}
           </div>
+
+          <button
+            onClick={openModal}
+            type="submit"
+            className="mt-10 font-bold text-xl px-6 py-1 rounded bg-green-600 text-white"
+          >
+            Buy
+          </button>
         </div>
       </div>
 
@@ -93,12 +130,11 @@ const Profile = () => {
         </div>
       </div>
 
-      <h4> Fund Details </h4>
+      <h4> {stockData?.Name} Fund Details </h4>
       <div className={styles.fundDetails}>
         <div className={styles.lhsDetails}>
           <ul className={styles.collection}>
             <li className={styles.collectionItem}>
-              {" "}
               <div>52W High</div>
               <div>{stockData["52WeekHigh"]}</div>
             </li>
@@ -126,20 +162,23 @@ const Profile = () => {
               <div>200Day Moving Avg.</div>{" "}
               <div>{stockData["200DayMovingAverage"]}</div>
             </li>
-
-            {/* <li className={styles.collectionItem}>
-             
-              <div>50DayMovingAverage</div> <div>{stockData["50DayMovingAverage"]}</div>{" "}
-            </li> */}
           </ul>
         </div>
         <div className={styles.rhsDetails}>
           <ul className={styles.collection}>
             <li className={styles.collectionItem}>
-              <div>	β</div> <div>{stockData?.Beta}</div>{" "}
+              <div> β</div> <div>{stockData?.Beta}</div>{" "}
             </li>
             <li className={styles.collectionItem}>
-              <div>Exchange</div> <div>{stockData?.Exchange}</div>{" "}
+              <div> BookValue</div> <div>{stockData?.BookValue}</div>{" "}
+            </li>
+            <li className={styles.collectionItem}>
+              <div> EPS</div> <div>{stockData?.EPS}</div>{" "}
+            </li>
+
+            <li className={styles.collectionItem}>
+              <div>DividendPerShare</div>{" "}
+              <div>{stockData?.DividendPerShare}</div>{" "}
             </li>
             <li className={styles.collectionItem}>
               <div>Sector</div> <div>{stockData?.Sector}</div>{" "}
@@ -188,73 +227,71 @@ const Profile = () => {
       </div>
 
       <div className={styles.aboutPolicy}>
-        <h4> Axis Bluechip Fund Direct Plan Details </h4>
+        <h4> Direct Plan Details </h4>
         <p>{stockData?.Description}</p>
-        {/* <p>
-          {" "}
-          Axis Bluechip Fund Direct Plan Growth is a Equity Mutual Fund Scheme
-          launched by Axis Mutual Fund. This scheme was made available to
-          investors on 01 Jan 2013. Shreyash Devalkar is the Current Fund
-          Manager of Axis Bluechip Fund Direct Plan Growth fund.The fund
-          currently has an Asset Under Management(AUM) of ₹14,522 Cr and the
-          Latest NAV as of 28 Jul 2020 is ₹33.36.{" "}
-        </p>
-
-        <p>
-          {" "}
-          The Axis Bluechip Fund Direct Plan Growth is rated Moderately High
-          risk. Minimum SIP Investment is set to 500. Minimum Lumpsum Investment
-          is 5000. For units in excess of 10% of the investment,1% will be
-          charged for redemption within 12 months{" "}
-        </p>
-
-        <p>
-          {" "}
-          As the name suggests, Axis blue-chip fund-growth invests in blue-chip
-          stocks, or stocks of predominantly large companies, which are
-          financially sound, and well established. The stocks are less volatile
-          than mid-cap and small-cap stocks, traded frequently, and have
-          adequate liquidity as a result. The stocks that the Axis Blue Chip
-          fund intends to invest in have the potential to perform long-term due
-          to their proven track record.{" "}
-        </p>
-
-        <h5> Investment Objective </h5>
-
-        <p>
-          {" "}
-          To achieve long term capital appreciation by investing in a
-          diversified portfolio predominantly consisting of equity and equity
-          related securities including derivatives. Howerver, there can be no
-          assurance that the investment objective of the scheme will be
-          achieved.{" "}
-        </p>
-
-        <p>
-          {" "}
-          Axis Blue Chip Fund-Direct ( Growth), being an equity fund, is
-          suitable for investors aiming for long term capital
-          appreciation,ideally with an investment horizon of more than five
-          years. There is no lock-in period in this fund, however.{" "}
-        </p>
-
-        <h5> Tax Implications </h5>
-
-        <p>
-          {" "}
-          Returns are taxed at 15%, if you redeem before one year. After 1 year,
-          you are required to pay LTCG tax of 10% on returns of Rs 1 lakh+ in a
-          financial year.{" "}
-        </p>
-
-        <p>
-          {" "}
-          If the investment in the Axis Blue Chip Fund Growth plan is redeemed
-          before one year, it will be taxed as per STCG, which is currently at
-          15%. There will be no tax liability as long as the fund units are
-          held. There is no surcharge included in this rate.{" "}
-        </p> */}
+       
       </div>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Buy Stock Modal"
+        ariaHideApp={false}
+      >
+        <div className={styles.buyStockModal}>
+          <div className={styles.modalHeader}>
+            <div className="flex text-xl">
+              <h2 className="mr-4">
+                Buy <span>IBM</span>
+              </h2>
+              x <h2 className="ml-4">Qty. {quantity}</h2>
+            </div>
+            <h2>Rs. {price}</h2>
+          </div>
+
+          <div className={styles.modalContent}>
+            <div className={styles.quantityControl}>
+              <div className={styles.formGroup}>
+                <label>Quantity: </label>
+                <div className={styles.quantityBtn}>
+                  <input
+                    type="number"
+                    className="border-black border-[1px] p-3"
+                    value={quantity}
+                    onChange={(e) => {
+                      const newQuantity = parseInt(e.target.value, 10);
+                      if (!isNaN(newQuantity) && newQuantity >= 1) {
+                        setQuantity(newQuantity);
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="m-2">
+              <h2>Cost : {(parseFloat(price) * quantity).toFixed(2)}</h2>
+            </div>
+            {/* <div className={styles.stopLoss}>
+              <label>Stop Loss:</label>
+              <input
+                type="number"
+                className="border-black border-[1px]"
+                value={stopLoss}
+                onChange={(e) => setStopLoss(e.target.value)}
+              />
+            </div> */}
+          </div>
+          <div className={styles.modalFooter}>
+            <button className={styles.buyButton} onClick={handleBuy}>
+              Buy
+            </button>
+            <button className={styles.cancelButton} onClick={closeModal}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

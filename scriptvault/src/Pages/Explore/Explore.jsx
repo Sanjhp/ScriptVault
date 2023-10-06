@@ -10,8 +10,8 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async (symbol) => {
       try {
-        // const apiKey = "C04721VTHLJFESKF";
-        const apiKey = "demo"
+        const apiKey = "C04721VTHLJFESKF";
+        // const apiKey = "demo"
         const apiUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
         const response = await axios.get(apiUrl);
         return response?.data;
@@ -39,10 +39,10 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiKey = ""; // Replace with your Alpha Vantage API key
+        const apiKey = "C04721VTHLJFESKF";
         const apiUrl = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchQuery}&apikey=${apiKey}`;
         const response = await axios.get(apiUrl);
-        setSearchResults(response.data.bestMatches || []); // Assuming the API response has a property named "bestMatches" containing search results
+        setSearchResults(response.data.bestMatches || []); 
       } catch (error) {
         console.error("Error:", error);
       }
@@ -94,7 +94,7 @@ const Home = () => {
         </div>
 
         <div className={styles.homeWrapper}>
-          {apiResponses.map((apiResponse, index) => (
+          {apiResponses?.map((apiResponse, index) => (
             <div className={styles.card} key={index}>
               <div className={styles.cardStacked}>
                 <div className={styles.cardContent}>

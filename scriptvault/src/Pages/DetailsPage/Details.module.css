@@ -1,5 +1,3 @@
-    /* PROFILE ===================== */
-  
   .profileWrapper {
     margin: 4vw 0;
     width: 70vw;
@@ -91,8 +89,172 @@
     font-size: 1vw;
   }
   .aboutPolicy p {
-    /* padding: 0.5vw 2vw; */
     line-height: 2vw;
     font-size: 1.1vw;
     color: #6d6d75;
   }
+
+  
+.ReactModal__Content--after-open {
+  padding: 0px !important;
+  border-radius: 30px !important;
+  width: 100%;
+  max-width: 620px;
+}
+.modal-title {
+  background: rgba(5, 157, 176, 1);
+}
+.modal-title-txt {
+  display: flex;
+  width: 100%;
+  max-width: 65%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title-txt h2 {
+  color: #fff;
+  text-align: center;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+}
+.modal-title-txt-2 h2 {
+  color: #fff;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+}
+.list-text-content li {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.7);
+  line-height: 42px;
+}
+
+.modal-title h2 {
+  color: #fff;
+  text-align: center;
+}
+.cross-btn {
+  cursor: pointer;
+}
+.form-control {
+  border-radius: 30px !important;
+  border: 1px solid #d9d9d9 !important;
+  height: 45px;
+}
+.form-control:focus {
+  box-shadow: none !important;
+}
+
+.modal-btn--1 {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-btn--1 button {
+  color: var(--white, #fff);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  display: flex;
+  width: 100%;
+  max-width: 450px;
+  height: 56px;
+  padding: 6px 68px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 30px;
+  background: var(
+    --button-g,
+    linear-gradient(90deg, #059db0 0%, #0458b9 96.88%)
+  );
+  box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.25);
+  border: none;
+}
+
+.modal-btn--1 button:hover {
+  background: #0339bc;
+}
+.modal-btn--1 button:active {
+  background: #a5a5a5;
+}
+
+.modalHeader {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 20px;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.quantityControl {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.quantityControl button {
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+
+.stopLoss input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+}
+
+.modalFooter {
+  display: flex;
+  gap: 10px;
+}
+
+.buyButton, .cancelButton {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: white;
+  
+}
+
+.buyButton {
+  background-color: green;
+  /* margin-right: 10px; */
+  margin-left: auto;
+}
+
+.cancelButton {
+  background-color: red;
+}
+
+.modalHeader{
+  background-color: rgb(77, 77, 233);
+  color: #fff;
+}
+.formGroup {
+  width: 30%;
+  margin: 20px 5px;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+}
+
+.inputGroupBtn {
+  margin: 0 5px;
+}
+
