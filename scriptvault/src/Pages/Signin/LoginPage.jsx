@@ -133,7 +133,7 @@ function LoginPage() {
             />
           </div>
           <div className={leftContainerContent}>
-            <h2>Turn your ambition into a success story</h2>
+            <h2>Investing Made Simple, Profits Made Possible</h2>
           </div>
         </div>
         <div className={rightContainer}>

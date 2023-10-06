@@ -26,9 +26,9 @@ export const createInvestment = async (req, res) => {
 // Function to delete an investment record by ID
 export const deleteInvestmentById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { _id } = req.params;
 
-    const deletedInvestment = await InvestedFunds.findByIdAndDelete(id);
+    const deletedInvestment = await InvestedFunds.findByIdAndDelete(_id);
 
     if (!deletedInvestment) {
       return res.status(404).json({ error: "Investment record not found" });
