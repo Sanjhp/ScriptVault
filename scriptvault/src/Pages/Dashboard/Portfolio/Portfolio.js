@@ -1,19 +1,10 @@
-import React ,{useEffect, useState}from "react";
+import React from "react";
+import styles from "./portfolio.module.css";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
-import styles from "./Dashboard.module.css"; 
-import { useLocation } from "react-router-dom";
-
 Chart.register(ArcElement);
 
-function Dashboard() {
-  const location = useLocation();
-  const { stockDetails, stockDetailsList: initialStockDetailsList } = location.state ?? { stockDetails: null, stockDetailsList: [] };
-
-  const [stockDetailsList, setStockDetailsList] = useState(initialStockDetailsList);
-
-
-
+function Portfolio() {
   const dummyPortfolioData = [
     {
       id: 1,
@@ -108,10 +99,7 @@ function Dashboard() {
     );
     return { bankName, totalInvestment };
   });
-  const assetsUnderManagement = "$500,000";
-  const costValue = "$450,000";
-  const overallAppreciation = "$50,000";
-  const todaysAppreciation = "$1,000";
+
   const chartData = {
     labels: bankInvestments.map((item) => item.bankName),
     datasets: [
@@ -123,31 +111,14 @@ function Dashboard() {
           "rgba(255, 206, 86, 0.6)",
           "rgba(75, 192, 192, 0.6)",
           "rgba(67, 150, 200, 0.6)",
+
+          // Add more colors if needed
         ],
       },
     ],
   };
   return (
-    <div className={styles.dashboardContainer}>
-      <div className={styles.netWorthPartitions}>
-        <div className={styles.netWorthPartition}>
-          <div className={styles.label}>Assets under Management</div>
-          <div className={styles.value}>{assetsUnderManagement}</div>
-        </div>
-        <div className={styles.netWorthPartition}>
-          <div className={styles.label}>Cost Value</div>
-          <div className={styles.value}>{costValue}</div>
-        </div>
-        <div className={styles.netWorthPartition}>
-          <div className={styles.label}>Overall Appreciation</div>
-          <div className={styles.value}>{overallAppreciation}</div>
-        </div>
-        <div className={styles.netWorthPartition}>
-          <div className={styles.label}>Today's Appreciation</div>
-          <div className={styles.value}>{todaysAppreciation}</div>
-        </div>
-      </div>
-      {/* 
+    <div className={styles.portfolioContainer}>
       <div className={styles.chartAndLegend}>
         <div className={styles.pieChart}>
           <Pie data={chartData} />
@@ -165,21 +136,20 @@ function Dashboard() {
             </li>
           ))}
         </ul>
-      </div> */}
-
+      </div>
       <div className={styles.portfolioList}>
-        {stockDetailsList.map((stock) => (
-          <div key={stock.id} className={styles.portfolioItem}>
-            <p>{stock.bankName}</p>
-            <p className={styles.investmentType}>{stock.type}</p>
-            <p className={styles.investmentName}>{stock.name}</p>
-            <p className={styles.investmentCategory}>{stock.category}</p>
+        {dummyPortfolioData.map((item) => (
+          <div key={item.id} className={styles.portfolioItem}>
+            <p>{item.bankName}</p>
+            <p className={styles.investmentType}>{item.type}</p>
+            <p className={styles.investmentName}>{item.name}</p>
+            <p className={styles.investmentCategory}>{item.category}</p>
             <div className={styles.investmentValues}>
               <p className={styles.investmentAmount}>
-                Invested: ${stock.investedAmount}
+                Invested: ${item.investedAmount}
               </p>
               <p className={styles.currentValue}>
-                Current Value: ${stock.currentValue}
+                Current Value: ${item.currentValue}
               </p>
             </div>
             <button className={styles.investButton}>Invest</button>
@@ -190,4 +160,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Portfolio;

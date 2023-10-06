@@ -62,7 +62,7 @@ const Home = () => {
             placeholder="Search for symbols..."
           />
           <ul className={styles.suggestionList}>
-            {searchResults.map((result) => (
+            {searchResults?.map((result) => (
               <li
                 key={result["1. symbol"]}
                 onClick={() => {
