@@ -31,7 +31,6 @@ app.get("/stocks", async (req, res) => {
       }
     );
 
-   
     res.json(response.data);
   } catch (error) {
     console.error(error);
@@ -41,7 +40,7 @@ app.get("/stocks", async (req, res) => {
 // Routes
 app.use("/api/users", userRouter);
 app.use("/api/invest", investmentRouter);
-app.use("api/fund", fundRoutes);
+app.use("/api/fund", fundRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is runing PORT:${PORT}`);

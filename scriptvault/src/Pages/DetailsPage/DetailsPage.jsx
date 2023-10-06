@@ -71,7 +71,6 @@ const Profile = () => {
         cost: stockData.BookValue,
         user_id: id,
       };
-      // Make an HTTP POST request to your backend API
       const response = axios.post("/api/fund/investments", fundData);
       console.log(fundData);
       console.log("Backend response:", response.data);
