@@ -226,9 +226,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Navbar from "../../Components/LoginNavbar";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken(null); // Clear the token in state
+  };
+
   const validateSchema = yup.object().shape({
     email: yup
       .string()
@@ -310,6 +317,7 @@ function LoginPage() {
         if (response.status === 200 && response.data.token) {
           // Store the token in local storage
           localStorage.setItem("token", response.data.token);
+
           console.log("Access token stored:", response.data.token);
           console.log(response);
           setLoading(false);
@@ -345,115 +353,122 @@ function LoginPage() {
     <div>
       {/* <div className={background}></div> */}
       <div className={loginContainer}>
-      <div className={leftContainer}>
-        <div className={leftContainerImg}>
-            <img src="https://img.freepik.com/premium-vector/student-character-together-obtain-online-knowledge-people-tiny-classmate-work-with-laptop-flat-vecto_109722-3416.jpg?w=996" width="600"/>
-        </div>
-        <div className={leftContainerContent}>
+        <div className={leftContainer}>
+          <div className={leftContainerImg}>
+            <img
+              src="https://img.freepik.com/premium-vector/student-character-together-obtain-online-knowledge-people-tiny-classmate-work-with-laptop-flat-vecto_109722-3416.jpg?w=996"
+              width="600"
+            />
+          </div>
+          <div className={leftContainerContent}>
             <h2>Turn your ambition into a success story</h2>
             {/* <p>Choose from over 100,000 online video.</p> */}
+          </div>
         </div>
-      </div>
-      <div className={rightContainer}>
+        <div className={rightContainer}>
           <div className={rightContainerContent}>
             <h2>Hello ! Welcome back.</h2>
-            <p>Log in with your data that you entered during Your registration.</p>
+            <p>
+              Log in with your data that you entered during Your registration.
+            </p>
           </div>
-        <div className={loginCard}>
-          {/* <h2 className={h2}>
+          <div className={loginCard}>
+            {/* <h2 className={h2}>
           {forgotPasswordMode ? "Forgot Password" : "LOGIN"}
         </h2> */}
-          {error && <p className={errorMessage}>{error}</p>}
-          <form onSubmit={handleSubmit}>
-            <div className={inputContainer}>
-              <label className={label} htmlFor="email">
-                E-mail
-              </label>
-              <input
-                className={input}
-                type="text"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              {errors && errors.email && (
-                <p className={styles.error}>{errors.email.message}</p>
-              )}
-            </div>
-            {/* {!forgotPasswordMode && ( */}
-            <div className={inputContainer}>
-              <label className={label} htmlFor="password">
-                Password
-              </label>
-              <input
-                className={input}
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              {errors && errors.password && (
-                <p className={styles.error}>{errors.password.message}</p>
-              )}
-            </div>
-            {/* )} */}
-            {!forgotPasswordMode && (
-              <div className={rememberMe}>
-                <label className={rememberMeLabel}>
-                  <input
-                    className={rememberMeCheckbox}
-                    type="checkbox"
-                    name="rememberMe"
-                    checked={formData.rememberMe}
-                    onChange={handleChange}
-                  />
-                  Remember me
+            {error && <p className={errorMessage}>{error}</p>}
+            <form onSubmit={handleSubmit}>
+              <div className={inputContainer}>
+                <label className={label} htmlFor="email">
+                  E-mail
                 </label>
+                <input
+                  className={input}
+                  type="text"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+                {errors && errors.email && (
+                  <p className={styles.error}>{errors.email.message}</p>
+                )}
               </div>
-            )}
-            <button className={button} type="submit">
-              Login
-              {/* {forgotPasswordMode ? "Send Reset Email" : "Login"} */}
-              {loading && <div className="loader"></div>}
-            </button>
-          </form>
-          <div className={loginOptions}>
-            <p>
-              {!forgotPasswordMode ? (
-                "Don't have an account? "
-              ) : (
-                <span>
-                  <Link className={signupLink} onClick={handleBackToLogin}>
-                    Back to Login
-                  </Link>
-                  <br />
-                  <br />
-                </span>
+              {/* {!forgotPasswordMode && ( */}
+              <div className={inputContainer}>
+                <label className={label} htmlFor="password">
+                  Password
+                </label>
+                <input
+                  className={input}
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+                {errors && errors.password && (
+                  <p className={styles.error}>{errors.password.message}</p>
+                )}
+              </div>
+              {/* )} */}
+              {!forgotPasswordMode && (
+                <div className={rememberMe}>
+                  <label className={rememberMeLabel}>
+                    <input
+                      className={rememberMeCheckbox}
+                      type="checkbox"
+                      name="rememberMe"
+                      checked={formData.rememberMe}
+                      onChange={handleChange}
+                    />
+                    Remember me
+                  </label>
+                </div>
               )}
-              <Link to="/signup" className={signupLink}>
-                Sign up
-              </Link>
-            </p>
-            {/* {!forgotPasswordMode && ( */}
-            <p>
-              <span
-                className={forgotPasswordLink}
-                onClick={() => navigate("/forget-password")}
-              >
-                Forgot Password
-              </span>
-            </p>
-            {/* )} */}
+              <button className={button} type="submit">
+                Login
+                {/* {forgotPasswordMode ? "Send Reset Email" : "Login"} */}
+                {loading && <div className="loader"></div>}
+              </button>
+            </form>
+            <div className={loginOptions}>
+              <p>
+                {!forgotPasswordMode ? (
+                  "Don't have an account? "
+                ) : (
+                  <span>
+                    <Link className={signupLink} onClick={handleBackToLogin}>
+                      Back to Login
+                    </Link>
+                    <br />
+                    <br />
+                  </span>
+                )}
+                <Link to="/signup" className={signupLink}>
+                  Sign up
+                </Link>
+              </p>
+              {/* {!forgotPasswordMode && ( */}
+              <p>
+                <span
+                  className={forgotPasswordLink}
+                  onClick={() => navigate("/forget-password")}
+                >
+                  Forgot Password
+                </span>
+              </p>
+              {/* )} */}
+            </div>
           </div>
         </div>
       </div>
-      </div>
       <ToastContainer />
-    </div >
+
+      {token && <Navbar token={token} onLogout={handleLogout()} />}
+    </div>
   );
 }
 

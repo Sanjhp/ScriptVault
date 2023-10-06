@@ -23,3 +23,121 @@
   background-color: #fff;
   border: 1px solid #ccc;
 }
+.portfolioList {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.portfolioItem:hover {
+  background-color: #bbf7d0;
+}
+
+.portfolioItem {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: calc(50% - 250px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px #d7cfcf;
+}
+
+.investButton {
+  margin-top: auto;
+  align-self: center;
+}
+
+.investmentType {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.investmentName {
+  margin-bottom: 5px;
+}
+
+.investmentCategory {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.investmentValues {
+  display: flex;
+  justify-content: space-between;
+}
+
+.investmentAmount {
+  color: #009688;
+}
+
+.currentValue {
+  color: #ff5722;
+}
+
+.pieChart {
+  width: 300px;
+}
+
+.chartjs-doughnut-legend {
+  font-size: 12px !important;
+  font-weight: normal !important;
+}
+
+.chartAndLegend {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 20px 0px 20px 0px;
+}
+
+.chartLegend {
+  list-style: none;
+  padding: 0;
+  margin: auto 0px auto 31px;
+}
+.legendItem {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.legendColor {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border-radius: 50%;
+}
+.sectionTitle {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.netWorthPartitions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.netWorthPartition:hover {
+  background-color: #bbf7d0;
+}
+
+.netWorthPartition {
+  flex: 1 1;
+  background-color: #fffdfd;
+  padding: 10px;
+  box-shadow: -8px 11px 5px #d7cfcf;
+  text-align: center;
+  margin-top: 20px;
+  
+}
+
+.label {
+  font-weight: bold;
+}
+
+.value {
+  font-size: 1.2rem;
+}

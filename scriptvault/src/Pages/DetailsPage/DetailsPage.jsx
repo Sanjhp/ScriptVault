@@ -27,14 +27,44 @@ const Profile = () => {
   const [stockData, setStockData] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [totalCost, setTotalCost] = useState("");
   // const [stopLoss, setStopLoss] = useState("");
   const navigate = useNavigate();
   const [price, setPrice] = useState("622.33");
 
+  // const calculateCost = () => {
+  //   const calculatedTotalCost = (parseFloat(price) * quantity).toFixed(2);
+  //   setTotalCost(calculatedTotalCost);
+  // };
+
+  useEffect(()=>{
+    const calculateCost = () => {
+      const calculatedTotalCost = (parseFloat(price) * quantity).toFixed(2);
+      setTotalCost(calculatedTotalCost);
+    };
+
+  },[])
+  const [stockDetailsList, setStockDetailsList] = useState([])
   const handleBuy = () => {
-    console.log(`Buying ${quantity} stocks with Stop Loss set `);
-    navigate("/dashboard");
+    const newStockDetails = {
+      id: stockDetailsList.length + 1,
+      symbol: symbol, 
+      quantity: quantity,
+      price: price,
+      totalCost: totalCost,
+    };
+
+    setStockDetailsList([...stockDetailsList, newStockDetails]);
+
+    navigate("/dashboard", {
+      state: {
+        stockDetails: newStockDetails,
+        stockDetailsList: [...stockDetailsList, newStockDetails],
+      },
+    });
   };
+
+
   function openModal() {
     setIsOpen(true);
   }
@@ -229,7 +259,6 @@ const Profile = () => {
       <div className={styles.aboutPolicy}>
         <h4> Direct Plan Details </h4>
         <p>{stockData?.Description}</p>
-       
       </div>
 
       <Modal
@@ -270,7 +299,7 @@ const Profile = () => {
               </div>
             </div>
             <div className="m-2">
-              <h2>Cost : {(parseFloat(price) * quantity).toFixed(2)}</h2>
+              <h2>Cost : {totalCost}</h2>
             </div>
             {/* <div className={styles.stopLoss}>
               <label>Stop Loss:</label>

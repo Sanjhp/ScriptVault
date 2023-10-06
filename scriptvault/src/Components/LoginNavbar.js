@@ -15,9 +15,9 @@ const Navbar = ({}) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setAccessToken("");
-    navigate("/signin")
+    navigate("/signin");
   };
- 
+
   return (
     <header className="bg-white flex items-center justify-between p-4 shadow-lg px-16">
       <div className="flex items-center">
@@ -80,7 +80,6 @@ const Navbar = ({}) => {
         )}
       </nav>
     </header>
-
   );
 };
 
