@@ -1,16 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-const Navbar = ({}) => {
+
+const Navbar = () => {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState("");
+  const [id, setId] = useState(null);
+  console.log('Id', id)
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    console.log("token :>> ", token);
-    setAccessToken(token);
-    navigate("/");
-  }, [accessToken]);
+    if (accessToken) {
+      const parts = accessToken.split(".");
+      const payload = JSON.parse(atob(parts[1]));
+      const userId = payload._id;
+      console.log('userId', userId)
+      setId(userId);
+      setAccessToken(accessToken);
+      console.log("User ID:", userId);
+    } else {
+      console.log("Token not found");
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      setAccessToken(token);
+      navigate("/");
+    }
+    else {
+      navigate('/signin')
+    }
+  }, [token]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -50,10 +71,10 @@ const Navbar = ({}) => {
                 <span className="text-xl"></span>
                 Watchlist
               </Link>
-            </li> */}
-            {/* <li>
-              <Link to="/profile">
-                <span className="text-xl"></span>
+            </li>
+            <li>
+              <Link to={`/update-profile`}>
+                <span className="text-xl">👤</span>
                 Profile
               </Link>
             </li> */}

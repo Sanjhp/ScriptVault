@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styles from "./Login.module.css";
-import { Link, useNavigate } from "react-router-dom"; // Import useHistory
+import { Link, useNavigate } from "react-router-dom"; 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -14,7 +14,7 @@ function LoginPage() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setToken(null); // Clear the token in state
+    setToken(null);
   };
 
   const validateSchema = yup.object().shape({
@@ -33,10 +33,9 @@ function LoginPage() {
   } = useForm({
     resolver: yupResolver(validateSchema),
   });
-  // Destructure styles
+  
   const {
     loginContainer,
-    // background,
     leftContainer,
     leftContainerImg,
     leftContainerContent,
@@ -65,7 +64,6 @@ function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
-  // Track "Forgot Password" mode
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -82,31 +80,25 @@ function LoginPage() {
     try {
       setLoading(true);
       if (forgotPasswordMode) {
-        // Handle "Forgot Password" mode
         const response = await axios.post(
           `${process.env.REACT_APP_BASE_URL}/users/reset-password`,
           { email: formData.email }
         );
         console.log("Reset email sent:", response.data);
-        // Handle reset email sent
       } else {
-        // Handle regular login
         const response = await axios.post(
           `${process.env.REACT_APP_BASE_URL}/users/login`,
           formData
         );
         if (response.status === 200 && response.data.token) {
-          // Store the token in local storage
           localStorage.setItem("token", response.data.token);
-
           console.log("Access token stored:", response.data.token);
           console.log(response);
           setLoading(false);
-          // Redirect to the home page or handle success
-          navigate("/dashboard");
-          window.location.reload();
+          
+          navigate("/");
         } else {
-          // Handle login failures, show error messages, etc.
+        
           console.error("Login failed:", response.data.error);
         }
       }
@@ -123,17 +115,16 @@ function LoginPage() {
 
   const toggleForgotPasswordMode = () => {
     setForgotPasswordMode(!forgotPasswordMode);
-    setError(""); // Clear any previous errors
+    setError("");
   };
 
   const handleBackToLogin = () => {
-    setForgotPasswordMode(false); // Turn off "Forgot Password" mode
-    setError(""); // Clear any previous errors
+    setForgotPasswordMode(false); 
+    setError(""); 
   };
 
   return (
     <div>
-      {/* <div className={background}></div> */}
       <div className={loginContainer}>
         <div className={leftContainer}>
           <div className={leftContainerImg}>
@@ -144,7 +135,6 @@ function LoginPage() {
           </div>
           <div className={leftContainerContent}>
             <h2>Turn your ambition into a success story</h2>
-            {/* <p>Choose from over 100,000 online video.</p> */}
           </div>
         </div>
         <div className={rightContainer}>
@@ -155,9 +145,7 @@ function LoginPage() {
             </p>
           </div>
           <div className={loginCard}>
-            {/* <h2 className={h2}>
-          {forgotPasswordMode ? "Forgot Password" : "LOGIN"}
-        </h2> */}
+        
             {error && <p className={errorMessage}>{error}</p>}
             <form onSubmit={handleSubmit}>
               <div className={inputContainer}>
@@ -177,7 +165,6 @@ function LoginPage() {
                   <p className={styles.error}>{errors.email.message}</p>
                 )}
               </div>
-              {/* {!forgotPasswordMode && ( */}
               <div className={inputContainer}>
                 <label className={label} htmlFor="password">
                   Password
@@ -195,7 +182,6 @@ function LoginPage() {
                   <p className={styles.error}>{errors.password.message}</p>
                 )}
               </div>
-              {/* )} */}
               {!forgotPasswordMode && (
                 <div className={rememberMe}>
                   <label className={rememberMeLabel}>
@@ -212,7 +198,6 @@ function LoginPage() {
               )}
               <button className={button} type="submit">
                 Login
-                {/* {forgotPasswordMode ? "Send Reset Email" : "Login"} */}
                 {loading && <div className="loader"></div>}
               </button>
             </form>
@@ -233,7 +218,6 @@ function LoginPage() {
                   Sign up
                 </Link>
               </p>
-              {/* {!forgotPasswordMode && ( */}
               <p>
                 <span
                   className={forgotPasswordLink}
@@ -242,13 +226,11 @@ function LoginPage() {
                   Forgot Password
                 </span>
               </p>
-              {/* )} */}
             </div>
           </div>
         </div>
       </div>
       <ToastContainer />
-
       {token && <Navbar token={token} onLogout={handleLogout()} />}
     </div>
   );
