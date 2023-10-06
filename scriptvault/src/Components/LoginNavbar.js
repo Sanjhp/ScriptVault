@@ -5,23 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState("");
-  const [id, setId] = useState(null);
-  console.log('Id', id)
   const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    if (accessToken) {
-      const parts = accessToken.split(".");
-      const payload = JSON.parse(atob(parts[1]));
-      const userId = payload._id;
-      console.log('userId', userId)
-      setId(userId);
-      setAccessToken(accessToken);
-      console.log("User ID:", userId);
-    } else {
-      console.log("Token not found");
-    }
-  }, [token]);
 
   useEffect(() => {
     if (token) {
@@ -73,7 +57,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link to={`/update-profile`}>
+              <Link to={"/update-profile"}>
                 <span className="text-xl">👤</span>
                 Profile
               </Link>
