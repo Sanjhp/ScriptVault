@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styles from "./Login.module.css";
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -33,7 +33,7 @@ function LoginPage() {
   } = useForm({
     resolver: yupResolver(validateSchema),
   });
-  
+
   const {
     loginContainer,
     leftContainer,
@@ -95,10 +95,9 @@ function LoginPage() {
           console.log("Access token stored:", response.data.token);
           console.log(response);
           setLoading(false);
-          
+
           navigate("/");
         } else {
-        
           console.error("Login failed:", response.data.error);
         }
       }
@@ -119,8 +118,8 @@ function LoginPage() {
   };
 
   const handleBackToLogin = () => {
-    setForgotPasswordMode(false); 
-    setError(""); 
+    setForgotPasswordMode(false);
+    setError("");
   };
 
   return (
@@ -145,7 +144,6 @@ function LoginPage() {
             </p>
           </div>
           <div className={loginCard}>
-        
             {error && <p className={errorMessage}>{error}</p>}
             <form onSubmit={handleSubmit}>
               <div className={inputContainer}>
@@ -196,12 +194,16 @@ function LoginPage() {
                   </label>
                 </div>
               )}
-              <button className={button} type="submit">
+              <button
+                className={button}
+                type="submit"
+                style={{ backgroundColor: "#6c63ff" }}
+              >
                 Login
                 {loading && <div className="loader"></div>}
               </button>
             </form>
-            <div className={loginOptions}>
+            <div className={loginOptions} style={{ color: "#000000" }}>
               <p>
                 {!forgotPasswordMode ? (
                   "Don't have an account? "
@@ -218,14 +220,14 @@ function LoginPage() {
                   Sign up
                 </Link>
               </p>
-              <p>
+              {/* <p>
                 <span
                   className={forgotPasswordLink}
                   onClick={() => navigate("/forget-password")}
                 >
                   Forgot Password
                 </span>
-              </p>
+              </p> */}
             </div>
           </div>
         </div>

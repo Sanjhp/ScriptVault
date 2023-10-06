@@ -72,7 +72,7 @@ const Home = () => {
       <Features />
       <CardSection />
       <Calltoaction />
-      <Section />
+      {/* <Section /> */}
       <Testimonials />
       <BeforeFooter />
       <Footer />

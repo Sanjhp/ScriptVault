@@ -16,6 +16,24 @@ function Dashboard() {
   const [stockDetailsList, setStockDetailsList] = useState(
     initialStockDetailsList
   );
+  const [token, setToken] = useState(null);
+  const accessToken = localStorage.getItem("token");
+  const [id, setId] = useState(null);
+
+  // Retrieve the token from localStorage
+  useEffect(() => {
+    if (accessToken) {
+      const parts = accessToken.split(".");
+      const payload = JSON.parse(atob(parts[1]));
+      const userId = payload._id;
+      setId(userId);
+      setToken(accessToken);
+      console.log("User ID:", userId);
+    } else {
+      console.log("Token not found");
+    }
+  }, [accessToken]);
+
 
   const dummyPortfolioData = [
     {

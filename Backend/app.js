@@ -31,7 +31,7 @@ app.get("/stocks", async (req, res) => {
       }
     );
 
-    // Send the response data back to the frontend
+   
     res.json(response.data);
   } catch (error) {
     console.error(error);
