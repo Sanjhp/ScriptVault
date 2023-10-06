@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Stock from "./Stock";
 import "./watchlist.css";
-import RemoveStockButton from "./RemoveStock";
 
 const Watchlist = () => {
   const [watchlist, setWatchlist] = useState([
@@ -13,24 +12,23 @@ const Watchlist = () => {
     // Add more stocks to your watchlist as needed
   ]);
 
-  const removeFromWatchlist = (stockId) => {
-    // Implement the logic to remove a stock from the watchlist here
+  const handleSellClick = (stockId) => {
+    // Implement your sell logic here, e.g., remove the stock from the watchlist
+    const updatedWatchlist = watchlist.filter((stock) => stock.id !== stockId);
+    setWatchlist(updatedWatchlist);
   };
 
   return (
     <div className="watchlist">
-      <div className="wl_heading">
-        <h2>My Watchlist</h2>
-      </div>
+      <div className="wl_heading">{/* <h2>My Watchlist</h2> */}</div>
       {watchlist.map((stock) => (
-        <Stock
-          key={stock.id}
-          stock={stock}
-          onRemoveFromWatchlist={removeFromWatchlist}
-        />
+        <div key={stock.id} className="stock">
+          <Stock stock={stock} />
+          <button onClick={() => handleSellClick(stock.id)}>Sell</button>
+        </div>
       ))}
     </div>
   );
 };
 
-export default Watchlist;
+export default Watchlist;

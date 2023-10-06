@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-white flex items-center justify-between p-4 shadow-lg px-16">
+    <header className="bg-white flex items-center justify-between p-4 shadow-lg px-12">
       <div className="flex items-center">
         <Link to="/">
           <img
@@ -40,19 +40,19 @@ const Navbar = () => {
           <ul className="flex space-x-4">
             <li>
               <Link to="/dashboard">
-                <span className="text-xl">🏠</span>
+                <span className="text-xl"></span>
                 Dashboard
               </Link>
             </li>
             <li>
               <Link to="/explore">
-                <span className="text-xl">🔍</span>
+                <span className="text-xl"></span>
                 Explore
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/watchlist">
-                <span className="text-xl">📺</span>
+                <span className="text-xl"></span>
                 Watchlist
               </Link>
             </li>
@@ -61,10 +61,10 @@ const Navbar = () => {
                 <span className="text-xl">👤</span>
                 Profile
               </Link>
-            </li>
+            </li> */}
             <li>
               <button onClick={handleLogout}>
-                <span className="text-xl">🚪</span>
+                <span className="text-xl"></span>
                 Logout
               </button>
             </li>

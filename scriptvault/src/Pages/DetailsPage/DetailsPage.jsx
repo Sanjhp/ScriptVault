@@ -6,7 +6,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
 import { loadStripe } from "@stripe/stripe-js";
-// const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+
+// Create a Stripe instance
+const stripePromise = loadStripe("YOUR_PUBLISHABLE_KEY");
+
+const cardElementStyle = {
+  base: {
+    fontSize: "16px",
+    color: "#333",
+    fontFamily: "Arial, sans-serif",
+    padding: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+  },
+};
 
 const customStyles = {
   content: {
@@ -27,43 +41,76 @@ const Profile = () => {
   const [stockData, setStockData] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const [totalCost, setTotalCost] = useState("");
   // const [stopLoss, setStopLoss] = useState("");
   const navigate = useNavigate();
   const [price, setPrice] = useState("622.33");
+  const elements = useElements();
 
-  // const calculateCost = () => {
-  //   const calculatedTotalCost = (parseFloat(price) * quantity).toFixed(2);
-  //   setTotalCost(calculatedTotalCost);
-  // };
+  const handleDataForBackend = (async) => {
+    try {
+      // Construct the data object to send to the backend
+      const fundData = {
+        fund_id: stockData.Symbol,
+        fund_name: stockData.Name,
+        sector: stockData.Sector,
+        cost: stockData.BookValue,
+      };
 
-  useEffect(()=>{
-    const calculateCost = () => {
-      const calculatedTotalCost = (parseFloat(price) * quantity).toFixed(2);
-      setTotalCost(calculatedTotalCost);
-    };
-
-  },[])
-  const [stockDetailsList, setStockDetailsList] = useState([])
-  const handleBuy = () => {
-    const newStockDetails = {
-      id: stockDetailsList.length + 1,
-      symbol: symbol, 
-      quantity: quantity,
-      price: price,
-      totalCost: totalCost,
-    };
-
-    setStockDetailsList([...stockDetailsList, newStockDetails]);
-
-    navigate("/dashboard", {
-      state: {
-        stockDetails: newStockDetails,
-        stockDetailsList: [...stockDetailsList, newStockDetails],
-      },
-    });
+      // Make an HTTP POST request to your backend API
+      const response = axios.post(
+        `${process.env.REACT_APP_BASE_URL}/fund/createInvestment`,
+        fundData
+      );
+      console.log("Backend response:", response.data);
+    } catch (error) {
+      console.error("Error buying stock:", error);
+    }
   };
 
+  // const handleBuy = () => {
+  //   console.log(`Buying ${quantity} stocks with Stop Loss set `);
+  //   navigate("/dashboard");
+  // };
+
+  const handleBuy = async () => {
+    const stripe = await stripePromise;
+    const cardElement = elements.getElement(CardElement);
+
+    if (!stripe || !cardElement) {
+      // Stripe or CardElement not available, handle error
+      console.error("Stripe or CardElement not available.");
+      return;
+    }
+
+    // Create a PaymentMethod with the card information
+    const { paymentMethod, error } = await stripe.createPaymentMethod({
+      type: "card",
+      card: cardElement,
+    });
+
+    if (error) {
+      // Handle error, e.g., show an error message to the user
+      console.error("Error creating PaymentMethod:", error);
+      return;
+    }
+
+    // Use the paymentMethod.id to process the payment on your server
+    const response = await axios.post("/your-server-endpoint", {
+      paymentMethodId: paymentMethod.id,
+      amount: parseFloat(price) * quantity * 100, // Amount in cents
+    });
+
+    // Handle the server response, e.g., show a success message
+    console.log("Payment successful:", response.data);
+
+    handleDataForBackend();
+
+    // Close the modal
+    closeModal();
+
+    // Redirect to a success page or update the UI as needed
+    navigate("/dashboard");
+  };
 
   function openModal() {
     setIsOpen(true);
@@ -299,18 +346,16 @@ const Profile = () => {
               </div>
             </div>
             <div className="m-2">
-              <h2>Cost : {totalCost}</h2>
+              <h2 className="mb-2">
+                Cost : {(parseFloat(price) * quantity).toFixed(2)}
+              </h2>
             </div>
-            {/* <div className={styles.stopLoss}>
-              <label>Stop Loss:</label>
-              <input
-                type="number"
-                className="border-black border-[1px]"
-                value={stopLoss}
-                onChange={(e) => setStopLoss(e.target.value)}
-              />
-            </div> */}
+            <div className="m-2">
+              <h3>Card Details</h3>
+              <CardElement options={{ style: cardElementStyle }} />
+            </div>
           </div>
+
           <div className={styles.modalFooter}>
             <button className={styles.buyButton} onClick={handleBuy}>
               Buy
