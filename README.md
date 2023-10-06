@@ -46,3 +46,6 @@ ScriptVault is built using the following technologies:
 
 sandhya1234@gmail.com
 Password: 123456
+
+**Note**: The Explore and Detail sections rely on Alpha Vantage for real-time stock data. Alpha Vantage offers a free tier with limitations, allowing only 100 API calls per day. As a result, there might be instances where the Explore and Detail sections do not display real-time data once the daily limit is reached. Consider upgrading to a higher-tier plan or alternative data sources for uninterrupted data access.
+
