@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "./sections/Navbar";
+// import Navbar from "./sections/Navbar";
 import { Link } from "react-router-dom";
 import Footer from "./sections/Footer";
 import Features from "./sections/Features";
@@ -19,7 +19,7 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="flex min-[280px]:flex-col max-[639px]:flex-col sm:flex-col md:flex-col lg:flex-row min-[280px]:items-center max-[639px]:items-center sm:items-center md:items-center lg:items-start min-[280px]:flex-end max-[639px]:flex-end sm:flex-end md:flex-end lg:justify-center mt-8 px-10 py-10">
 
         <div className="flex flex-col w-64 mx-8 min-[280px]:w-128 max-[639px]:w-128 sm:w-[37rem] md:w-[37rem] lg:w-64 min-[280px]:items-center max-[639px]:items-center sm:items-center md:items-center lg:items-start">

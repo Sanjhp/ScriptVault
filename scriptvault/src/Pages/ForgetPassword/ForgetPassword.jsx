@@ -73,7 +73,7 @@ const ForgetPassword = () => {
           {error && <p className={styles.error}>{error}</p>}
 
           <button className={styles.button} type="submit">
-            {loading && <div class="loader"></div>}
+            {loading && <div className="loader"></div>}
             submit
           </button>
         </form>

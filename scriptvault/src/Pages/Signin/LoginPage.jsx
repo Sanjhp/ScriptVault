@@ -178,7 +178,7 @@
 //           <button className={button} type="submit">
 //             Login
 //             {/* {forgotPasswordMode ? "Send Reset Email" : "Login"} */}
-//             {loading && <div class="loader"></div>}
+//             {loading && <div className="loader"></div>}
 //           </button>
 //         </form>
 //         <div className={loginOptions}>
@@ -418,7 +418,7 @@ function LoginPage() {
             <button className={button} type="submit">
               Login
               {/* {forgotPasswordMode ? "Send Reset Email" : "Login"} */}
-              {loading && <div class="loader"></div>}
+              {loading && <div className="loader"></div>}
             </button>
           </form>
           <div className={loginOptions}>
