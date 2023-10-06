@@ -220,14 +220,14 @@ function LoginPage() {
                   Sign up
                 </Link>
               </p>
-              {/* <p>
+              <p>
                 <span
                   className={forgotPasswordLink}
                   onClick={() => navigate("/forget-password")}
                 >
                   Forgot Password
                 </span>
-              </p> */}
+              </p>
             </div>
           </div>
         </div>
