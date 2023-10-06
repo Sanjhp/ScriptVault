@@ -27,10 +27,9 @@ function App() {
         <Route exact path="/signin" element={<SigninPage />} />
         <Route exact path="/forget-password" element={<ForgetPassword />} />
         <Route exact path="/reset-password" element={<ResetPassword />} />
-        <Route exact path="/signup" element={<SignupPage />} />
-        <Route exact path="/dashboard" element={<Dashboard />}></Route>
-        <Route exact path="/invest" element={<Invest />}></Route>
-        <Route exact path="/update-profile" element={<UpdateUser />}></Route>
+        <Route exact path="/update-profile" element={<UpdateUser />}/>
+        <Route exact path="/dashboard" element={<Dashboard />}/>
+        <Route exact path="/invest" element={<Invest />}/>
         {/* <Route path="/signin" element={<SigninPage />} /> */}
       </Routes>
     </Router>
