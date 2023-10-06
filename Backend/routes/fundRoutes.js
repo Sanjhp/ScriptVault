@@ -9,5 +9,9 @@ import {
 
 router.post("/investments", createInvestment);
 router.delete("/investments/:id", deleteInvestmentById);
+router.get(
+  "/investments/:user_id",
+  investedFundsController.getAllInvestmentsByUserId
+);
 
 export default router;

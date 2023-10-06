@@ -40,3 +40,17 @@ export const deleteInvestmentById = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const getAllInvestmentsByUserId = async (req, res) => {
+  try {
+    const { user_id } = req.params;
+
+    // Fetch all investment records for the specified user ID
+    const investments = await InvestedFunds.find({ user_id });
+
+    res.json(investments);
+  } catch (error) {
+    console.error("Error fetching investments:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

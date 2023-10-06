@@ -12,19 +12,12 @@ const Watchlist = () => {
     // Add more stocks to your watchlist as needed
   ]);
 
-  const handleSellClick = (stockId) => {
-    // Implement your sell logic here, e.g., remove the stock from the watchlist
-    const updatedWatchlist = watchlist.filter((stock) => stock.id !== stockId);
-    setWatchlist(updatedWatchlist);
-  };
-
   return (
     <div className="watchlist">
       <div className="wl_heading">{/* <h2>My Watchlist</h2> */}</div>
       {watchlist.map((stock) => (
         <div key={stock.id} className="stock">
           <Stock stock={stock} />
-          <button onClick={() => handleSellClick(stock.id)}>Sell</button>
         </div>
       ))}
     </div>

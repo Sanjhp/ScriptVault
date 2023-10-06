@@ -4,6 +4,7 @@ import { Chart, ArcElement } from "chart.js";
 import styles from "./Dashboard.module.css";
 import { useLocation } from "react-router-dom";
 import Watchlist from "../Watchlist/Watchlist";
+import Stock from "../Watchlist/Stock";
 
 Chart.register(ArcElement);
 
@@ -189,7 +190,8 @@ function Dashboard() {
         ))}
       </div> */}
 
-      <Watchlist />
+      {/* <Watchlist /> */}
+      <Stock />
     </div>
   );
 }
