@@ -322,7 +322,8 @@ function LoginPage() {
           console.log(response);
           setLoading(false);
           // Redirect to the home page or handle success
-          navigate("/");
+          navigate("/dashboard");
+          window.location.reload();
         } else {
           // Handle login failures, show error messages, etc.
           console.error("Login failed:", response.data.error);
