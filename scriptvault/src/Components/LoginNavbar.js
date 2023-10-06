@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
 const Navbar = ({}) => {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState("");
-
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    console.log("token :>> ", token);
-    setAccessToken(token);
-    navigate("/");
-  }, [accessToken]);
+    if(token){
+      setAccessToken(token);
+      navigate("/");
+    }
+    else{
+      navigate('/signin')
+    }
+  }, [token]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
