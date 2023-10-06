@@ -39,7 +39,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-white flex items-center justify-between p-4 shadow-lg px-12">
+    <header className="bg-white flex items-center justify-between p-3  px-12">
       <div className="flex items-center">
         <Link to="/">
           <img
@@ -86,7 +86,7 @@ const Navbar = () => {
           </ul>
         ) : (
           <div className="grid grid-cols-2 gap-1 min-[200px]:hidden max-[639px]:hidden sm:hidden lg:grid">
-            <div className="bg-white-300 border-[1px] border-green-300 px-3 py-3 text-black rounded hover:bg-white hover:text-green-300 hover:border-[1px] hover:border-green-300 hover:border-solid">
+            <div className="bg-white-300 px-3 py-3 text-black rounded hover:bg-white hover:text-green-300 ">
               <Link to="/signin">
                 <span className="text-xl">Sign In</span>
               </Link>

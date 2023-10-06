@@ -197,10 +197,7 @@ function SignupPage() {
             </form>
           </div>
 
-          <p
-            className={styles.loginLinkp}
-            style={{ backgroundColor: "#000000" }}
-          >
+          <p className={styles.loginLinkp} style={{ color: "#000000" }}>
             Already have an account?{" "}
             <Link to="/signin" className={styles.loginLink}>
               Login
