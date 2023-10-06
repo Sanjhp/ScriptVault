@@ -5,8 +5,6 @@ import styles from "./Details.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
-import { loadStripe } from "@stripe/stripe-js";
-// const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
 const customStyles = {
   content: {
@@ -229,7 +227,6 @@ const Profile = () => {
       <div className={styles.aboutPolicy}>
         <h4> Direct Plan Details </h4>
         <p>{stockData?.Description}</p>
-       
       </div>
 
       <Modal
