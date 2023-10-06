@@ -54,7 +54,7 @@ const Home = () => {
   return (
     <>
       <div className="flex flex-col w-full justify-center">
-        <div className={styles.searchBar}>
+        {/* <div className={styles.searchBar}>
           <input
             type="text"
             value={searchQuery}
@@ -91,7 +91,7 @@ const Home = () => {
             ))}
           </ul>
           <button>Search</button>
-        </div>
+        </div> */}
 
         <div className={styles.homeWrapper}>
           {apiResponses?.map((apiResponse, index) => (
