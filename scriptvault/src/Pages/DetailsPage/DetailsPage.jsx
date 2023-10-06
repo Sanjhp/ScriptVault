@@ -17,8 +17,6 @@ const cardElementStyle = {
     color: "#333",
     fontFamily: "Arial, sans-serif",
     padding: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
   },
 };
 
@@ -71,11 +69,12 @@ const Profile = () => {
         fund_name: stockData.Name,
         sector: stockData.Sector,
         cost: stockData.BookValue,
+        user_id: id,
       };
 
       // Make an HTTP POST request to your backend API
       const response = axios.post(
-        `${process.env.REACT_APP_BASE_URL}/fund/createInvestment`,
+        `${process.env.REACT_APP_BASE_URL}/fund/investments`,
         fundData
       );
       console.log("Backend response:", response.data);
@@ -89,12 +88,53 @@ const Profile = () => {
   //   navigate("/dashboard");
   // };
 
+  // const handleBuy = async () => {
+  //   const stripe = await stripePromise;
+  //   const cardElement = elements.getElement(CardElement);
+
+  //   if (!stripe || !cardElement) {
+  //     console.error("Stripe or CardElement not available.");
+  //     return;
+  //   }
+
+  //   // Create a PaymentMethod with the card information
+  //   const { paymentMethod, error } = await stripe.createPaymentMethod({
+  //     type: "card",
+  //     card: cardElement,
+  //   });
+
+  //   if (error) {
+  //     console.error("Error creating PaymentMethod:", error);
+  //     return;
+  //   }
+
+  //   // Use the paymentMethod.id to process the payment on your server
+  //   const response = await axios.post("/your-server-endpoint", {
+  //     paymentMethodId: paymentMethod.id,
+  //     amount: parseFloat(price) * quantity * 100,
+  //     user_id: id, // Include the user ID here
+  //   });
+
+  //   console.log("Payment successful:", response.data);
+
+  //   handleDataForBackend();
+
+  //   closeModal();
+
+  //   navigate("/dashboard");
+  // };
+
   const handleBuy = async () => {
+    handleDataForBackend();
+
     const stripe = await stripePromise;
     const cardElement = elements.getElement(CardElement);
 
+    closeModal();
+
+    navigate("/dashboard");
+
     if (!stripe || !cardElement) {
-      // Stripe or CardElement not available, handle error
       console.error("Stripe or CardElement not available.");
       return;
     }
@@ -106,7 +146,6 @@ const Profile = () => {
     });
 
     if (error) {
-      // Handle error, e.g., show an error message to the user
       console.error("Error creating PaymentMethod:", error);
       return;
     }
@@ -114,19 +153,11 @@ const Profile = () => {
     // Use the paymentMethod.id to process the payment on your server
     const response = await axios.post("/your-server-endpoint", {
       paymentMethodId: paymentMethod.id,
-      amount: parseFloat(price) * quantity * 100, // Amount in cents
+      amount: parseFloat(price) * quantity * 100,
+      user_id: id,
     });
 
-    // Handle the server response, e.g., show a success message
     console.log("Payment successful:", response.data);
-
-    handleDataForBackend();
-
-    // Close the modal
-    closeModal();
-
-    // Redirect to a success page or update the UI as needed
-    navigate("/dashboard");
   };
 
   function openModal() {

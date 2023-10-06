@@ -3,9 +3,9 @@ import InvestedFunds from "../model/Funds.js";
 // Function to create a new investment record
 export const createInvestment = async (req, res) => {
   try {
-    const { user_id, fund_id, fund_name, sector, cost, investment_date } =
-      req.body;
+    const { user_id, fund_id, fund_name, sector, cost } = req.body;
 
+    console.log(req.body);
     const newInvestment = new InvestedFunds({
       user_id,
       fund_id,
