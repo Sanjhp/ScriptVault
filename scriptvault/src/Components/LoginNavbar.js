@@ -34,19 +34,34 @@ const Navbar = ({}) => {
         {accessToken ? (
           <ul className="flex space-x-4">
             <li>
-              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/dashboard">
+                <span className="text-xl"></span>
+                Dashboard
+              </Link>
             </li>
             <li>
-              <Link to="/explore">Explore</Link>
+              <Link to="/explore">
+                <span className="text-xl"></span>
+                Explore
+              </Link>
             </li>
             <li>
-              <Link to="/watchlist">Watchlist</Link>
+              <Link to="/watchlist">
+                <span className="text-xl"></span>
+                Watchlist
+              </Link>
             </li>
             <li>
-              <Link to="/profile">Profile</Link>
+              <Link to="/profile">
+                <span className="text-xl"></span>
+                Profile
+              </Link>
             </li>
             <li>
-              <button onClick={handleLogout}>Logout</button>
+              <button onClick={handleLogout}>
+                <span className="text-xl"></span>
+                Logout
+              </button>
             </li>
           </ul>
         ) : (

@@ -5,6 +5,22 @@ import styles from "./Details.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
+import { loadStripe } from "@stripe/stripe-js";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+
+// Create a Stripe instance
+const stripePromise = loadStripe("YOUR_PUBLISHABLE_KEY");
+
+const cardElementStyle = {
+  base: {
+    fontSize: "16px",
+    color: "#333",
+    fontFamily: "Arial, sans-serif",
+    padding: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+  },
+};
 
 const customStyles = {
   content: {
@@ -28,11 +44,51 @@ const Profile = () => {
   // const [stopLoss, setStopLoss] = useState("");
   const navigate = useNavigate();
   const [price, setPrice] = useState("622.33");
+  const elements = useElements();
 
-  const handleBuy = () => {
-    console.log(`Buying ${quantity} stocks with Stop Loss set `);
+  // const handleBuy = () => {
+  //   console.log(`Buying ${quantity} stocks with Stop Loss set `);
+  //   navigate("/dashboard");
+  // };
+
+  const handleBuy = async () => {
+    const stripe = await stripePromise;
+    const cardElement = elements.getElement(CardElement);
+
+    if (!stripe || !cardElement) {
+      // Stripe or CardElement not available, handle error
+      console.error("Stripe or CardElement not available.");
+      return;
+    }
+
+    // Create a PaymentMethod with the card information
+    const { paymentMethod, error } = await stripe.createPaymentMethod({
+      type: "card",
+      card: cardElement,
+    });
+
+    if (error) {
+      // Handle error, e.g., show an error message to the user
+      console.error("Error creating PaymentMethod:", error);
+      return;
+    }
+
+    // Use the paymentMethod.id to process the payment on your server
+    const response = await axios.post("/your-server-endpoint", {
+      paymentMethodId: paymentMethod.id,
+      amount: parseFloat(price) * quantity * 100, // Amount in cents
+    });
+
+    // Handle the server response, e.g., show a success message
+    console.log("Payment successful:", response.data);
+
+    // Close the modal
+    closeModal();
+
+    // Redirect to a success page or update the UI as needed
     navigate("/dashboard");
   };
+
   function openModal() {
     setIsOpen(true);
   }
@@ -267,18 +323,16 @@ const Profile = () => {
               </div>
             </div>
             <div className="m-2">
-              <h2>Cost : {(parseFloat(price) * quantity).toFixed(2)}</h2>
+              <h2 className="mb-2">
+                Cost : {(parseFloat(price) * quantity).toFixed(2)}
+              </h2>
             </div>
-            {/* <div className={styles.stopLoss}>
-              <label>Stop Loss:</label>
-              <input
-                type="number"
-                className="border-black border-[1px]"
-                value={stopLoss}
-                onChange={(e) => setStopLoss(e.target.value)}
-              />
-            </div> */}
+            <div className="m-2">
+              <h3>Card Details</h3>
+              <CardElement options={{ style: cardElementStyle }} />
+            </div>
           </div>
+
           <div className={styles.modalFooter}>
             <button className={styles.buyButton} onClick={handleBuy}>
               Buy
