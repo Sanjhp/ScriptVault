@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const ResetPassword = () => {
   const validateSchema = yup.object().shape({
     email: yup
@@ -36,19 +36,16 @@ const ResetPassword = () => {
     console.log("value :>> ", value);
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/users/reset-password`,
-        value
-      );
+      const res = await axios.post("/api/users/reset-password", value);
       setLoading(false);
       toast.success(res.data.message || "Successfully registered!!");
       console.log("res :>> ", res);
     } catch (err) {
       setLoading(false);
-      if(err?.res?.data?.message){
+      if (err?.res?.data?.message) {
         toast.error(err?.res?.data?.message);
-      }else{
-        toast.error("An error occured")
+      } else {
+        toast.error("An error occured");
       }
       console.log("error :>> ", error);
     }
@@ -116,7 +113,6 @@ const ResetPassword = () => {
         </form>
       </div>
       <ToastContainer />
-
     </div>
   );
 };

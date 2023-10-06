@@ -61,8 +61,7 @@ const UpdateUser = () => {
         setLoading(true);
         // let Token = localStorage.getItem("token");
         // setToken(Token);
-        const url = `${process.env.REACT_APP_BASE_URL}/users/get-user/${id}`;
-        console.log("url :>> ", url);
+        const url = `/api/users/get-user/${id}`;
         const response = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -108,7 +107,7 @@ const UpdateUser = () => {
       };
 
       const response = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/users/update-user/${id}`,
+        `/api/users/update-user/${id}`,
         updatedUserData,
         {
           headers: {

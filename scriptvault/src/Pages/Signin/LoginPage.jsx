@@ -80,16 +80,12 @@ function LoginPage() {
     try {
       setLoading(true);
       if (forgotPasswordMode) {
-        const response = await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/users/reset-password`,
-          { email: formData.email }
-        );
+        const response = await axios.post("/api/users/reset-password", {
+          email: formData.email,
+        });
         console.log("Reset email sent:", response.data);
       } else {
-        const response = await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/users/login`,
-          formData
-        );
+        const response = await axios.post("/api/users/login", formData);
         if (response.status === 200 && response.data.token) {
           localStorage.setItem("token", response.data.token);
           console.log("Access token stored:", response.data.token);
