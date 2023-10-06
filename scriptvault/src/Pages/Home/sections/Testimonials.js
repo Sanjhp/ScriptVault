@@ -49,7 +49,7 @@ const Testimonials = () => {
             <span className="font-[1000] capitalize my-4 text-center">{element.name}</span>
             <span className="text-gray-500 my-4 text-center">{element.designation}</span>
 
-            <i class="ri-double-quotes-l text-6xl text-center text-green-300"></i>
+            <i className="ri-double-quotes-l text-6xl text-center text-green-300"></i>
 
             <span className="text-center">{element.opinion}</span>
           </div>

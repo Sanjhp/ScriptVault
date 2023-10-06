@@ -174,7 +174,7 @@
 //           {error && <p className={styles.error}>{error}</p>}
 
 //           <button className={styles.button} type="submit">
-//             {loading && <div class="loader"></div>}
+//             {loading && <div className="loader"></div>}
 //             Sign Up
 //           </button>
 //         </form>
@@ -383,7 +383,7 @@ function SignupPage() {
             {error && <p className={styles.error}>{error}</p>}
 
             <button className={styles.button} type="submit">
-              {loading && <div class="loader"></div>}
+              {loading && <div className="loader"></div>}
               Sign Up
             </button>
           </form>

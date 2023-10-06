@@ -110,7 +110,7 @@ const ResetPassword = () => {
           {error && <p className={styles.error}>{error}</p>}
 
           <button className={styles.button} type="submit" disabled={loading}>
-            {loading && <div class="loader"></div>}
+            {loading && <div className="loader"></div>}
             Reset Password
           </button>
         </form>

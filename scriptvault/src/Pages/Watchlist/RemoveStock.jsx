@@ -1,5 +1,3 @@
-// RemoveStock.jsx
-
 import React from "react";
 
 const RemoveStockButton = ({ onClick }) => {
