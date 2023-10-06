@@ -23,23 +23,10 @@ const Stock = () => {
   }
 
   const handleSellClick = async () => {
-    // Set isSelling to true to show a loading indicator
-    setIsSelling(true);
-
     try {
-      // Simulate a sell action with dummy data
-      // In a real application, you would make an HTTP request to your backend here
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a 2-second delay
-
-      // Assume the sell action was successful
-      // You can update the UI or take other actions here
-      // For example, remove the stock from the watchlist
+      await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
-      // Handle the case where the sell action fails (e.g., display an error message)
       console.error("Sell action failed", error);
-    } finally {
-      // Reset the isSelling state to false
-      setIsSelling(false);
     }
   };
 
