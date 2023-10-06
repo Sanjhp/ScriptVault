@@ -43,10 +43,7 @@ function SignupPage() {
         phone: formData.phone,
       };
 
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/users/register`,
-        userData
-      );
+      const response = await axios.post("/api/users/register", userData);
       setLoading(false);
 
       if (response.data.message === "User registered successfully") {

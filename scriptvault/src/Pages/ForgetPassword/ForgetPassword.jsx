@@ -30,10 +30,7 @@ const ForgetPassword = () => {
   const handleForgetPassword = async (value) => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/users/forgot-password`,
-        value
-      );
+      const res = await axios.post("/api/users/forgot-password", value);
       console.log("res.data.message :>> ", res.data.message);
       toast.success(res?.data?.message);
       setLoading(false);
