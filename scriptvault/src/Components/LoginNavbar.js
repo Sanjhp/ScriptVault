@@ -128,7 +128,6 @@ const Navbar = ({ token, onLogout }) => {
             </li>
             <li>
               <button onClick={handleLogout} className="cursor-pointer">
-                <span className="text-xl">🚪</span>
                 Logout
               </button>
             </li>
