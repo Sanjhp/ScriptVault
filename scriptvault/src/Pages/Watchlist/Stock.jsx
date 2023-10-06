@@ -7,7 +7,7 @@ const Stock = () => {
   const dummyStock = {
     id: 1,
     name: "Company A",
-    symbol: "logo",
+    sector: "logo",
     price: 100,
     prevPrice: 75,
   };
