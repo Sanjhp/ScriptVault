@@ -71,12 +71,12 @@ const Navbar = () => {
                 Watchlist
               </Link>
             </li> */}
-            {/* <li>
+            <li>
               <Link to={`/update-profile`}>
-                <span className="text-xl">👤</span>
+                <span className="text-xl"></span>
                 Profile
               </Link>
-            </li> */}
+            </li>
             <li>
               <button onClick={handleLogout}>
                 <span className="text-xl"></span>

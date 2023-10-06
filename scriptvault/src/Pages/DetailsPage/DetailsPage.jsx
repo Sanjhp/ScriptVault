@@ -71,12 +71,12 @@ const Profile = () => {
         cost: stockData.BookValue,
         user_id: id,
       };
-
       // Make an HTTP POST request to your backend API
       const response = axios.post(
-        `${process.env.REACT_APP_BASE_URL}/fund/investments`,
+        "http://localhost:5000/api/fund/investments",
         fundData
       );
+      console.log(fundData);
       console.log("Backend response:", response.data);
     } catch (error) {
       console.error("Error buying stock:", error);

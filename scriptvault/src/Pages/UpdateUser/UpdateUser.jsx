@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect } from "react";
 import styles from "./UpdateUser.module.css";
 import axios from "axios";
@@ -5,9 +7,8 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UpdateUser = () => {
   const validateSchema = yup.object().shape({
@@ -135,121 +136,129 @@ const UpdateUser = () => {
   };
   return (
     <>
-      <div className={styles.background}></div>
-      <div className={styles.signupCard}>
-        <form onSubmit={handleSubmit(handleProfileUpdate)}>
-          <div className={styles.inputContainer}>
-            <label className={styles.label} htmlFor="name">
-              Name
-            </label>
-            <input
-              className={styles.input}
-              type="text"
-              id="name"
-              name="name"
-              {...register("name")}
-            />
-            {errors && errors?.name ? (
-              <p className={styles.errorMessage}>{errors?.name?.message}</p>
-            ) : (
-              ""
-            )}
-          </div>
-          <div className={styles.inputContainer}>
-            <label className={styles.label} htmlFor="email">
-              Email
-            </label>
-            <input
-              className={styles.input}
-              type="email"
-              id="email"
-              name="email"
-              {...register("email")}
-              readOnly
-            />
-            {errors && errors.email && (
-              <p className={styles.errorMessage}>{errors.email.message}</p>
-            )}
-          </div>
-          {/* <p className="err-msg">{errors.name?.message}</p> */}
+      <div className={styles.container}>
+        <div className={styles.signupCard}>
+          <form onSubmit={handleSubmit(handleProfileUpdate)}>
+            <div className={styles.inputContainer}>
+              <label className={styles.label} htmlFor="name">
+                Name
+              </label>
+              <input
+                className={styles.input}
+                type="text"
+                id="name"
+                name="name"
+                {...register("name")}
+              />
+              {errors && errors?.name ? (
+                <p className={styles.errorMessage}>{errors?.name?.message}</p>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className={styles.inputContainer}>
+              <label className={styles.label} htmlFor="email">
+                Email
+              </label>
+              <input
+                className={styles.input}
+                type="email"
+                id="email"
+                name="email"
+                {...register("email")}
+                readOnly
+              />
+              {errors && errors.email && (
+                <p className={styles.errorMessage}>{errors.email.message}</p>
+              )}
+            </div>
+            {/* <p className="err-msg">{errors.name?.message}</p> */}
+            {/* Phone Input */}
+            <div className={styles.inputContainer}>
+              <label className={styles.label} htmlFor="phone">
+                Phone
+              </label>
+              <input
+                className={styles.input}
+                type="tel"
+                id="phone"
+                name="phone"
+                {...register("phone")}
+              />
+              {errors && errors.phone && (
+                <p className={styles.errorMessage}>{errors.phone.message}</p>
+              )}
+            </div>
+            {/* PAN Input */}
+            <div className={styles.inputContainer}>
+              <label className={styles.label} htmlFor="PAN">
+                PAN
+              </label>
+              <input
+                className={styles.input}
+                type="text"
+                id="PAN"
+                name="PAN"
+                {...register("PAN")}
+                readOnly
+              />
+              {errors && errors.PAN && (
+                <p className={styles.errorMessage}>{errors.PAN.message}</p>
+              )}
+            </div>
+            {/* Date of Birth Input */}
+            <div className={styles.inputContainer}>
+              <label className={styles.label} htmlFor="dob">
+                Date of Birth
+              </label>
+              <input
+                className={styles.input}
+                type="date"
+                id="dob"
+                name="dob"
+                {...register("dob")}
+              />
+              {errors && errors.dob && (
+                <p className={styles.errorMessage}>{errors.dob.message}</p>
+              )}
+            </div>
+            {/* Password Input */}
+            <div className={styles.inputContainer}>
+              <label className={styles.label} htmlFor="password">
+                Password
+              </label>
+              <input
+                className={styles.input}
+                type="password"
+                id="password"
+                name="password"
+                {...register("password")}
+              />
+              {errors && errors.password && (
+                <p className={styles.errorMessage}>{errors.password.message}</p>
+              )}
+            </div>
+            {/* Error message */}
+            {error && <p className={styles.error}>{error}</p>}
+            <button
+              className={styles.button}
+              type="submit"
+              style={{ backgroundColor: "#6c63ff" }}
+            >
+              {loading && <div className="loader"></div>}
+              Update
+            </button>
+          </form>
+        </div>
 
-          {/* Phone Input */}
-          <div className={styles.inputContainer}>
-            <label className={styles.label} htmlFor="phone">
-              Phone
-            </label>
-            <input
-              className={styles.input}
-              type="tel"
-              id="phone"
-              name="phone"
-              {...register("phone")}
-            />
-            {errors && errors.phone && (
-              <p className={styles.errorMessage}>{errors.phone.message}</p>
-            )}
-          </div>
-
-          {/* PAN Input */}
-          <div className={styles.inputContainer}>
-            <label className={styles.label} htmlFor="PAN">
-              PAN
-            </label>
-            <input
-              className={styles.input}
-              type="text"
-              id="PAN"
-              name="PAN"
-              {...register("PAN")}
-              readOnly
-            />
-            {errors && errors.PAN && (
-              <p className={styles.errorMessage}>{errors.PAN.message}</p>
-            )}
-          </div>
-
-          {/* Date of Birth Input */}
-          <div className={styles.inputContainer}>
-            <label className={styles.label} htmlFor="dob">
-              Date of Birth
-            </label>
-            <input
-              className={styles.input}
-              type="date"
-              id="dob"
-              name="dob"
-              {...register("dob")}
-            />
-            {errors && errors.dob && (
-              <p className={styles.errorMessage}>{errors.dob.message}</p>
-            )}
-          </div>
-
-          {/* Password Input */}
-          <div className={styles.inputContainer}>
-            <label className={styles.label} htmlFor="password">
-              Password
-            </label>
-            <input
-              className={styles.input}
-              type="password"
-              id="password"
-              name="password"
-              {...register("password")}
-            />
-            {errors && errors.password && (
-              <p className={styles.errorMessage}>{errors.password.message}</p>
-            )}
-          </div>
-          {/* Error message */}
-          {error && <p className={styles.error}>{error}</p>}
-          <button className={styles.button} type="submit">
-            {loading && <div className="loader"></div>}
-            Update
-          </button>
-        </form>
-        <ToastContainer />
+        <div className={styles.imageContainer}>
+          <img
+            className={styles.image}
+            src="https://i.ibb.co/GpPbfKC/istockphoto-1300004790-612x612.jpg"
+          />
+        </div>
       </div>
+      <ToastContainer />
     </>
   );
 };
