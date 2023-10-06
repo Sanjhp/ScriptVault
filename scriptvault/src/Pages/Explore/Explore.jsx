@@ -54,7 +54,7 @@ const Home = () => {
   return (
     <>
       <div className="flex flex-col w-full justify-center">
-        {/* <div className={styles.searchBar}>
+        <div className={styles.searchBar}>
           <input
             type="text"
             value={searchQuery}
@@ -69,7 +69,7 @@ const Home = () => {
                   const selectedSymbol = result["1. symbol"];
                   const fetchData = async (symbol) => {
                     try {
-                      const apiKey = "YOUR_API_KEY_HERE";
+                      const apiKey = "C04721VTHLJFESKF";
                       const apiUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
                       const response = await axios.get(apiUrl);
                       const responseData = response?.data;
@@ -91,7 +91,7 @@ const Home = () => {
             ))}
           </ul>
           <button>Search</button>
-        </div> */}
+        </div>
 
         <div className={styles.homeWrapper}>
           {apiResponses?.map((apiResponse, index) => (

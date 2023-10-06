@@ -81,7 +81,11 @@ const ForgetPassword = () => {
                   <p className={styles.errorMessage}>{errors.email.message}</p>
                 )}
               </div>
-              <button className={styles.button} type="submit">
+              <button
+                className={styles.button}
+                type="submit"
+                style={{ backgroundColor: "#6c63ff" }}
+              >
                 {loading && <div className="loader"></div>}
                 Submit
               </button>

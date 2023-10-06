@@ -72,10 +72,7 @@ const Profile = () => {
         user_id: id,
       };
       // Make an HTTP POST request to your backend API
-      const response = axios.post(
-        "http://localhost:5000/api/fund/investments",
-        fundData
-      );
+      const response = axios.post("/api/fund/investments", fundData);
       console.log(fundData);
       console.log("Backend response:", response.data);
     } catch (error) {
