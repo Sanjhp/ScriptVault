@@ -27,7 +27,7 @@ const Stock = ({ userId }) => {
         const response = await axios.get(`/api/fund/investments/${userId}`);
         const data = response.data[0]; // Access the first element of the array
         setStockData(data); // Set the fetched data in the state
-        console.log(data);
+        console.log("data",data);
         console.log(stockData.fund_name);
       } catch (error) {
         console.error("Error fetching stock data:", error);
@@ -60,31 +60,39 @@ const Stock = ({ userId }) => {
 
   return (
     <div className="stock">
-      <p>
-        <h1>{stockData.fund_name}</h1> ({stockData.sector})
-      </p>
-      <p>Current Price: ${stockData.cost}</p>
-      <p>
-        Performance:
-        <p
-          className={perform > 0 ? "green-text" : perform < 0 ? "red-text" : ""}
-        >
-          {perform}%
-        </p>
-      </p>
-      <button
-        onClick={handleSellClick}
-        className="sell-button"
-        disabled={isSelling}
-      >
-        {isSelling ? (
-          "Selling..."
-        ) : (
-          <>
-            <FaHandHoldingUsd /> Sell
-          </>
-        )}
-      </button>
+      {stockData ? (
+        <>
+          <p>
+            <h1>{stockData.fund_name}</h1> ({stockData.sector})
+          </p>
+          <p>Current Price: ${stockData.cost}</p>
+          <p>
+            Performance:
+            <p
+              className={
+                perform > 0 ? "green-text" : perform < 0 ? "red-text" : ""
+              }
+            >
+              {perform}%
+            </p>
+          </p>
+          <button
+            onClick={handleSellClick}
+            className="sell-button"
+            disabled={isSelling}
+          >
+            {isSelling ? (
+              "Selling..."
+            ) : (
+              <>
+                <FaHandHoldingUsd /> Sell
+              </>
+            )}
+          </button>
+        </>
+      ) : (
+        <p>Loading stock data...</p>
+      )}
     </div>
   );
 };

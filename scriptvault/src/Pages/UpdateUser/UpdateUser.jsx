@@ -232,6 +232,7 @@ const UpdateUser = () => {
                 id="password"
                 name="password"
                 {...register("password")}
+                readOnly
               />
               {errors && errors.password && (
                 <p className={styles.errorMessage}>{errors.password.message}</p>
