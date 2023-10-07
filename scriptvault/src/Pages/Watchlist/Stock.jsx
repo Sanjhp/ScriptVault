@@ -52,7 +52,6 @@ const Stock = ({ userId }) => {
       // Fetch the updated data after selling the stock
       const response = await axios.get(`/api/fund/investments/${userId}`);
       const updatedData = response.data[0];
-
       setStockData(updatedData);
     } catch (error) {
       console.error("Error selling the fund:", error);
