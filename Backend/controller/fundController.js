@@ -27,8 +27,10 @@ export const createInvestment = async (req, res) => {
 export const deleteInvestmentById = async (req, res) => {
   try {
     const { _id } = req.params;
+    console.log("_id :>> ", _id);
 
     const deletedInvestment = await InvestedFunds.findByIdAndDelete(_id);
+    console.log("Deleted Investment:", deletedInvestment);
 
     if (!deletedInvestment) {
       return res.status(404).json({ error: "Investment record not found" });
@@ -41,14 +43,21 @@ export const deleteInvestmentById = async (req, res) => {
   }
 };
 
+
 export const getAllInvestmentsByUserId = async (req, res) => {
   try {
     const { user_id } = req.params;
-
-    // Fetch all investment records for the specified user ID
     const investments = await InvestedFunds.find({ user_id });
+    const numberOfAssets = investments.length;
+    const totalCostValue = investments.reduce((total, investment) => {
+      return total + investment.cost;
+    }, 0);
 
-    res.json(investments);
+    res.json({
+      assets: numberOfAssets,
+      cost_value: totalCostValue,
+      investments,
+    });
   } catch (error) {
     console.error("Error fetching investments:", error);
     res.status(500).json({ error: "Internal Server Error" });

@@ -40,9 +40,11 @@ const ResetPassword = () => {
       setLoading(false);
       toast.success(res.data.message || "Successfully registered!!");
       console.log("res :>> ", res);
+      navigate("/signin")
     } catch (err) {
       setLoading(false);
       if (err?.res?.data?.message) {
+        console.log(err?.res?.data?.message)
         toast.error(err?.res?.data?.message);
       } else {
         toast.error("An error occured");

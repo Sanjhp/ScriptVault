@@ -33,6 +33,7 @@ const ForgetPassword = () => {
       const res = await axios.post("/api/users/forgot-password", value);
       console.log("res.data.message :>> ", res.data.message);
       toast.success(res?.data?.message);
+      navigate("/reset-password")
       setLoading(false);
       console.log("res :>> ", res);
     } catch (error) {
