@@ -46,3 +46,6 @@ ScriptVault is built using the following technologies:
 
 sandhya1234@gmail.com
 Password: 123456
+
+## Note
+The application uses the Alpha Vantage free tier, which has a limitation of only 100 API calls per day. As a result, the Explore and Detail sections may not display data if the limit is reached.
