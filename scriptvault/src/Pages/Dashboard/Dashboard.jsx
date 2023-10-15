@@ -112,12 +112,11 @@ function Dashboard() {
         {data && data.investments ? (
           data.investments.map((investment) => (
             <div key={investment._id}>
-         
               <p>
                 <h1>{investment?.fund_name}</h1> ({investment?.sector})
               </p>
               <p>Current Price: ${investment?.cost}</p>
-              <p>
+              {/* <p>
                 Performance:
                 <p
                   className={
@@ -126,7 +125,7 @@ function Dashboard() {
                 >
                   {perform}%
                 </p>
-              </p>
+              </p> */}
               <button
                 onClick={() => handleSellClick(investment._id)}
                 className="sell-button"
