@@ -61,7 +61,26 @@ const Profile = () => {
     }
   }, [accessToken]);
 
-  const handleDataForBackend = (async) => {
+  // const handleDataForBackend = (async) => {
+  //   try {
+  //     // Construct the data object to send to the backend
+  //     const fundData = {
+  //       fund_id: stockData.Symbol,
+  //       fund_name: stockData.Name,
+  //       sector: stockData.Sector,
+  //       cost: stockData.BookValue,
+  //       user_id: id,
+  //     };
+  //     const response = axios.post("/api/fund/investments", fundData);
+  //     console.log("fund data", fundData);
+  //     console.log("Backend response:", response.data);
+  //   } catch (error) {
+  //     alert("Payment failed. API Calls limit exhausted.");
+  //     console.error("Error buying stock:", error);
+  //   }
+  // };
+
+  const handleDataForBackend = async () => {
     try {
       // Construct the data object to send to the backend
       const fundData = {
@@ -71,10 +90,16 @@ const Profile = () => {
         cost: stockData.BookValue,
         user_id: id,
       };
-      const response = axios.post("/api/fund/investments", fundData);
-      console.log(fundData);
-      console.log("Backend response:", response.data);
+      const response = await axios.post("/api/fund/investments", fundData);
+      console.log("fund data", fundData);
+
+      if (response.data === undefined) {
+        alert("API calls limit reached, try again later.");
+      } else {
+        console.log("Backend response:", response.data);
+      }
     } catch (error) {
+      alert("Payment failed. API Calls limit exhausted. try again later");
       console.error("Error buying stock:", error);
     }
   };
@@ -106,13 +131,22 @@ const Profile = () => {
     }
 
     // Use the paymentMethod.id to process the payment on your server
-    const response = await axios.post("/your-server-endpoint", {
-      paymentMethodId: paymentMethod.id,
-      amount: parseFloat(price) * quantity * 100,
-      user_id: id,
-    });
+    try {
+      const response = await axios.post("/your-server-endpoint", {
+        paymentMethodId: paymentMethod.id,
+        amount: parseFloat(price) * quantity * 100,
+        user_id: id,
+      });
 
-    console.log("Payment successful:", response.data);
+      if (response.status === 200) {
+        console.log("Payment successful:", response.data);
+      } else {
+        alert("Payment failed. Server error (500).");
+      }
+    } catch (error) {
+      alert("Payment failed. Server error (500).");
+      console.error("Payment failed:", error);
+    }
   };
 
   function openModal() {
