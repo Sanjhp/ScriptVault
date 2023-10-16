@@ -51,9 +51,7 @@ function Dashboard() {
     try {
       if (data) {
         console.log("Deleting investment with ID:", investmentIdToDelete);
-        await axios.delete(
-          `${process.env.REACT_APP_BASE_URL}/fund/investments/${investmentIdToDelete}`
-        );
+        await axios.delete(`/api/fund/investments/${investmentIdToDelete}`);
 
         setData((prevData) => ({
           ...prevData,
@@ -73,9 +71,7 @@ function Dashboard() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/fund/investments/${userId}`
-      );
+      const res = await axios.get(`/api/fund/investments/${userId}`);
       console.log("res :>> ", res.data);
       setData(res?.data);
     } catch (error) {

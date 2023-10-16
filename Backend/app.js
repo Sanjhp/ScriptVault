@@ -6,6 +6,7 @@ import path from "path";
 import userRouter from "./routes/userRoutes.js";
 import investmentRouter from "./routes/investmentRoutes.js";
 import fundRoutes from "./routes/fundRoutes.js";
+import watchlistRoutes from "./routes/watchlistRoutes.js";
 import axios from "axios";
 const PORT = process.env.PORT || 5000;
 
@@ -41,6 +42,7 @@ app.get("/stocks", async (req, res) => {
 app.use("/api/users", userRouter);
 app.use("/api/invest", investmentRouter);
 app.use("/api/fund", fundRoutes);
+app.use("/api/watchlist", watchlistRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is runing PORT:${PORT}`);

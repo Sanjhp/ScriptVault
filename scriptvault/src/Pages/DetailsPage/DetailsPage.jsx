@@ -7,6 +7,7 @@ import axios from "axios";
 import Modal from "react-modal";
 import { loadStripe } from "@stripe/stripe-js";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
 
 // Create a Stripe instance
 const stripePromise = loadStripe("YOUR_PUBLISHABLE_KEY");
@@ -39,7 +40,6 @@ const Profile = () => {
   const [stockData, setStockData] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  // const [stopLoss, setStopLoss] = useState("");
   const navigate = useNavigate();
   const [price, setPrice] = useState("622.33");
   const elements = useElements();
@@ -61,51 +61,30 @@ const Profile = () => {
     }
   }, [accessToken]);
 
-  // const handleDataForBackend = (async) => {
-  //   try {
-  //     // Construct the data object to send to the backend
-  //     const fundData = {
-  //       fund_id: stockData.Symbol,
-  //       fund_name: stockData.Name,
-  //       sector: stockData.Sector,
-  //       cost: stockData.BookValue,
-  //       user_id: id,
-  //     };
-  //     const response = axios.post("/api/fund/investments", fundData);
-  //     console.log("fund data", fundData);
-  //     console.log("Backend response:", response.data);
-  //   } catch (error) {
-  //     alert("Payment failed. API Calls limit exhausted.");
-  //     console.error("Error buying stock:", error);
-  //   }
-  // };
-
-  const handleDataForBackend = async () => {
+  const handleDataForBackend = async (endpoint, data) => {
     try {
-      // Construct the data object to send to the backend
-      const fundData = {
-        fund_id: stockData.Symbol,
-        fund_name: stockData.Name,
-        sector: stockData.Sector,
-        cost: stockData.BookValue,
-        user_id: id,
-      };
-      const response = await axios.post("/api/fund/investments", fundData);
-      console.log("fund data", fundData);
-
+      const response = await axios.post(endpoint, data);
       if (response.data === undefined) {
         alert("API calls limit reached, try again later.");
       } else {
         console.log("Backend response:", response.data);
       }
     } catch (error) {
-      alert("Payment failed. API Calls limit exhausted. try again later");
-      console.error("Error buying stock:", error);
+      alert("Request failed. Try again later. Api call limit reached");
+      console.error("Request failed:", error);
     }
   };
 
   const handleBuy = async () => {
-    handleDataForBackend();
+    const fundData = {
+      fund_id: stockData.Symbol,
+      fund_name: stockData.Name,
+      sector: stockData.Sector,
+      cost: stockData.BookValue,
+      user_id: id,
+    };
+
+    handleDataForBackend("/api/fund/investments", fundData);
 
     const stripe = await stripePromise;
     const cardElement = elements.getElement(CardElement);
@@ -149,6 +128,15 @@ const Profile = () => {
     }
   };
 
+  const handleAddToWatchlist = async () => {
+    const watchlistData = {
+      symbol: stockData.Symbol,
+      user_id: id,
+    };
+
+    handleDataForBackend("/api/watchlist/add", watchlistData);
+  };
+
   function openModal() {
     setIsOpen(true);
   }
@@ -162,7 +150,6 @@ const Profile = () => {
   useEffect(() => {
     const fetchStockData = async () => {
       try {
-        // const apiKey = "demo";
         const apiKey = "C04721VTHLJFESKF";
         const apiUrl = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${apiKey}`;
         const response = await axios.get(apiUrl);
@@ -179,6 +166,7 @@ const Profile = () => {
   if (!stockData) {
     return <div>Loading...</div>;
   }
+
   return (
     <div className={styles.profileWrapper}>
       <div className={styles.heading}>
@@ -223,7 +211,20 @@ const Profile = () => {
             type="submit"
             className="mt-10 font-bold text-xl px-6 py-1 rounded bg-green-600 text-white"
           >
-            Buy
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <FaShoppingCart style={{ marginRight: "8px" }} />
+              Buy
+            </div>
+          </button>
+          <button
+            onClick={handleAddToWatchlist} // Handle adding to watchlist
+            type="button" // Change to type="button" as it's not a form submission
+            className="mt-10 font-bold text-xl px-6 py-1 text-black"
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <FaHeart style={{ marginRight: "8px" }} />
+              Watchlist
+            </div>
           </button>
         </div>
       </div>

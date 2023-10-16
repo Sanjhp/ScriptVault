@@ -65,12 +65,12 @@ const Navbar = () => {
                 Explore
               </Link>
             </li>
-            {/* <li>
-              <Link to="/watchlist">
+            <li>
+              <Link to="/wishlist">
                 <span className="text-xl"></span>
                 Watchlist
               </Link>
-            </li> */}
+            </li>
             <li>
               <Link to={`/update-profile`}>
                 <span className="text-xl"></span>
