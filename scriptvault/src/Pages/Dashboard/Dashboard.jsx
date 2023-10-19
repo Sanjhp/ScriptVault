@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
 import { useLocation } from "react-router-dom";
-import Stock from "../Watchlist/Stock";
 import { FaHandHoldingUsd } from "react-icons/fa";
 
 import axios from "axios";
+
 function Dashboard() {
   const location = useLocation();
   const { stockDetails, stockDetailsList: initialStockDetailsList } =
@@ -13,6 +13,7 @@ function Dashboard() {
   const [stockDetailsList, setStockDetailsList] = useState(
     initialStockDetailsList
   );
+
   const [token, setToken] = useState(null);
   const accessToken = localStorage.getItem("token");
   const [userId, setUserId] = useState(null);
@@ -25,28 +26,13 @@ function Dashboard() {
       const userId = payload._id;
       setUserId(userId);
       setToken(accessToken);
-      console.log("User ID:", userId);
     } else {
       console.log("Token not found");
     }
   }, [accessToken]);
-  const dummyStock = {
-    id: 1,
-    name: "Company A",
-    sector: "logo",
-    price: 100,
-    prevPrice: 75,
-  };
 
-  const { id, name, symbol, price, prevPrice } = dummyStock;
-  function calculatePerformance(currentPrice, prevPrice) {
-    const percentageChange = ((currentPrice - prevPrice) / prevPrice) * 100;
-    return percentageChange.toFixed(2);
-  }
-  const perform = calculatePerformance(price, prevPrice);
-  const [isSelling, setIsSelling] = useState(false); // State to track the selling operation
-  const [stockData, setStockData] = useState(null);
-  console.log("stockData :>> ", stockData);
+  const [isSelling, setIsSelling] = useState(false);
+
   const handleSellClick = async (investmentIdToDelete) => {
     try {
       if (data) {
@@ -69,6 +55,56 @@ function Dashboard() {
     }
   };
 
+  const fetchCurrentStockPrices = async (investments) => {
+    const updatedInvestments = await Promise.all(
+      investments.map(async (investment) => {
+        const symbol = investment.fund_id;
+        const latestPrice = await fetchCurrentStockPrice(symbol);
+        return {
+          ...investment,
+          currentPrice: latestPrice,
+        };
+      })
+    );
+
+    return updatedInvestments;
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/api/fund/investments/${userId}`);
+        const updatedInvestments = await fetchCurrentStockPrices(
+          res?.data.investments
+        );
+        setData({ ...res.data, investments: updatedInvestments });
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
+
+  const fetchCurrentStockPrice = async (symbol) => {
+    try {
+      const apiKey = "C04721VTHLJFESKF"; // Replace with your Alpha Vantage API key
+      const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${apiKey}`;
+      const response = await axios.get(apiUrl);
+      const timeSeriesData = response.data["Time Series (5min)"];
+
+      // Extract the most recent price
+      const latestPrice = parseFloat(
+        timeSeriesData[Object.keys(timeSeriesData)[0]]["1. open"]
+      );
+
+      return latestPrice;
+    } catch (error) {
+      console.error("Error fetching stock price for symbol", symbol, error);
+      return null;
+    }
+  };
+
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.netWorthPartitions}>
@@ -80,17 +116,8 @@ function Dashboard() {
           <div className={styles.label}>Cost Value</div>
           <div className={styles.value}>{data?.cost_value}</div>
         </div>
-        {/* <div className={styles.netWorthPartition}>
-          <div className={styles.label}>Overall Appreciation</div>
-          <div className={styles.value}>{overallAppreciation}</div>
-        </div>
-        <div className={styles.netWorthPartition}>
-          <div className={styles.label}>Today's Appreciation</div>
-          <div className={styles.value}>{todaysAppreciation}</div>
-        </div> */}
       </div>
 
-      {/* <Stock userId={id} /> */}
       <div className="stock">
         {data && data.investments ? (
           data.investments.map((investment) => (
@@ -99,16 +126,26 @@ function Dashboard() {
                 <h1>{investment?.fund_name}</h1> ({investment?.sector})
               </p>
               <p>Invested Price: ${investment?.cost}</p>
-              {/* <p>
+              <p>Current Price: ${investment?.currentPrice}</p>
+              <p>
                 Performance:
                 <p
                   className={
-                    perform > 0 ? "green-text" : perform < 0 ? "red-text" : ""
+                    investment?.currentPrice > investment?.cost
+                      ? "green-text"
+                      : investment?.currentPrice < investment?.cost
+                      ? "red-text"
+                      : ""
                   }
                 >
-                  {perform}%
+                  {(
+                    ((investment?.currentPrice - investment?.cost) /
+                      investment?.cost) *
+                    100
+                  ).toFixed(2)}
+                  %
                 </p>
-              </p> */}
+              </p>
               <button
                 onClick={() => handleSellClick(investment._id)}
                 className="sell-button"

@@ -3,15 +3,16 @@ import InvestedFunds from "../model/Funds.js";
 // Function to create a new investment record
 export const createInvestment = async (req, res) => {
   try {
-    const { user_id, fund_id, fund_name, sector, cost } = req.body;
+    const { user, fund_id, fund_name, sector, cost, quantity } = req.body;
 
     console.log(req.body);
     const newInvestment = new InvestedFunds({
-      user_id,
+      user,
       fund_id,
       fund_name,
       sector,
       cost,
+      quantity,
     });
 
     const savedInvestment = await newInvestment.save();
@@ -45,9 +46,9 @@ export const deleteInvestmentById = async (req, res) => {
 
 export const getAllInvestmentsByUserId = async (req, res) => {
   try {
-    console.log("fund controller", req.params);
-    const { user_id } = req.params;
-    const investments = await InvestedFunds.find({ user_id });
+    const { user } = req.params;
+
+    const investments = await InvestedFunds.find({ user });
     const numberOfAssets = investments.length;
     const totalCostValue = investments.reduce((total, investment) => {
       return total + investment.cost;

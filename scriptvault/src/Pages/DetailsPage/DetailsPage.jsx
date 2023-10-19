@@ -149,7 +149,8 @@ const Profile = () => {
       fund_name: stockData.Name,
       sector: stockData.Sector,
       cost: stockData.BookValue,
-      user_id: id,
+      user: id,
+      quantity: quantity,
     };
 
     handleDataForBackend("/api/fund/investments", fundData);
