@@ -71,6 +71,7 @@ function Dashboard() {
 
   const fetchData = async () => {
     try {
+      console.log("fetch data user id ", userId);
       const res = await axios.get(`/api/fund/investments/${userId}`);
       console.log("res :>> ", res.data);
       setData(res?.data);

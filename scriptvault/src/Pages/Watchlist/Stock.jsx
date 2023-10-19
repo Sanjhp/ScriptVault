@@ -22,16 +22,16 @@ const Stock = ({ userId }) => {
   useEffect(() => {
     // Fetch stock data from the backend using the user ID
     const fetchStockData = async () => {
-      try {
-        console.log(userId);
-        const response = await axios.get(`/api/fund/investments/${userId}`);
-        const data = response.data[0]; // Access the first element of the array
-        setStockData(data); // Set the fetched data in the state
-        console.log("data",data);
-        console.log(stockData.fund_name);
-      } catch (error) {
-        console.error("Error fetching stock data:", error);
-      }
+      // try {
+      //   console.log(userId);
+      // const response = await axios.get(`/api/fund/investments/${userId}`);
+      //   const data = response.data[0]; // Access the first element of the array
+      //   setStockData(data); // Set the fetched data in the state
+      //   console.log("data",data);
+      //   console.log(stockData.fund_name);
+      // } catch (error) {
+      //   console.error("Error fetching stock data:", error);
+      // }
     };
 
     fetchStockData();

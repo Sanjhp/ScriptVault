@@ -155,6 +155,9 @@ const Profile = () => {
         const response = await axios.get(apiUrl);
         console.log("response :>> ", response);
         setStockData(response.data);
+        if (response.data && response.data.BookValue) {
+          setPrice(response.data.BookValue);
+        }
       } catch (error) {
         console.error("Error fetching stock data:", error);
       }
@@ -172,9 +175,9 @@ const Profile = () => {
       <div className={styles.heading}>
         <div className={styles.policyName}>
           <div className={styles.name}>
-            <div>
+            {/* <div>
               <img alt="logo" src={data?.[count]?.companyImg} />
-            </div>
+            </div> */}
             <div>
               <h2>{stockData?.Name}</h2>
             </div>
@@ -213,7 +216,7 @@ const Profile = () => {
           >
             <div style={{ display: "flex", alignItems: "center" }}>
               <FaShoppingCart style={{ marginRight: "8px" }} />
-              Buy
+              Invest
             </div>
           </button>
           <button
@@ -357,7 +360,7 @@ const Profile = () => {
           <div className={styles.modalHeader}>
             <div className="flex text-xl">
               <h2 className="mr-4">
-                Buy <span>IBM</span>
+                Invest <span>IBM</span>
               </h2>
               x <h2 className="ml-4">Qty. {quantity}</h2>
             </div>
@@ -396,7 +399,7 @@ const Profile = () => {
 
           <div className={styles.modalFooter}>
             <button className={styles.buyButton} onClick={handleBuy}>
-              Buy
+              Invest
             </button>
             <button className={styles.cancelButton} onClick={closeModal}>
               Cancel
