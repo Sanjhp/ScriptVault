@@ -69,20 +69,6 @@ function Dashboard() {
     }
   };
 
-  const fetchData = async () => {
-    try {
-      console.log("fetch data user id ", userId);
-      const res = await axios.get(`/api/fund/investments/${userId}`);
-      console.log("res :>> ", res.data);
-      setData(res?.data);
-    } catch (error) {
-      console.log("error :>> ", error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, [userId]);
-
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.netWorthPartitions}>
