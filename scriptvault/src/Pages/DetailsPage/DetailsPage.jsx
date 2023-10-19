@@ -221,7 +221,9 @@ const Profile = () => {
         alert("Investment failed. " + response.data.message);
       }
     } catch (error) {
-      alert("Investment failed. Please try again later.");
+      alert(
+        "Investment failed. API Calls Limit reached. Please try again later."
+      );
       console.error("Investment failed:", error);
     }
   };
