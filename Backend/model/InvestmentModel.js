@@ -25,6 +25,6 @@ const investmentSchema = new mongoose.Schema({
   },
 });
 
-const InvestmentModel = mongoose.model('investment-details', investmentSchema);
+const InvestmentModel = mongoose.model("investment-details", investmentSchema);
 
 export default InvestmentModel;

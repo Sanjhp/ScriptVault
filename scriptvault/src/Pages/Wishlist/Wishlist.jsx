@@ -63,8 +63,10 @@ const Wishlist = () => {
     const fetchData = async (symbol) => {
       try {
         const apiKey = "C04721VTHLJFESKF";
-        const apiUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
-        const response = await axios.get(apiUrl);
+        const response = await axios.get(
+          `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol.symbol}&apikey=${apiKey}`
+        );
+        console.log("response from alphavantage", response);
         return response?.data;
       } catch (error) {
         console.error("Error:", error);
