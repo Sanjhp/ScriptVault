@@ -51,3 +51,6 @@ Password: 123456
 The application uses the Alpha Vantage free tier, which has a limitation of only 100 API calls per day. As a result, the Explore and Detail sections may not display data if the limit is reached.
 
 If the Explore section of the application does not have any data available, clicking the "Buy" button may result in a server error (HTTP 500). Users should be informed that they need to ensure that the Explore section has data before attempting to make a purchase.
+
+In Dashboard, it is used for fetching latest prices , dur to the limit responses  Some data may not be available, and you may experience a 100% loss.
+
