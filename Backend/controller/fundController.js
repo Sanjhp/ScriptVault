@@ -3,23 +3,45 @@ import InvestedFunds from "../model/Funds.js";
 // Function to create a new investment record
 export const createInvestment = async (req, res) => {
   try {
+    console.log(req.body);
     const { user, fund_id, fund_name, sector, cost, quantity } = req.body;
 
-    console.log(req.body);
-    const newInvestment = new InvestedFunds({
+    // Ensure that cost is a valid number
+    const costAsNumber = parseFloat(cost);
+
+    if (isNaN(costAsNumber)) {
+      // Handle the case where cost is not a valid number
+      return res.status(400).json({ error: "Invalid cost value" });
+    }
+
+    // Check if an investment already exists for the same fund and user
+    const existingInvestment = await InvestedFunds.findOne({
       user,
       fund_id,
-      fund_name,
-      sector,
-      cost,
-      quantity,
     });
 
-    const savedInvestment = await newInvestment.save();
+    if (existingInvestment) {
+      // Update cost and quantity for the existing investment
+      existingInvestment.cost += costAsNumber;
+      existingInvestment.quantity += quantity;
+      const updatedInvestment = await existingInvestment.save();
+      res.status(200).json(updatedInvestment);
+    } else {
+      // Create a new investment
+      const newInvestment = new InvestedFunds({
+        user,
+        fund_id,
+        fund_name,
+        sector,
+        cost: costAsNumber,
+        quantity,
+      });
 
-    res.status(201).json(savedInvestment);
+      const savedInvestment = await newInvestment.save();
+      res.status(201).json(savedInvestment);
+    }
   } catch (error) {
-    console.error("Error creating investment:", error);
+    console.error("Error creating or updating investment:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -47,7 +69,7 @@ export const deleteInvestmentById = async (req, res) => {
 export const getAllInvestmentsByUserId = async (req, res) => {
   try {
     const { user } = req.params;
-
+    console.log(user);
     const investments = await InvestedFunds.find({ user });
     const numberOfAssets = investments.length;
     const totalCostValue = investments.reduce((total, investment) => {

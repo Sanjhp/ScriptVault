@@ -47,6 +47,7 @@ const Profile = () => {
   const accessToken = localStorage.getItem("token");
   const [id, setId] = useState(null);
   const [priceFluctuation, setPriceFluctuation] = useState([]);
+  const [error, setError] = useState(null);
 
   // Retrieve the token from localStorage
   useEffect(() => {
@@ -143,6 +144,60 @@ const Profile = () => {
     }
   };
 
+  // const handleBuy = async () => {
+  //   const fundData = {
+  //     fund_id: stockData.Symbol,
+  //     fund_name: stockData.Name,
+  //     sector: stockData.Sector,
+  //     cost: stockData.BookValue,
+  //     user: id,
+  //     quantity: quantity,
+  //   };
+
+  //   handleDataForBackend("/api/fund/investments", fundData);
+
+  //   const stripe = await stripePromise;
+  //   const cardElement = elements.getElement(CardElement);
+
+  //   closeModal();
+  //   alert("Purchase Successful");
+  //   navigate("/dashboard");
+
+  //   if (!stripe || !cardElement) {
+  //     console.error("Stripe or CardElement not available.");
+  //     return;
+  //   }
+
+  //   // Create a PaymentMethod with the card information
+  //   const { paymentMethod, error } = await stripe.createPaymentMethod({
+  //     type: "card",
+  //     card: cardElement,
+  //   });
+
+  //   if (error) {
+  //     console.error("Error creating PaymentMethod:", error);
+  //     return;
+  //   }
+
+  //   // Use the paymentMethod.id to process the payment on your server
+  //   try {
+  //     const response = await axios.post("/your-server-endpoint", {
+  //       paymentMethodId: paymentMethod.id,
+  //       amount: parseFloat(price) * quantity * 100,
+  //       user_id: id,
+  //     });
+
+  //     if (response.status === 200) {
+  //       console.log("Payment successful:", response.data);
+  //     } else {
+  //       alert("Payment failed. Server error (500).");
+  //     }
+  //   } catch (error) {
+  //     alert("Payment failed. Server error (500).");
+  //     console.error("Payment failed:", error);
+  //   }
+  // };
+
   const handleBuy = async () => {
     const fundData = {
       fund_id: stockData.Symbol,
@@ -150,50 +205,24 @@ const Profile = () => {
       sector: stockData.Sector,
       cost: stockData.BookValue,
       user: id,
-      quantity: quantity,
+      quantity: quantity.toString(),
     };
 
-    handleDataForBackend("/api/fund/investments", fundData);
-
-    const stripe = await stripePromise;
-    const cardElement = elements.getElement(CardElement);
-
-    closeModal();
-    alert("Purchase Successful");
-    navigate("/dashboard");
-
-    if (!stripe || !cardElement) {
-      console.error("Stripe or CardElement not available.");
-      return;
-    }
-
-    // Create a PaymentMethod with the card information
-    const { paymentMethod, error } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement,
-    });
-
-    if (error) {
-      console.error("Error creating PaymentMethod:", error);
-      return;
-    }
-
-    // Use the paymentMethod.id to process the payment on your server
     try {
-      const response = await axios.post("/your-server-endpoint", {
-        paymentMethodId: paymentMethod.id,
-        amount: parseFloat(price) * quantity * 100,
-        user_id: id,
-      });
-
-      if (response.status === 200) {
-        console.log("Payment successful:", response.data);
+      const response = await axios.post("/api/fund/investments", fundData);
+      if (response.data === undefined) {
+        alert("API calls limit reached, please try again later.");
+      } else if (response.status === 200) {
+        // Investment successful
+        alert("Purchase Successful");
+        navigate("/dashboard");
       } else {
-        alert("Payment failed. Server error (500).");
+        // Handle other possible errors here
+        alert("Investment failed. " + response.data.message);
       }
     } catch (error) {
-      alert("Payment failed. Server error (500).");
-      console.error("Payment failed:", error);
+      alert("Investment failed. Please try again later.");
+      console.error("Investment failed:", error);
     }
   };
 

@@ -10,6 +10,6 @@ import {
 
 router.post("/investments", createInvestment);
 router.delete("/investments/:_id", deleteInvestmentById);
-router.get("/investments/:user_id", getAllInvestmentsByUserId);
+router.get("/investments/:user", getAllInvestmentsByUserId);
 
 export default router;
