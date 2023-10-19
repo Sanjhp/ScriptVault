@@ -112,7 +112,7 @@ function Dashboard() {
               <p>
                 <h1>{investment?.fund_name}</h1> ({investment?.sector})
               </p>
-              <p>Current Price: ${investment?.cost}</p>
+              <p>Invested Price: ${investment?.cost}</p>
               {/* <p>
                 Performance:
                 <p

@@ -46,6 +46,7 @@ const Profile = () => {
   const [token, setToken] = useState(null);
   const accessToken = localStorage.getItem("token");
   const [id, setId] = useState(null);
+  const [priceFluctuation, setPriceFluctuation] = useState([]);
 
   // Retrieve the token from localStorage
   useEffect(() => {
@@ -60,6 +61,73 @@ const Profile = () => {
       console.log("Token not found");
     }
   }, [accessToken]);
+
+  const calculateReturns = (priceData, years) => {
+    const today = new Date();
+    const startDate = new Date();
+    startDate.setFullYear(today.getFullYear() - years);
+
+    // Filter data based on the specified years
+    const filteredData = priceData.filter((data) => {
+      const dataDate = new Date(data.timestamp);
+      return dataDate >= startDate;
+    });
+
+    if (filteredData.length >= 2) {
+      const startPrice = filteredData[0].price;
+      const endPrice = filteredData[filteredData.length - 1].price;
+
+      // Calculate returns differently based on years
+      if (years === 1) {
+        return ((endPrice - startPrice) / startPrice) * 100;
+      } else if (years === 3) {
+        return ((endPrice - startPrice) / startPrice) * (100 / 3);
+      }
+    }
+
+    return 0; // Return 0 if there's not enough data for the specified years
+  };
+
+  const fetchPriceFluctuation = async () => {
+    try {
+      const apiKey = "C04721VTHLJFESKF";
+      const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${apiKey}`;
+      const response = await axios.get(apiUrl);
+      const timeSeriesData = response.data["Time Series (5min)"];
+      // Convert time series data to an array of objects
+      const priceData = Object.keys(timeSeriesData)
+        .map((timestamp) => ({
+          timestamp,
+          price: parseFloat(timeSeriesData[timestamp]["1. open"]),
+        }))
+        .slice(0, 25); // Get the top 15 prices
+
+      // Handle null prices by replacing with random data
+      const randomData = Array.from({ length: 15 }, () => ({
+        timestamp: "N/A",
+        price: Math.random() * 100, // Replace with your desired random range
+      }));
+
+      const finalPriceData = priceData.map((data, index) => {
+        if (data.price === null) {
+          return randomData[index];
+        }
+        return data;
+      });
+
+      setPriceFluctuation(finalPriceData);
+
+      // Console the price fluctuation data
+      console.log("Price Fluctuation Data:", finalPriceData);
+    } catch (error) {
+      console.error("Error fetching price fluctuation data:", error);
+    }
+  };
+
+  // Call the fetchPriceFluctuation function when the component mounts
+  useEffect(() => {
+    fetchPriceFluctuation();
+  }, [symbol]);
 
   const handleDataForBackend = async (endpoint, data) => {
     try {
@@ -90,7 +158,7 @@ const Profile = () => {
     const cardElement = elements.getElement(CardElement);
 
     closeModal();
-
+    alert("Purchase Successful");
     navigate("/dashboard");
 
     if (!stripe || !cardElement) {
@@ -182,7 +250,7 @@ const Profile = () => {
               <h2>{stockData?.Name}</h2>
             </div>
           </div>
-          <div className={styles.policyFeed}>
+          {/* <div className={styles.policyFeed}>
             <span className={styles.btn}>Equality</span>
             <span className={styles.btn}>Large Cap</span>
             <span className={styles.btn}>
@@ -191,19 +259,19 @@ const Profile = () => {
                 <i className={`${styles.materialIcons} ${styles.star}`}>star</i>
               </span>{" "}
             </span>
-          </div>
+          </div> */}
         </div>
         <div className={styles.yearReturn}>
           <div className={styles.percentReturn}>
             {" "}
-            <h2>{data?.[count]?.yearGrowth}</h2>{" "}
+            <h2>{calculateReturns(priceFluctuation, 1).toFixed(2)}%</h2>{" "}
           </div>
           <div className={styles.oneYearReturn}>
             {" "}
             <h6> {data?.[count]?.year} Return </h6>{" "}
           </div>
           <div className={styles.percentReturn}>
-            <h2>{data?.[count]?.yearsGrowth}</h2>{" "}
+            <h2>{calculateReturns(priceFluctuation, 3).toFixed(2)}%</h2>{" "}
           </div>
           <div className={styles.oneYearReturn}>
             <h6> {data?.[count]?.years} Return </h6>{" "}
@@ -234,12 +302,7 @@ const Profile = () => {
 
       <div className={styles.sparkline}>
         <div className={styles.sparklineData}>
-          <Sparklines
-            data={[
-              5, 10, 5, 20, 8, 15, 5, 10, 5, 20, 8, 15, 5, 10, 5, 20, 8, 15, 5,
-              10, 5, 20, 8, 15,
-            ]}
-          >
+          <Sparklines data={priceFluctuation.map((data) => data.price)}>
             <SparklinesLine color="#26a69a" />
           </Sparklines>
         </div>
@@ -308,7 +371,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className={styles.prosCons}>
+      {/* <div className={styles.prosCons}>
         <div className={styles.lhsDetails}>
           <h4>Pros</h4>
           <ol className={styles.collection}>
@@ -342,7 +405,7 @@ const Profile = () => {
             </li>
           </ol>
         </div>
-      </div>
+      </div> */}
 
       <div className={styles.aboutPolicy}>
         <h4> Direct Plan Details </h4>
