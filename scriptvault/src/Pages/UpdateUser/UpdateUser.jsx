@@ -40,6 +40,11 @@ const UpdateUser = () => {
   const accessToken = localStorage.getItem("token");
   const [id, setId] = useState(null);
 
+  const [user, setUser] = useState({
+    "password": ''
+  });
+
+
   // Retrieve the token from localStorage
   useEffect(() => {
     if (accessToken) {
@@ -104,6 +109,7 @@ const UpdateUser = () => {
         name: value.name,
         phone: value.phone,
         dob: value.dob,
+        password: user.password,
       };
 
       const response = await axios.put(
@@ -231,8 +237,10 @@ const UpdateUser = () => {
                 type="password"
                 id="password"
                 name="password"
-                {...register("password")}
-                readOnly
+                onChange={(e) => {
+                  setUser({ ...user, password: e.target.value });
+                }}
+                 
               />
               {errors && errors.password && (
                 <p className={styles.errorMessage}>{errors.password.message}</p>
