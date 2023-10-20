@@ -1,66 +1,76 @@
 import React, { useState } from "react";
-import axios from "axios";
 import styles from "./SignUp.module.css";
 import { Link, useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 function SignupPage() {
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    PAN: "",
-    dob: "",
-    password: "",
+  const validateSchema = yup.object().shape({
+    name: yup
+      .string()
+      .min(3, "Name should be a minimum of 3 characters")
+      .required("Name is required"),
+    phone: yup
+      .string()
+      .matches(/^\d{10}$/, "Phone number is invalid.")
+      .required("Phone number is required"),
+    dob: yup
+      .date()
+      .max(new Date(), "Date of birth cannot be in the future")
+      .required("Date of birth is required"),
+    email: yup
+      .string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: yup
+      .string()
+      .min(6, "Password should be a minimum of 6 characters")
+      .required("Password is required"),
+      PAN: yup
+      .string()
+      .matches(/^([A-Z]){5}([0-9]){4}([A-Z]){1}$/, "Invalid PAN number")
+      .required("PAN number is required"),
   });
 
-  const [error, setError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validateSchema),
+  });
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  
+  const handleRegister = async (data) => {
+    const formattedBirthDate = new Date(data.dob).toISOString().split("T")[0];
+    const formattedData = { ...data, dob: formattedBirthDate };
     try {
       setLoading(true);
-      const userData = {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        dob: formData.dob,
-        PAN: formData.PAN,
-        phone: formData.phone,
-      };
-
-      const response = await axios.post("/api/users/register", userData);
+      await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/users/register`,
+        formattedData
+      );
       setLoading(false);
-
-      if (response.data.message === "User registered successfully") {
-        toast.success("User registered successfully!!");
-        navigate("/signin");
-      } else if (response.data.message === "User already exists") {
-        setError("User with this email already exists.");
-        toast.error("User with this email already exists");
-      }
+      toast.success("User registered successfully!!");
+      navigate("/signin");
     } catch (error) {
       setLoading(false);
-      console.error("Signup failed:", error);
-      toast.error("Sign-up failed. Please try again.");
-      setError("Sign-up failed. Please try again.");
+      console.log("error :>> ", error);
+      if (error?.response?.data?.message) {
+        toast.error(error?.response?.data?.message);
+        console.log("err :>> ", error);
+      } else {
+        toast.error("An error occured!");
+        console.log("err :>> ", error);
+      }
     }
   };
-
   return (
     <div>
       <div className={styles.registerContainer}>
@@ -81,7 +91,7 @@ function SignupPage() {
             <p>Lets Get Started.</p>
           </div>
           <div className={styles.signupCard}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(handleRegister)}>
               {/* Name Input */}
               <div className={styles.inputContainer}>
                 <label className={styles.label} htmlFor="name">
@@ -92,10 +102,11 @@ function SignupPage() {
                   type="text"
                   id="name"
                   name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
+                  {...register("name")}
                 />
+                {errors && errors?.name && (
+                  <p className={styles.errorMessage}>{errors?.name?.message}</p>
+                )}
               </div>
 
               {/* Email Input */}
@@ -108,10 +119,13 @@ function SignupPage() {
                   type="email"
                   id="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
+                  {...register("email")}
                 />
+                {errors && errors?.email && (
+                  <p className={styles.errorMessage}>
+                    {errors?.email?.message}
+                  </p>
+                )}
               </div>
 
               {/* Phone Input */}
@@ -124,10 +138,13 @@ function SignupPage() {
                   type="tel"
                   id="phone"
                   name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
+                  {...register("phone")}
                 />
+                {errors && errors?.phone && (
+                  <p className={styles.errorMessage}>
+                    {errors?.phone?.message}
+                  </p>
+                )}
               </div>
 
               {/* PAN Input */}
@@ -140,10 +157,12 @@ function SignupPage() {
                   type="text"
                   id="PAN"
                   name="PAN"
-                  value={formData.PAN}
-                  onChange={handleChange}
+                  {...register("PAN")}
                   required
                 />
+                 {errors && errors?.PAN && (
+                  <p className={styles.errorMessage}>{errors?.PAN?.message}</p>
+                )}
               </div>
 
               {/* Date of Birth Input */}
@@ -156,12 +175,12 @@ function SignupPage() {
                   type="date"
                   id="dob"
                   name="dob"
-                  value={formData.dob}
-                  onChange={handleChange}
-                  required
+                  {...register("dob")}
                 />
+                {errors && errors?.dob && (
+                  <p className={styles.errorMessage}>{errors?.dob?.message}</p>
+                )}
               </div>
-
               {/* Password Input */}
               <div className={styles.inputContainer}>
                 <label className={styles.label} htmlFor="password">
@@ -172,14 +191,16 @@ function SignupPage() {
                   type="password"
                   id="password"
                   name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
+                  {...register("password")}
                 />
+                {errors && errors?.password && (
+                  <p className={styles.errorMessage}>
+                    {errors?.password.message}
+                  </p>
+                )}
               </div>
-
               {/* Error message */}
-              {error && <p className={styles.error}>{error}</p>}
+              {/* {error && <p className={styles.error}>{error}</p>} */}
 
               <button
                 className={styles.button}
