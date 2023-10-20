@@ -43,6 +43,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const [price, setPrice] = useState("622.33");
   const elements = useElements();
+  const stripe = useStripe();
   const [token, setToken] = useState(null);
   const accessToken = localStorage.getItem("token");
   const [id, setId] = useState(null);
@@ -101,7 +102,7 @@ const Profile = () => {
           timestamp,
           price: parseFloat(timeSeriesData[timestamp]["1. open"]),
         }))
-        .slice(0, 25); // Get the top 15 prices
+        .slice(0, 20);
 
       // Handle null prices by replacing with random data
       const randomData = Array.from({ length: 15 }, () => ({
@@ -137,9 +138,12 @@ const Profile = () => {
         alert("API calls limit reached, try again later.");
       } else {
         console.log("Backend response:", response.data);
+        alert("Purchase Successful");
+        navigate("/dashboard");
       }
     } catch (error) {
       alert("Request failed. Try again later. Api call limit reached");
+      closeModal();
       console.error("Request failed:", error);
     }
   };
@@ -151,77 +155,61 @@ const Profile = () => {
   //     sector: stockData.Sector,
   //     cost: stockData.BookValue,
   //     user: id,
-  //     quantity: quantity,
+  //     quantity: quantity.toString(),
   //   };
 
-  //   handleDataForBackend("/api/fund/investments", fundData);
-
-  //   const stripe = await stripePromise;
-  //   const cardElement = elements.getElement(CardElement);
-
-  //   closeModal();
-  //   alert("Purchase Successful");
-  //   navigate("/dashboard");
-
-  //   if (!stripe || !cardElement) {
-  //     console.error("Stripe or CardElement not available.");
-  //     return;
-  //   }
-
-  //   // Create a PaymentMethod with the card information
-  //   const { paymentMethod, error } = await stripe.createPaymentMethod({
-  //     type: "card",
-  //     card: cardElement,
-  //   });
-
-  //   if (error) {
-  //     console.error("Error creating PaymentMethod:", error);
-  //     return;
-  //   }
-
-  //   // Use the paymentMethod.id to process the payment on your server
   //   try {
-  //     const response = await axios.post("/your-server-endpoint", {
-  //       paymentMethodId: paymentMethod.id,
-  //       amount: parseFloat(price) * quantity * 100,
-  //       user_id: id,
-  //     });
-
-  //     if (response.status === 200) {
-  //       console.log("Payment successful:", response.data);
+  //     const response = await axios.post("/api/fund/investments", fundData);
+  //     if (response.data === undefined) {
+  //       alert("API calls limit reached, please try again later.");
   //     } else {
-  //       alert("Payment failed. Server error (500).");
+  //       // Investment successful
+  //       alert("Purchase Successful");
+  //       navigate("/dashboard");
   //     }
   //   } catch (error) {
-  //     alert("Payment failed. Server error (500).");
-  //     console.error("Payment failed:", error);
+  //     alert(
+  //       "Investment failed. API Calls Limit reached. Please try again later."
+  //     );
+  //     console.error("Investment failed:", error);
   //   }
   // };
 
   const handleBuy = async () => {
-    const fundData = {
-      fund_id: stockData.Symbol,
-      fund_name: stockData.Name,
-      sector: stockData.Sector,
-      cost: stockData.BookValue,
-      user: id,
-      quantity: quantity.toString(),
-    };
+    const cardElement = elements.getElement(CardElement);
+    if (!cardElement) {
+      setError("Card element not found.");
+      return;
+    }
 
+    // Create a Payment Method
     try {
-      const response = await axios.post("/api/fund/investments", fundData);
-      if (response.data === undefined) {
-        alert("API calls limit reached, please try again later.");
+      const { paymentMethod, error } = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement,
+      });
+
+      if (error) {
+        setError(error.message);
       } else {
-        // Investment successful
-        alert("Purchase Successful");
-        navigate("/dashboard");
+        // Payment Method created successfully
+
+        // Now, you can confirm a Payment Intent with the paymentMethod ID
+        const fundData = {
+          fund_id: stockData.Symbol,
+          fund_name: stockData.Name,
+          sector: stockData.Sector,
+          cost: stockData.BookValue,
+          user: id,
+          quantity: quantity.toString(),
+        };
+
+        // Send the data to the backend to confirm the Payment Intent
+        handleDataForBackend("/api/fund/investments", fundData);
       }
     } catch (error) {
-      alert(
-        "Investment failed. API Calls Limit reached. Please try again later."
-      );
-      console.error("Investment failed:", error);
+      setError("Payment processing error. Please try again.");
+      console.error("Payment processing error:", error);
     }
   };
 
@@ -487,6 +475,7 @@ const Profile = () => {
               <h3>Card Details</h3>
               <CardElement options={{ style: cardElementStyle }} />
             </div>
+            {error && <p style={{ color: "red" }}>{error}</p>}
           </div>
 
           <div className={styles.modalFooter}>
