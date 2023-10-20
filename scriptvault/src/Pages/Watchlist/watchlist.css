@@ -88,19 +88,23 @@ body {
 }
 
 .stock button {
-    background-color: var(--white);
-    border: none;
+    border: 1px;
     padding: 8px 10px;
     cursor: pointer;
+    border: 1px solid var(--light-gray);
 }
 
 
-
+.stock-action-button{
+    display: flex;
+        gap: 15px;
+}
 .sell-button {
     display: flex;
+    border-color: #333333;
     gap: 8px;
-    border: none;
-    padding: 8px 16px;
+    border: 1px solid var(--light-gray);
+        padding: 8px 16px;
     cursor: pointer;
     border-radius: 4px;
     font-size: 16px;

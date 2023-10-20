@@ -3,28 +3,23 @@ import InvestedFunds from "../model/Funds.js";
 // Function to create a new investment record
 export const createInvestment = async (req, res) => {
   try {
-    console.log(req.body);
     const { user, fund_id, fund_name, sector, cost, quantity } = req.body;
 
-    // Ensure that cost is a valid number
+    // Ensure that cost and quantity are valid numbers
     const costAsNumber = parseFloat(cost);
     const quantityAsNumber = parseInt(quantity);
 
-    if (isNaN(costAsNumber)) {
-      // Handle the case where cost is not a valid number
-      return res.status(400).json({ error: "Invalid cost value" });
+    if (isNaN(costAsNumber) || isNaN(quantityAsNumber)) {
+      return res.status(400).json({ error: "Invalid cost or quantity value" });
     }
 
     // Check if an investment already exists for the same fund and user
-    const existingInvestment = await InvestedFunds.findOne({
-      user,
-      fund_id,
-    });
+    const existingInvestment = await InvestedFunds.findOne({ user, fund_id });
 
     if (existingInvestment) {
       // Update cost and quantity for the existing investment
       existingInvestment.cost += costAsNumber;
-      existingInvestment.quantity += quantity;
+      existingInvestment.quantity += quantityAsNumber;
       const updatedInvestment = await existingInvestment.save();
       res.status(200).json(updatedInvestment);
     } else {

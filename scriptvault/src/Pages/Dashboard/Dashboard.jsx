@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
 import { useLocation } from "react-router-dom";
-import { FaHandHoldingUsd } from "react-icons/fa";
+import { FaHandHoldingUsd, FaMoneyBill } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 import axios from "axios";
 
@@ -147,19 +148,21 @@ function Dashboard() {
                   %
                 </p>
               </p>
-              <button
-                onClick={() => handleSellClick(investment._id)}
-                className="sell-button"
-                disabled={isSelling}
-              >
-                {isSelling ? (
-                  "Selling..."
-                ) : (
-                  <>
-                    <FaHandHoldingUsd /> Sell
-                  </>
-                )}
-              </button>
+              <div className="stock-action-button">
+                <button
+                  onClick={() => handleSellClick(investment._id)}
+                  className="sell-button"
+                  disabled={isSelling}
+                >
+                  {isSelling ? "Selling..." : <>Sell</>}
+                </button>
+                <Link
+                  to={`/details-page/${investment.fund_id}`}
+                  className="invest-more-link"
+                >
+                  <button className="sell-button">Invest More</button>
+                </Link>
+              </div>
             </div>
           ))
         ) : (
