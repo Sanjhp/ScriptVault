@@ -212,13 +212,10 @@ const Profile = () => {
       const response = await axios.post("/api/fund/investments", fundData);
       if (response.data === undefined) {
         alert("API calls limit reached, please try again later.");
-      } else if (response.status === 200) {
+      } else {
         // Investment successful
         alert("Purchase Successful");
         navigate("/dashboard");
-      } else {
-        // Handle other possible errors here
-        alert("Investment failed. " + response.data.message);
       }
     } catch (error) {
       alert(

@@ -8,6 +8,7 @@ export const createInvestment = async (req, res) => {
 
     // Ensure that cost is a valid number
     const costAsNumber = parseFloat(cost);
+    const quantityAsNumber = parseInt(quantity);
 
     if (isNaN(costAsNumber)) {
       // Handle the case where cost is not a valid number
@@ -34,7 +35,7 @@ export const createInvestment = async (req, res) => {
         fund_name,
         sector,
         cost: costAsNumber,
-        quantity,
+        quantity: quantityAsNumber,
       });
 
       const savedInvestment = await newInvestment.save();
