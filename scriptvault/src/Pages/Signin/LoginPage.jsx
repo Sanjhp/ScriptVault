@@ -12,6 +12,7 @@ import Navbar from "../../Components/LoginNavbar";
 function LoginPage() {
   const navigate = useNavigate();
   const [token, setToken] = useState(localStorage.getItem("token"));
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     setToken(null);
@@ -29,6 +30,7 @@ function LoginPage() {
   });
   const {
     register,
+    handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validateSchema),
@@ -56,66 +58,28 @@ function LoginPage() {
     loginOptions,
   } = styles;
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rememberMe: false,
-  });
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? checked : value;
-
-    setFormData({
-      ...formData,
-      [name]: newValue,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (data) => {
     try {
       setLoading(true);
-      if (forgotPasswordMode) {
-        const response = await axios.post("/api/users/reset-password", {
-          email: formData.email,
-        });
-        console.log("Reset email sent:", response.data);
-      } else {
-        const response = await axios.post("/api/users/login", formData);
-        if (response.status === 200 && response.data.token) {
-          localStorage.setItem("token", response.data.token);
-          console.log("Access token stored:", response.data.token);
-          console.log(response);
-          setLoading(false);
-
-          navigate("/");
-        } else {
-          console.error("Login failed:", response.data.error);
-        }
-      }
+      const res = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/users/login`,
+        data
+      );
+      const token = res?.data?.token;
+      localStorage.setItem("token", token);
+      toast.success(res?.data?.message);
+      navigate("/");
+      setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.error("Login error:", error);
-      if (error.response && error.response.status === 401) {
-        setError("Incorrect email or password.");
+      if (error?.response?.data?.message) {
+        toast.error(error?.response?.data?.message);
       } else {
-        setError("Login failed. Please try again later.");
+        toast.error("An error occured!");
       }
     }
-  };
-
-  const toggleForgotPasswordMode = () => {
-    setForgotPasswordMode(!forgotPasswordMode);
-    setError("");
-  };
-
-  const handleBackToLogin = () => {
-    setForgotPasswordMode(false);
-    setError("");
   };
 
   return (
@@ -140,8 +104,7 @@ function LoginPage() {
             </p>
           </div>
           <div className={loginCard}>
-            {error && <p className={errorMessage}>{error}</p>}
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(handleLogin)}>
               <div className={inputContainer}>
                 <label className={label} htmlFor="email">
                   E-mail
@@ -151,12 +114,10 @@ function LoginPage() {
                   type="text"
                   id="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
+                  {...register("email")}
                 />
                 {errors && errors.email && (
-                  <p className={styles.error}>{errors.email.message}</p>
+                  <p className={styles.errorMessage}>{errors.email.message}</p>
                 )}
               </div>
               <div className={inputContainer}>
@@ -168,28 +129,15 @@ function LoginPage() {
                   type="password"
                   id="password"
                   name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
+                  {...register("password")}
                 />
                 {errors && errors.password && (
-                  <p className={styles.error}>{errors.password.message}</p>
+                  <p className={styles.errorMessage}>
+                    {errors.password.message}
+                  </p>
                 )}
               </div>
-              {!forgotPasswordMode && (
-                <div className={rememberMe}>
-                  <label className={rememberMeLabel}>
-                    <input
-                      className={rememberMeCheckbox}
-                      type="checkbox"
-                      name="rememberMe"
-                      checked={formData.rememberMe}
-                      onChange={handleChange}
-                    />
-                    Remember me
-                  </label>
-                </div>
-              )}
+
               <button
                 className={button}
                 type="submit"
@@ -201,17 +149,12 @@ function LoginPage() {
             </form>
             <div className={loginOptions} style={{ color: "#000000" }}>
               <p>
-                {!forgotPasswordMode ? (
-                  "Don't have an account? "
-                ) : (
-                  <span>
-                    <Link className={signupLink} onClick={handleBackToLogin}>
-                      Back to Login
-                    </Link>
-                    <br />
-                    <br />
-                  </span>
-                )}
+                <span>
+                  <Link to="/signup">Back to Signup</Link>
+                  <br />
+                  <br />
+                </span>
+
                 <Link to="/signup" className={signupLink}>
                   Sign up
                 </Link>
