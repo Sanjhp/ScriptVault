@@ -214,7 +214,7 @@ const Profile = () => {
         `http://localhost:5000/api/investment/${stockId}`
       );
       setStockData(response?.data?.investment);
-      if (response.data && response.data.bookValue) {
+      if (response.data && response.data.price) {
         setPrice(response.data.bookValue);
       }
     } catch (error) {
