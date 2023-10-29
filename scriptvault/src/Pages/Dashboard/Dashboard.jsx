@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Pie } from "react-chartjs-2";
-import { Chart, ArcElement } from "chart.js";
 import styles from "./Dashboard.module.css";
 import { useLocation } from "react-router-dom";
-import Watchlist from "../Watchlist/Watchlist";
+import { FaHandHoldingUsd, FaMoneyBill } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-Chart.register(ArcElement);
+import axios from "axios";
 
 function Dashboard() {
   const location = useLocation();
@@ -15,199 +14,161 @@ function Dashboard() {
   const [stockDetailsList, setStockDetailsList] = useState(
     initialStockDetailsList
   );
+
   const [token, setToken] = useState(null);
   const accessToken = localStorage.getItem("token");
-  const [id, setId] = useState(null);
-
+  const [userId, setUserId] = useState(null);
+  const [data, setData] = useState(null);
   // Retrieve the token from localStorage
   useEffect(() => {
     if (accessToken) {
       const parts = accessToken.split(".");
       const payload = JSON.parse(atob(parts[1]));
       const userId = payload._id;
-      setId(userId);
+      setUserId(userId);
       setToken(accessToken);
-      console.log("User ID:", userId);
     } else {
       console.log("Token not found");
     }
   }, [accessToken]);
 
+  const [isSelling, setIsSelling] = useState(false);
 
-  const dummyPortfolioData = [
-    {
-      id: 1,
-      bankName: "Bank A",
-      type: "Mutual Fund",
-      name: "ABC Equity Fund",
-      category: "Equity",
-      investedAmount: 5000,
-      costValue: 5000,
-      currentValue: 5500,
-      appreciation: 500,
-    },
-    {
-      id: 2,
-      bankName: "Bank B",
-      type: "Stock",
-      name: "XYZ Corporation",
-      category: "Technology",
-      investedAmount: 3000,
-      costValue: 3000,
-      currentValue: 3200,
-      appreciation: 200,
-    },
-    {
-      id: 3,
-      bankName: "Bank A",
-      type: "Mutual Fund",
-      name: "DEF Bond Fund",
-      category: "Bonds",
-      investedAmount: 2000,
-      costValue: 2000,
-      currentValue: 2100,
-      appreciation: 100,
-    },
-    {
-      id: 4,
-      bankName: "Bank B",
-      type: "Stock",
-      name: "LMN Pharmaceuticals",
-      category: "Healthcare",
-      investedAmount: 1500,
-      costValue: 1500,
-      currentValue: 1600,
-      appreciation: 100,
-    },
-    {
-      id: 5,
-      bankName: "Bank c",
-      type: "Stock",
-      name: "LMN Pharmaceuticals",
-      category: "Healthcare",
-      investedAmount: 1500,
-      costValue: 1500,
-      currentValue: 1600,
-      appreciation: 100,
-    },
-    {
-      id: 6,
-      bankName: "Bank D",
-      type: "Stock",
-      name: "LMN Pharmaceuticals",
-      category: "Healthcare",
-      investedAmount: 1500,
-      costValue: 1500,
-      currentValue: 1600,
-      appreciation: 100,
-    },
-    {
-      id: 7,
-      bankName: "Bank E",
-      type: "Stock",
-      name: "LMN Pharmaceuticals",
-      category: "Healthcare",
-      investedAmount: 1500,
-      costValue: 1500,
-      currentValue: 1600,
-      appreciation: 100,
-    },
-  ];
+  const handleSellClick = async (investmentIdToDelete) => {
+    try {
+      if (data) {
+        console.log("Deleting investment with ID:", investmentIdToDelete);
+        await axios.delete(`/api/fund/investments/${investmentIdToDelete}`);
 
-  const uniqueBankNames = [
-    ...new Set(dummyPortfolioData.map((item) => item.bankName)),
-  ];
+        setData((prevData) => ({
+          ...prevData,
+          investments: prevData.investments.filter(
+            (investment) => investment._id !== investmentIdToDelete
+          ),
+        }));
 
-  const bankInvestments = uniqueBankNames.map((bankName) => {
-    const investments = dummyPortfolioData.filter(
-      (item) => item.bankName === bankName
-    );
-    const totalInvestment = investments.reduce(
-      (total, item) => total + item.investedAmount,
-      0
-    );
-    return { bankName, totalInvestment };
-  });
-  const assetsUnderManagement = "$500,000";
-  const costValue = "$450,000";
-  const overallAppreciation = "$50,000";
-  const todaysAppreciation = "$1,000";
-  const chartData = {
-    labels: bankInvestments.map((item) => item.bankName),
-    datasets: [
-      {
-        data: bankInvestments.map((item) => item.totalInvestment),
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.6)",
-          "rgba(54, 162, 235, 0.6)",
-          "rgba(255, 206, 86, 0.6)",
-          "rgba(75, 192, 192, 0.6)",
-          "rgba(67, 150, 200, 0.6)",
-        ],
-      },
-    ],
+        window.alert("Stock sold successfully!");
+      } else {
+        console.error("Error selling the fund: data is null");
+      }
+    } catch (error) {
+      console.error("Error selling the fund:", error);
+    }
   };
+
+  const fetchCurrentStockPrices = async (investments) => {
+    const updatedInvestments = await Promise.all(
+      investments.map(async (investment) => {
+        const symbol = investment.fund_id;
+        const latestPrice = await fetchCurrentStockPrice(symbol);
+        return {
+          ...investment,
+          currentPrice: latestPrice,
+        };
+      })
+    );
+
+    return updatedInvestments;
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/api/fund/investments/${userId}`);
+        // console.log(res.data);
+        const updatedInvestments = await fetchCurrentStockPrices(
+          res?.data.investments
+        );
+        setData({ ...res.data, investments: updatedInvestments });
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
+
+  const fetchCurrentStockPrice = async (symbol) => {
+    try {
+      const apiKey = "C04721VTHLJFESKF"; // Replace with your Alpha Vantage API key
+      const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${apiKey}`;
+      const response = await axios.get(apiUrl);
+      const timeSeriesData = response.data["Time Series (5min)"];
+
+      // Extract the most recent price
+      const latestPrice = parseFloat(
+        timeSeriesData[Object.keys(timeSeriesData)[0]]["1. open"]
+      );
+
+      return latestPrice;
+    } catch (error) {
+      console.error("Error fetching stock price for symbol", symbol, error);
+      return null;
+    }
+  };
+
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.netWorthPartitions}>
         <div className={styles.netWorthPartition}>
           <div className={styles.label}>Assets under Management</div>
-          <div className={styles.value}>{assetsUnderManagement}</div>
+          <div className={styles.value}>{data?.assets}</div>
         </div>
         <div className={styles.netWorthPartition}>
           <div className={styles.label}>Cost Value</div>
-          <div className={styles.value}>{costValue}</div>
-        </div>
-        <div className={styles.netWorthPartition}>
-          <div className={styles.label}>Overall Appreciation</div>
-          <div className={styles.value}>{overallAppreciation}</div>
-        </div>
-        <div className={styles.netWorthPartition}>
-          <div className={styles.label}>Today's Appreciation</div>
-          <div className={styles.value}>{todaysAppreciation}</div>
+          <div className={styles.value}>{data?.cost_value}</div>
         </div>
       </div>
-      {/* 
-      <div className={styles.chartAndLegend}>
-        <div className={styles.pieChart}>
-          <Pie data={chartData} />
-        </div>
-        <ul className={styles.chartLegend}>
-          {uniqueBankNames.map((bankName, index) => (
-            <li key={index} className={styles.legendItem}>
-              <span
-                className={styles.legendColor}
-                style={{
-                  backgroundColor: chartData.datasets[0].backgroundColor[index],
-                }}
-              ></span>
-              {bankName}
-            </li>
-          ))}
-        </ul>
-      </div> */}
 
-      {/* <div className={styles.portfolioList}>
-        {stockDetailsList.map((stock) => (
-          <div key={stock.id} className={styles.portfolioItem}>
-            <p>{stock.bankName}</p>
-            <p className={styles.investmentType}>{stock.type}</p>
-            <p className={styles.investmentName}>{stock.name}</p>
-            <p className={styles.investmentCategory}>{stock.category}</p>
-            <div className={styles.investmentValues}>
-              <p className={styles.investmentAmount}>
-                Invested: ${stock.investedAmount}
+      <div className="stock">
+        {data && data.investments ? (
+          data.investments.map((investment) => (
+            <div key={investment._id}>
+              <p>
+                <h1>{investment?.fund_name}</h1> ({investment?.sector})
               </p>
-              <p className={styles.currentValue}>
-                Current Value: ${stock.currentValue}
+              <p>Invested Price: ${investment?.cost}</p>
+              <p>Current Price: ${investment?.currentPrice}</p>
+              <p>
+                Performance:
+                <p
+                  className={
+                    investment?.currentPrice > investment?.cost
+                      ? "green-text"
+                      : investment?.currentPrice < investment?.cost
+                      ? "red-text"
+                      : ""
+                  }
+                >
+                  {(
+                    ((investment?.currentPrice - investment?.cost) /
+                      investment?.cost) *
+                    100
+                  ).toFixed(2)}
+                  %
+                </p>
               </p>
+              <div className="stock-action-button">
+                <button
+                  onClick={() => handleSellClick(investment._id)}
+                  className="sell-button"
+                  disabled={isSelling}
+                >
+                  {isSelling ? "Selling..." : <>Sell</>}
+                </button>
+                <Link
+                  to={`/details-page/${investment.fund_id}`}
+                  className="invest-more-link"
+                >
+                  <button className="sell-button">Invest More</button>
+                </Link>
+              </div>
             </div>
-            <button className={styles.investButton}>Invest</button>
-          </div>
-        ))}
-      </div> */}
-
-      <Watchlist />
+          ))
+        ) : (
+          <p>Loading stock data...</p>
+        )}
+      </div>
     </div>
   );
 }

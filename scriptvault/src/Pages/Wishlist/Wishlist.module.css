@@ -1,0 +1,151 @@
+.card {
+    width: 300px;
+    margin: 20px;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* styles.module.css */
+
+.suggestionList {
+    position: absolute;
+    top: 100%;
+    /* Position the suggestion list below the search input */
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    z-index: 999;
+    /* Ensure the suggestion list appears above other elements */
+    width: 100%;
+    /* Make the suggestion list as wide as the search bar */
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.suggestionList li {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Additional styles for better visibility */
+.suggestionList li:last-child {
+    border-bottom: none;
+    /* Remove border from the last suggestion */
+}
+
+.searchBar {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: gray 2px solid;
+    margin-left: auto;
+    margin-right: 10%;
+    width: 30%;
+    margin-bottom: 20px;
+    /* Add margin-bottom to create space between search bar and content */
+}
+
+/* Style your input and button as needed */
+.searchBar input {
+    padding: 10px;
+    margin-right: 10px;
+    width: 420px;
+    border: none !important;
+    outline: none;
+}
+
+.searchBar button {
+    padding: 10px 20px;
+    background-color: #00796b;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.searchBar button:hover {
+    background-color: #004d40;
+}
+
+.homeWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardStacked {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cardStacked:hover {
+    transform: scale(1.05);
+    /* cursor: pointer; */
+}
+
+.cardContent {
+    padding: 20px;
+}
+
+.stockName {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.stockPrice {}
+
+.percentChange {
+    margin-left: auto;
+}
+
+.stockWrapper {
+    display: flex;
+    margin-top: 10px;
+}
+
+.dataHead,
+.dataDetails {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.linktoNext a {
+    color: #26a69a;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 30px 20px;
+    transition: color 0.3s ease;
+}
+
+.linktoNext a:hover {
+    color: #00796b;
+}
+
+@media (min-width: 1024px) {
+    .card {
+        width: 75%;
+    }
+}
+
+
+.removeButton {
+    padding: 10px 20px;
+    /* Red color */
+    color: red;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+

@@ -24,7 +24,9 @@ const Calltoaction = () => {
           fully encrypted and securely stored
         </span>
         <div className="text-center">
-          <PrimaryButton to="/signup" name="Get Started"/>
+          <Link to={localStorage.getItem("token") ? "/dashboard" : "/signin"}>
+            <PrimaryButton name="Get Started" />
+          </Link>
         </div>
       </div>
     </div>

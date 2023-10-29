@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const fundsSchema = new mongoose.Schema(
   {
-    user_id: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -17,6 +17,10 @@ const fundsSchema = new mongoose.Schema(
     },
     sector: String,
     cost: {
+      type: Number,
+      required: true,
+    },
+    quantity: {
       type: Number,
       required: true,
     },

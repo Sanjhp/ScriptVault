@@ -12,6 +12,7 @@ import Dashboard from "./Pages/Dashboard/Dashboard";
 import Invest from "./Components/Invest/Invest";
 import Watchlist from "./Pages/Watchlist/Watchlist";
 import Header from "./Components/LoginNavbar";
+import Wishlist from "./Pages/Wishlist/Wishlist";
 // import Navbar from "./Pages/Home/sections/Navbar";
 
 function App() {
@@ -21,15 +22,16 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/explore" element={<Explore />} />
-        <Route exact path="/details-page/:symbol" element={<DetailsPage />} />
+        <Route exact path="/details-page/:symbol/:stockId" element={<DetailsPage />} />
         <Route exact path="/watchlist" element={<Watchlist />} />
         <Route exact path="/signup" element={<SignupPage />} />
         <Route exact path="/signin" element={<SigninPage />} />
         <Route exact path="/forget-password" element={<ForgetPassword />} />
         <Route exact path="/reset-password" element={<ResetPassword />} />
-        <Route exact path="/update-profile" element={<UpdateUser />}/>
-        <Route exact path="/dashboard" element={<Dashboard />}/>
-        <Route exact path="/invest" element={<Invest />}/>
+        <Route exact path="/update-profile" element={<UpdateUser />} />
+        <Route exact path="/dashboard" element={<Dashboard />} />
+        <Route exact path="/invest" element={<Invest />} />
+        <Route exact path="/wishlist" element={<Wishlist />} />
         {/* <Route path="/signin" element={<SigninPage />} /> */}
       </Routes>
     </Router>

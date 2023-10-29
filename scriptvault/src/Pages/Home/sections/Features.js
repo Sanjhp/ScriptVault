@@ -6,19 +6,19 @@ const Features = () => {
       src: "https://i.ibb.co/5BJfv0b/coin.png",
       name: "Zero Commission",
       about:
-        "India's fastest growing investment platform with 20+ Lac users. We use edge-cutting technology to ensure that your personal information is fully encrypted and securely stored",
+        "Enjoy zero commission fees on all your investments. We believe in making investing affordable and accessible for everyone.",
     },
     {
       src: "https://i.ibb.co/5BJfv0b/coin.png",
-      name: "Zero Commission",
+      name: "Secure & Private",
       about:
-        "India's fastest growing investment platform with 20+ Lac users. We use edge-cutting technology to ensure that your personal information is fully encrypted and securely stored",
+        "Your security and privacy are our top priorities. We use advanced encryption to protect your data and ensure a secure investing experience.",
     },
     {
       src: "https://i.ibb.co/5BJfv0b/coin.png",
-      name: "Zero Commission",
+      name: "Diverse Investments",
       about:
-        "India's fastest growing investment platform with 20+ Lac users. We use edge-cutting technology to ensure that your personal information is fully encrypted and securely stored",
+        "Explore a wide range of investment options, including stocks, bonds, mutual funds, and more. Diversify your portfolio with ease.",
     },
   ];
 
@@ -48,7 +48,6 @@ const Features = () => {
             </div>
           </div>
         ))}
-
       </div>
     </div>
   );
