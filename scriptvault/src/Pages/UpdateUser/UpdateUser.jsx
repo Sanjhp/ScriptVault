@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect } from "react";
 import styles from "./UpdateUser.module.css";
 import axios from "axios";
@@ -109,9 +107,10 @@ const UpdateUser = () => {
         name: value.name,
         phone: value.phone,
         dob: value.dob,
-        password: user.password,
       };
-
+      if (user.password) {
+      updatedUserData.password = user.password;
+    }
       const response = await axios.put(
         `/api/users/update-user/${id}`,
         updatedUserData,
@@ -237,6 +236,7 @@ const UpdateUser = () => {
                 type="password"
                 id="password"
                 name="password"
+                value={user.password}
                 onChange={(e) => {
                   setUser({ ...user, password: e.target.value });
                 }}

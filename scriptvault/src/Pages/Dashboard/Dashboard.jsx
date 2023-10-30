@@ -75,7 +75,7 @@ function Dashboard() {
     const fetchData = async () => {
       try {
         const res = await axios.get(`/api/fund/investments/${userId}`);
-        // console.log(res.data);
+        console.log(res.data);
         const updatedInvestments = await fetchCurrentStockPrices(
           res?.data.investments
         );

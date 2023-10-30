@@ -38,14 +38,11 @@ const count = 0;
 const Profile = () => {
   const { symbol } = useParams();
   const { stockId } = useParams();
-  console.log("symbol :>> ", symbol);
-  console.log(" stockId :>> ", stockId);
   const [stockData, setStockData] = useState(null);
-  console.log("stockData :>> ", stockData);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
-  const [price, setPrice] = useState("622.33");
+  const [price, setPrice] = useState("");
   const elements = useElements();
   const stripe = useStripe();
   const [token, setToken] = useState(null);
@@ -91,7 +88,7 @@ const Profile = () => {
       }
     }
 
-    return 0; // Return 0 if there's not enough data for the specified years
+    return 0; 
   };
 
   const fetchPriceFluctuation = async () => {
@@ -135,9 +132,10 @@ const Profile = () => {
     fetchPriceFluctuation();
   }, [symbol]);
 
-  const handleDataForBackend = async (endpoint, data) => {
+  const handleDataForBackend = async ( data) => {
     try {
-      const response = await axios.post(endpoint, data);
+      console.log(data);
+      const response = await axios.post("/api/fund/investments", data);
       if (response.data === undefined) {
         alert("API calls limit reached, try again later.");
       } else {
@@ -173,10 +171,10 @@ const Profile = () => {
 
         // Now, you can confirm a Payment Intent with the paymentMethod ID
         const fundData = {
-          fund_id: stockData.Symbol,
-          fund_name: stockData.Name,
-          sector: stockData.Sector,
-          cost: stockData.BookValue,
+          fund_id: stockData.symbol,
+          fund_name: stockData.name,
+          sector: stockData.sector,
+          cost: price,
           user: id,
           quantity: quantity.toString(),
         };
@@ -214,8 +212,9 @@ const Profile = () => {
         `http://localhost:5000/api/investment/${stockId}`
       );
       setStockData(response?.data?.investment);
-      if (response.data && response.data.price) {
-        setPrice(response.data.bookValue);
+      if (response?.data && response?.data?.investment?.price) {
+        setPrice(response?.data?.investment?.price);
+        console.log(response.data.investment.price);
       }
     } catch (error) {
       console.error("Error fetching stock data:", error);
