@@ -38,11 +38,7 @@ const count = 0;
 const Profile = () => {
   const { symbol } = useParams();
   const { stockId } = useParams();
-  console.log("symbol :>> ", symbol);
-  console.log(" stockId :>> ", stockId);
   const [stockData, setStockData] = useState(null);
-  console.log("stockData :>> ", stockData);
-  console.log(stockData?.price);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
@@ -92,7 +88,7 @@ const Profile = () => {
       }
     }
 
-    return 0; // Return 0 if there's not enough data for the specified years
+    return 0; 
   };
 
   const fetchPriceFluctuation = async () => {
@@ -136,7 +132,7 @@ const Profile = () => {
     fetchPriceFluctuation();
   }, [symbol]);
 
-  const handleDataForBackend = async (endpoint, data) => {
+  const handleDataForBackend = async ( data) => {
     try {
       console.log(data);
       const response = await axios.post("/api/fund/investments", data);
@@ -216,8 +212,8 @@ const Profile = () => {
         `http://localhost:5000/api/investment/${stockId}`
       );
       setStockData(response?.data?.investment);
-      if (response.data && response.data.investment.price) {
-        setPrice(response.data.investment.price);
+      if (response?.data && response?.data?.investment?.price) {
+        setPrice(response?.data?.investment?.price);
         console.log(response.data.investment.price);
       }
     } catch (error) {

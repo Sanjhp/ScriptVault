@@ -150,10 +150,16 @@ export const UpdateProfile = async (req, res) => {
       throw new Error("Not allowed to update");
     }
     
+   
     Object.keys(req.body).forEach((update) => {
-      user[update] = req.body[update];
+      if (update === "password") {
+        const salt = bcrypt.genSaltSync(10);
+        const hashedPassword = bcrypt.hashSync(req.body[update], salt);
+        user[update] = hashedPassword;
+      } else {
+        user[update] = req.body[update];
+      }
     });
-
     await user.save();
 
     return res.status(StatusCodes.OK).json({
