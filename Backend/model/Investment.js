@@ -4,7 +4,7 @@ const investmentSchema = new mongoose.Schema(
   {
     symbol: {
       type: String,
-      required: true,
+      required: false,
     },
     assetType: {
       type: String,
@@ -23,41 +23,62 @@ const investmentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    open: {
-      type: Number,
-      required: true,
-    },
-    high: {
-      type: Number,
-      required: true,
-    },
-    low: {
-      type: Number,
-      required: true,
-    },
     price: {
       type: Number,
       required: true,
     },
+    aum: {
+      type: Number,
+      required: false,
+    },
+    expenseRatio: {
+      type: String,
+      required: false,
+    },
+    cagr: {
+      type: String,
+      required: false,
+    },
+    exitLoad: {
+      type: String,
+      required: false,
+    },
+    minInvestment: {
+      type: Number,
+      required: false,
+    },
+    open: {
+      type: Number,
+      required: false,
+    },
+    high: {
+      type: Number,
+      required: false,
+    },
+    low: {
+      type: Number,
+      required: false,
+    },
+
     volume: {
       type: Number,
-      required: true,
+      required: false,
     },
     latestTradingDay: {
       type: Date,
-      required: true,
+      required: false,
     },
     previousClose: {
       type: Number,
-      required: true,
+      required: false,
     },
     change: {
       type: Number,
-      required: true,
+      required: false,
     },
     changePercent: {
       type: String,
-      required: true,
+      required: false,
     },
     week52High: {
       type: Number,

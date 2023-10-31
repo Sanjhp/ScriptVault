@@ -298,64 +298,64 @@ const Profile = () => {
             </li>
             <li className={styles.collectionItem}>
               {" "}
-              <div>52W Low</div> <div>{stockData.week52Low}</div>
+              <div>52W Low</div> <div>{stockData?.week52Low ? stockData?.week52Low : "N/A"}</div>
             </li>
             <li className={styles.collectionItem}>
-              <div>PE Ratio</div> <div>{stockData?.peRatio}</div>
+              <div>PE Ratio</div> <div>{stockData?.peRatio ? stockData?.peRatio : "N/A"}</div>
             </li>
             <li className={styles.collectionItem}>
-              <div>PEG Ratio</div> <div>{stockData?.pegRatio}</div>
+              <div>PEG Ratio</div> <div>{stockData?.pegRatio ? stockData?.pegRatio : "N/A"}</div>
             </li>
             <li className={styles.collectionItem}>
-              <div>Dividend Yield</div> <div>{stockData?.dividendYield}</div>
+              <div>Dividend Yield</div> <div>{stockData?.dividendYield ? stockData?.dividendYield :"N/A"}</div>
             </li>
             <li className={styles.collectionItem}>
-              <div>Mkt. Cap</div> <div>{stockData?.marketCapitalization}</div>
+              <div>Mkt. Cap</div> <div>{stockData?.marketCapitalization ? stockData?.marketCapitalization :"N/A"}</div>
             </li>
             <li className={styles.collectionItem}>
               <div>50Day Moving Avg.</div>{" "}
-              <div>{stockData.movingAverage50Days}</div>
+              <div>{stockData?.movingAverage50Days ? stockData?.movingAverage50Days : "N/A"}</div>
             </li>
             <li className={styles.collectionItem}>
               <div>200Day Moving Avg.</div>{" "}
-              <div>{stockData.movingAverage200Days}</div>
+              <div>{stockData?.movingAverage200Days ? stockData?.movingAverage200Days : "N/A"}</div>
             </li>
           </ul>
         </div>
         <div className={styles.rhsDetails}>
           <ul className={styles.collection}>
             <li className={styles.collectionItem}>
-              <div> price</div> <div>{stockData?.price}</div>{" "}
+              <div> Price or NAV</div> <div>{stockData?.price ? stockData?.price : "N/A"}</div>{" "}
             </li>
             <li className={styles.collectionItem}>
-              <div> β</div> <div>{stockData?.beta}</div>{" "}
+              <div> β</div> <div>{stockData?.beta ? stockData?.beta : "N/A"} </div>{" "}
             </li>
             <li className={styles.collectionItem}>
-              <div> BookValue</div> <div>{stockData?.bookValue}</div>{" "}
+              <div> BookValue</div> <div>{stockData?.bookValue ? stockData?.bookValue : "N/A"}</div>{" "}
             </li>
             <li className={styles.collectionItem}>
-              <div> trailingPE </div> <div>{stockData?.trailingPE}</div>{" "}
+              <div> trailingPE </div> <div>{stockData?.trailingPE ? stockData?.trailingPE : "N/A"}</div>{" "}
             </li>
             <li className={styles.collectionItem}>
-              <div> forwardPE</div> <div>{stockData?.forwardPE}</div>{" "}
+              <div> forwardPE</div> <div>{stockData?.forwardPE ? stockData?.forwardPE : "N/A"}</div>{" "}
             </li>
 
             <li className={styles.collectionItem}>
               <div>DividendPerShare</div>{" "}
-              <div>{stockData?.dividendPerShare}</div>{" "}
+              <div>{stockData?.dividendPerShare ? stockData?.dividendPerShare : "N/A"}</div>{" "}
             </li>
             <li className={styles.collectionItem}>
-              <div>Sector</div> <div>{stockData?.sector}</div>{" "}
+              <div>Sector</div> <div>{stockData?.sector ? stockData?.sector : "N/A"}</div>{" "}
             </li>
             <li className={styles?.collectionItem}>
-              <div>Industry</div> <div>{stockData?.industry}</div>{" "}
+              <div>Industry</div> <div>{stockData?.industry ? stockData?.industry : "N/A"}</div>{" "}
             </li>
           </ul>
         </div>
       </div>
       <div className={styles.aboutPolicy}>
         <h4> Direct Plan Details </h4>
-        <p>{stockData?.description}</p>
+        <p>{stockData?.description ? stockData?.description : "N/A"}</p>
       </div>
 
       <Modal
