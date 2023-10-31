@@ -41,6 +41,11 @@ const Profile = () => {
   const [stockData, setStockData] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [investmentType, setInvestmentType] = useState("lumpsum");
+  const [sipAmount, setSipAmount] = useState(0);
+  const [installmentDate, setInstallmentDate] = useState(1);
+  const [sipDuration, setSipDuration] = useState("months");
+
   const navigate = useNavigate();
   const [price, setPrice] = useState("");
   const elements = useElements();
@@ -88,7 +93,7 @@ const Profile = () => {
       }
     }
 
-    return 0; 
+    return 0;
   };
 
   const fetchPriceFluctuation = async () => {
@@ -132,7 +137,7 @@ const Profile = () => {
     fetchPriceFluctuation();
   }, [symbol]);
 
-  const handleDataForBackend = async ( data) => {
+  const handleDataForBackend = async (data) => {
     try {
       console.log(data);
       const response = await axios.post("/api/fund/investments", data);
@@ -294,61 +299,119 @@ const Profile = () => {
           <ul className={styles.collection}>
             <li className={styles.collectionItem}>
               <div>52W High</div>
-              <div>{stockData.week52High}</div>
+              <div>{stockData.week52High ? stockData.week52High : "N/A"}</div>
             </li>
             <li className={styles.collectionItem}>
               {" "}
-              <div>52W Low</div> <div>{stockData?.week52Low ? stockData?.week52Low : "N/A"}</div>
+              <div>52W Low</div>{" "}
+              <div>{stockData?.week52Low ? stockData?.week52Low : "N/A"}</div>
+            </li>
+
+            <li className={styles.collectionItem}>
+              <div>AUM</div>{" "}
+              <div>{stockData?.aum ? stockData?.aum : "N/A"}</div>
             </li>
             <li className={styles.collectionItem}>
-              <div>PE Ratio</div> <div>{stockData?.peRatio ? stockData?.peRatio : "N/A"}</div>
+              <div>Exit Load</div>{" "}
+              <div>{stockData?.exitLoad ? stockData?.exitLoad : "N/A"}</div>
             </li>
             <li className={styles.collectionItem}>
-              <div>PEG Ratio</div> <div>{stockData?.pegRatio ? stockData?.pegRatio : "N/A"}</div>
+              <div>Min. Investment</div>{" "}
+              <div>
+                {stockData?.minInvestment ? stockData?.minInvestment : "N/A"}
+              </div>
             </li>
             <li className={styles.collectionItem}>
-              <div>Dividend Yield</div> <div>{stockData?.dividendYield ? stockData?.dividendYield :"N/A"}</div>
+              <div>PE Ratio</div>{" "}
+              <div>{stockData?.peRatio ? stockData?.peRatio : "N/A"}</div>
             </li>
             <li className={styles.collectionItem}>
-              <div>Mkt. Cap</div> <div>{stockData?.marketCapitalization ? stockData?.marketCapitalization :"N/A"}</div>
+              <div>PEG Ratio</div>{" "}
+              <div>{stockData?.pegRatio ? stockData?.pegRatio : "N/A"}</div>
+            </li>
+            <li className={styles.collectionItem}>
+              <div>Dividend Yield</div>{" "}
+              <div>
+                {stockData?.dividendYield ? stockData?.dividendYield : "N/A"}
+              </div>
+            </li>
+            <li className={styles.collectionItem}>
+              <div>Mkt. Cap</div>{" "}
+              <div>
+                {stockData?.marketCapitalization
+                  ? stockData?.marketCapitalization
+                  : "N/A"}
+              </div>
             </li>
             <li className={styles.collectionItem}>
               <div>50Day Moving Avg.</div>{" "}
-              <div>{stockData?.movingAverage50Days ? stockData?.movingAverage50Days : "N/A"}</div>
+              <div>
+                {stockData?.movingAverage50Days
+                  ? stockData?.movingAverage50Days
+                  : "N/A"}
+              </div>
             </li>
             <li className={styles.collectionItem}>
               <div>200Day Moving Avg.</div>{" "}
-              <div>{stockData?.movingAverage200Days ? stockData?.movingAverage200Days : "N/A"}</div>
+              <div>
+                {stockData?.movingAverage200Days
+                  ? stockData?.movingAverage200Days
+                  : "N/A"}
+              </div>
             </li>
           </ul>
         </div>
         <div className={styles.rhsDetails}>
           <ul className={styles.collection}>
             <li className={styles.collectionItem}>
-              <div> Price or NAV</div> <div>{stockData?.price ? stockData?.price : "N/A"}</div>{" "}
+              <div> Price or NAV</div>{" "}
+              <div>{stockData?.price ? stockData?.price : "N/A"}</div>{" "}
+            </li>
+
+            <li className={styles.collectionItem}>
+              {" "}
+              <div>Expense Ratio</div>{" "}
+              <div>
+                {stockData?.expenseRatio ? stockData?.expenseRatio : "N/A"}
+              </div>
             </li>
             <li className={styles.collectionItem}>
-              <div> β</div> <div>{stockData?.beta ? stockData?.beta : "N/A"} </div>{" "}
+              {" "}
+              <div>CAGR</div>{" "}
+              <div>{stockData?.cagr ? stockData?.cagr : "N/A"}</div>
             </li>
             <li className={styles.collectionItem}>
-              <div> BookValue</div> <div>{stockData?.bookValue ? stockData?.bookValue : "N/A"}</div>{" "}
+              <div> β</div>{" "}
+              <div>{stockData?.beta ? stockData?.beta : "N/A"} </div>{" "}
             </li>
             <li className={styles.collectionItem}>
-              <div> trailingPE </div> <div>{stockData?.trailingPE ? stockData?.trailingPE : "N/A"}</div>{" "}
+              <div> BookValue</div>{" "}
+              <div>{stockData?.bookValue ? stockData?.bookValue : "N/A"}</div>{" "}
             </li>
             <li className={styles.collectionItem}>
-              <div> forwardPE</div> <div>{stockData?.forwardPE ? stockData?.forwardPE : "N/A"}</div>{" "}
+              <div> trailingPE </div>{" "}
+              <div>{stockData?.trailingPE ? stockData?.trailingPE : "N/A"}</div>{" "}
+            </li>
+            <li className={styles.collectionItem}>
+              <div> forwardPE</div>{" "}
+              <div>{stockData?.forwardPE ? stockData?.forwardPE : "N/A"}</div>{" "}
             </li>
 
             <li className={styles.collectionItem}>
               <div>DividendPerShare</div>{" "}
-              <div>{stockData?.dividendPerShare ? stockData?.dividendPerShare : "N/A"}</div>{" "}
+              <div>
+                {stockData?.dividendPerShare
+                  ? stockData?.dividendPerShare
+                  : "N/A"}
+              </div>{" "}
             </li>
             <li className={styles.collectionItem}>
-              <div>Sector</div> <div>{stockData?.sector ? stockData?.sector : "N/A"}</div>{" "}
+              <div>Sector</div>{" "}
+              <div>{stockData?.sector ? stockData?.sector : "N/A"}</div>{" "}
             </li>
             <li className={styles?.collectionItem}>
-              <div>Industry</div> <div>{stockData?.industry ? stockData?.industry : "N/A"}</div>{" "}
+              <div>Industry</div>{" "}
+              <div>{stockData?.industry ? stockData?.industry : "N/A"}</div>{" "}
             </li>
           </ul>
         </div>
@@ -375,31 +438,87 @@ const Profile = () => {
             </div>
             <h2>Rs. {price}</h2>
           </div>
-
-          <div className={styles.modalContent}>
-            <div className={styles.quantityControl}>
-              <div className={styles.formGroup}>
-                <label>Quantity: </label>
-                <div className={styles.quantityBtn}>
-                  <input
-                    type="number"
-                    className="border-black border-[1px] p-3"
-                    value={quantity}
-                    onChange={(e) => {
-                      const newQuantity = parseInt(e.target.value, 10);
-                      if (!isNaN(newQuantity) && newQuantity >= 1) {
-                        setQuantity(newQuantity);
-                      }
-                    }}
-                  />
-                </div>
+          <div>
+            <label>Investment Type: </label>
+            <div className="flex gap-5">
+              <div className="flex gap-2">
+                <input
+                  type="radio"
+                  id="lumpsum"
+                  name="investmentType"
+                  value="lumpsum"
+                  checked={investmentType === "lumpsum"}
+                  onChange={() => setInvestmentType("lumpsum")}
+                />
+                <label htmlFor="lumpsum">Lumpsum</label>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="radio"
+                  id="sip"
+                  name="investmentType"
+                  value="sip"
+                  checked={investmentType === "sip"}
+                  onChange={() => setInvestmentType("sip")}
+                />
+                <label htmlFor="sip">SIP</label>
               </div>
             </div>
-            <div className="m-2">
-              <h2 className="mb-2">
-                Cost : {(parseFloat(price) * quantity).toFixed(2)}
-              </h2>
-            </div>
+          </div>
+
+          <div className={styles.modalContent}>
+            {investmentType === "lumpsum" && (
+              <>
+                <div className={styles.quantityControl}>
+                  <div className={styles.formGroup}>
+                    <label>Quantity: </label>
+                    <div className={styles.quantityBtn}>
+                      <input
+                        type="number"
+                        className="border-black border-[1px] p-3"
+                        value={quantity}
+                        onChange={(e) => {
+                          const newQuantity = parseInt(e.target.value, 10);
+                          if (!isNaN(newQuantity) && newQuantity >= 1) {
+                            setQuantity(newQuantity);
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="m-2">
+                  <h2 className="mb-2">
+                    Cost : {(parseFloat(price) * quantity).toFixed(2)}
+                  </h2>
+                </div>
+              </>
+            )}
+
+            {investmentType === "sip" && (
+              <>
+                <div className={styles.formGroup}>
+                  <label>Amount you want to invest in rupees:</label>
+                  <input
+                    type="number"
+                    value={sipAmount}
+                    onChange={(e) => setSipAmount(parseFloat(e.target.value))}
+                  />
+                </div>
+                Minimum amount you can invest is ₹{stockData?.minInvestment  ? stockData?.minInvestment : 1000}
+                <div className={styles.formGroup}>
+                  <label>Select monthly installment date:</label>
+                  <input
+                    type="date"
+                    value={installmentDate}
+                    onChange={(e) =>
+                      setInstallmentDate(parseInt(e.target.value, 10))
+                    }
+                  />
+                </div>
+              </>
+            )}
+
             <div className="m-2">
               <h3>Card Details</h3>
               <CardElement options={{ style: cardElementStyle }} />
