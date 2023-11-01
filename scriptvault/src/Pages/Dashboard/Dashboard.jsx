@@ -119,7 +119,7 @@ function Dashboard() {
       <div className="stock">
         {data && data.investments ? (
           data.investments.map((investment) => (
-            <div key={investment._id}>
+            <div className="stock-card" key={investment._id}>
               <p>
                 <h1>{investment?.fund_name}</h1> ({investment?.sector})
               </p>
@@ -156,7 +156,7 @@ function Dashboard() {
                   to={`/details-page/${investment?.fund_id}/${investment?.fundId}`}
                   className="invest-more-link"
                 >
-                  <button className="sell-button">Invest More</button>
+                  <button className="buy-button">Invest More</button>
                 </Link>
               </div>
             </div>

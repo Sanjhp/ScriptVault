@@ -99,6 +99,9 @@ const Wishlist = () => {
                     <h2 className={styles.stockPrice}>
                       ₹ {apiResponse?.price ? apiResponse?.price : "N/A"}
                     </h2>
+                    <h2 className={styles.stockPrice}>
+                      {apiResponse?.assetType ? apiResponse?.assetType : "N/A"}
+                    </h2>
                     <h2 className={styles.percentChange}>
                       {apiResponse.changePercent
                         ? apiResponse.changePercent

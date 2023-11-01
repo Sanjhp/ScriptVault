@@ -129,10 +129,17 @@ const UpdateUser = () => {
       if (err?.response?.data?.message === "unAuthorized") {
         localStorage.removeItem("token");
         navigate("/");
-      } else if (err?.response?.data?.message) {
-        toast.error(err?.response?.data?.message);
-        console.log("err :>> ", err);
+      } else if (err?.response?.data?.message && Array.isArray(err.response.data.message)) {
+      const passwordError = err?.response?.data?.message.find((error) => error.password);
+      if (passwordError) {
+        toast.error(passwordError.password);
       } else {
+        const errorMessages = err?.response?.data?.message.map((error) => error.password).join(", ");
+        toast.error(errorMessages);
+      }
+    }
+      
+      else {
         toast.error("An error occured!");
         console.log("err :>> ", err);
       }
