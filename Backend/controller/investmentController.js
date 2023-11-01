@@ -75,13 +75,11 @@ export const createInvestment = async (req, res) => {
     });
 
     await investment.save();
-    res
-      .status(201)
-      .json({
-        success: true,
-        message: "Investment added successfully!",
-        investment,
-      });
+    res.status(201).json({
+      success: true,
+      message: "Investment added successfully!",
+      investment,
+    });
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -98,7 +96,7 @@ export const getAllInvestments = async (req, res) => {
     if (searchQuery) {
       filters.$or = [
         { symbol: { $regex: searchQuery, $options: "i" } },
-        { name: { $regex: searchQuery, $options: "i" } }
+        { name: { $regex: searchQuery, $options: "i" } },
       ];
     }
 
@@ -107,7 +105,7 @@ export const getAllInvestments = async (req, res) => {
     }
 
     const investments = await InvestmentModel.find(filters);
-    
+
     res.status(200).json({
       success: true,
       message: "Fetched investments successfully!",
@@ -121,23 +119,24 @@ export const getAllInvestments = async (req, res) => {
   }
 };
 
-
 export const getSingleInvestment = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log("investment controller", id);
     const investment = await InvestmentModel.findById(id);
+    console.log(investment);
+
     if (!investment) {
+      console.log("investment not found");
       return res
         .status(404)
         .json({ success: false, error: "Investment not found" });
     }
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Investment fetched successfully!",
-        investment,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Investment fetched successfully!",
+      investment,
+    });
   } catch (err) {
     res.status(500).json({
       success: false,

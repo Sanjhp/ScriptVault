@@ -4,10 +4,11 @@ import Watchlist from "../model/Watchlist.js";
 export const addFundToWatchlist = async (req, res) => {
   try {
     console.log(req.body);
-    const { user_id, symbol } = req.body;
+    const { user_id, symbol, stockId } = req.body;
+    console.log("add", req.body);
 
     // Check if the symbol already exists for the user
-    const existingItem = await Watchlist.findOne({ user_id, symbol });
+    const existingItem = await Watchlist.findOne({ user_id, symbol, stockId });
 
     if (existingItem) {
       return res
@@ -18,6 +19,7 @@ export const addFundToWatchlist = async (req, res) => {
     const newWatchlistItem = new Watchlist({
       user_id: user_id,
       symbol: symbol,
+      stockId: stockId,
     });
     console.log(newWatchlistItem);
     const savedWatchlistItem = await newWatchlistItem.save();
@@ -34,6 +36,7 @@ export const deleteFundFromWatchlist = async (req, res) => {
   try {
     const { userId, symbol } = req.params;
     console.log("in wacthlist delete controller", req.params);
+    console.log("delete", req.body);
 
     const deletedWatchlistItem = await Watchlist.findOneAndDelete({
       user_id: userId,

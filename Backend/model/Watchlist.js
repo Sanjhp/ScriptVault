@@ -10,6 +10,10 @@ const watchlistSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  stockId: {
+    type: String,
+    required: true,
+  },
 });
 
 const WatchlistModel = mongoose.model("watchlist", watchlistSchema);

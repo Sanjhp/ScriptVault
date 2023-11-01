@@ -35,39 +35,36 @@ const Wishlist = () => {
         setFundIds(response.data);
       }
     } catch (error) {
-      console.error("Error fetching fund/stock IDs:", error);
+      console.error("Error fetching stock IDs:", error);
     }
   };
 
-  const removeFromWishlist = async (symbol) => {
+  const removeFromWishlist = async (stockId) => {
     try {
       const response = await axios.delete(
-        `/api/watchlist/remove/${userId}/${symbol}`
+        `/api/watchlist/remove/${userId}/${stockId}`
       );
       if (response.status === 200) {
-        console.log(`Removed ${symbol} from wishlist`);
+        console.log(`Removed ${stockId} from wishlist`);
         // Refresh the wishlist after removal
         fetchFundIds(userId);
-        alert(`Removed ${symbol} from wishlist`);
+        alert(`Removed ${stockId} from wishlist`);
       } else {
         alert("API calls limit reached, try again later.");
       }
     } catch (error) {
       alert("API calls limit reached, try again later.");
-
       console.error("Error removing item from wishlist:", error);
     }
   };
 
   useEffect(() => {
-    const fetchData = async (symbol) => {
+    const fetchData = async (stockId) => {
       try {
-        const apiKey = "C04721VTHLJFESKF";
-        const response = await axios.get(
-          `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol.symbol}&apikey=${apiKey}`
-        );
-        console.log("response from alphavantage", response);
-        return response?.data;
+        console.log(stockId);
+        const response = await axios.get(`/api/investment/${stockId}`);
+        console.log("response from your backend", response?.data.investment);
+        return response?.data.investment;
       } catch (error) {
         console.error("Error:", error);
         return null;
@@ -76,7 +73,7 @@ const Wishlist = () => {
 
     const fetchAllData = async () => {
       const responses = await Promise.all(
-        fundIds.map((fundId) => fetchData(fundId))
+        fundIds.map((fundId) => fetchData(fundId.stockId))
       );
       setApiResponses(responses?.filter((response) => response !== null));
     };
@@ -97,15 +94,16 @@ const Wishlist = () => {
               <div className={styles.cardStacked}>
                 <div className={styles.cardContent}>
                   <h3 className={styles.stockName}>
-                    {apiResponse?.["Global Quote"]?.["01. symbol"] ?? "N/A"}
+                    {apiResponse?.name ? apiResponse?.name : "N/A"}
                   </h3>
                   <div className={styles.stockWrapper}>
                     <h2 className={styles.stockPrice}>
-                      ₹{apiResponse?.["Global Quote"]?.["05. price"] ?? "N/A"}
+                      ₹ {apiResponse?.price ? apiResponse?.price : "N/A"}
                     </h2>
                     <h2 className={styles.percentChange}>
-                      {apiResponse?.["Global Quote"]?.["10. change percent"] ??
-                        "N/A"}
+                      {apiResponse.changePercent
+                        ? apiResponse.changePercent
+                        : "N/A"}
                     </h2>
                   </div>
                 </div>
@@ -124,36 +122,26 @@ const Wishlist = () => {
                     </div>
                     <div className={styles.dataDetails}>
                       <div>
-                        <h4>
-                          {apiResponse?.["Global Quote"]?.["02. open"] ?? "N/A"}
-                        </h4>
+                        <h4>{apiResponse?.open ? apiResponse?.open : "N/A"}</h4>
                       </div>
                       <div>
-                        <h4>
-                          {apiResponse?.["Global Quote"]?.["03. high"] ?? "N/A"}
-                        </h4>
+                        <h4>{apiResponse?.high ? apiResponse?.high : "N/A"}</h4>
                       </div>
                       <div>
-                        <h4>
-                          {apiResponse?.["Global Quote"]?.["04. low"] ?? "N/A"}
-                        </h4>
+                        <h4>{apiResponse?.low ? apiResponse?.low : "N/A"}</h4>
                       </div>
                     </div>
                   </div>
                   <div className={styles.cardAction}>
                     <div className={styles.linktoNext}>
                       <Link
-                        to={`/details-page/${apiResponse?.["Global Quote"]?.["01. symbol"]}`}
+                        to={`/details-page/${apiResponse?.symbol}/${apiResponse?._id}`}
                       >
                         Know more
                       </Link>
                       <button
                         className={styles.removeButton}
-                        onClick={() =>
-                          removeFromWishlist(
-                            apiResponse?.["Global Quote"]?.["01. symbol"]
-                          )
-                        }
+                        onClick={() => removeFromWishlist(fundIds.stockId)}
                       >
                         Remove
                       </button>

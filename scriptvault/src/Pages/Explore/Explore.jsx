@@ -14,7 +14,6 @@ const Home = () => {
     try {
       let url = "http://localhost:5000/api/investment/get-investments";
       const queryParams = [];
-
       if (searchQuery) {
         queryParams.push(`searchQuery=${encodeURIComponent(searchQuery)}`);
       }
@@ -28,6 +27,7 @@ const Home = () => {
       }
 
       const response = await axios.get(url);
+      console.log(response?.data.investments);
       setData(response?.data.investments);
     } catch (error) {
       console.error("Error:", error);

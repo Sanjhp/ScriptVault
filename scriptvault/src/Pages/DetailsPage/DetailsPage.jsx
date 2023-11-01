@@ -103,6 +103,8 @@ const Profile = () => {
       const apiKey = "C04721VTHLJFESKF";
       const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${apiKey}`;
       const response = await axios.get(apiUrl);
+
+      console.log(response?.data);
       const timeSeriesData = response.data["Time Series (5min)"];
       // Convert time series data to an array of objects
       const priceData = Object.keys(timeSeriesData)
@@ -193,6 +195,7 @@ const Profile = () => {
     const watchlistData = {
       symbol: stockData.symbol,
       user_id: id,
+      stockId: stockData._id,
     };
 
     try {
@@ -222,9 +225,7 @@ const Profile = () => {
 
   const fetchStockData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/investment/${stockId}`
-      );
+      const response = await axios.get(`/api/investment/${stockId}`);
       setStockData(response?.data?.investment);
       if (response?.data && response?.data?.investment?.price) {
         setPrice(response?.data?.investment?.price);
