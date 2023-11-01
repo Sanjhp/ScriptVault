@@ -71,7 +71,7 @@ export const validateLogin = [
     .withMessage("Password must be a string")
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters long"),
-]
+];
 
 export const validateProfile = [
   check("name")
@@ -88,6 +88,14 @@ export const validateProfile = [
     .isLength({ min: 10, max: 10 })
     .withMessage("Phone number must be 10 digits"),
 
+  check("password")
+    .notEmpty()
+    .withMessage("Password is required")
+    .isString()
+    .withMessage("Password must be a string")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters long"),
+
   check("dob")
     .optional()
     .custom((value) => {
@@ -102,30 +110,29 @@ export const validateProfile = [
 ];
 
 export const validateForgotPassword = [
-  check('email')
+  check("email")
     .notEmpty()
-    .withMessage('Email must not be empty')
+    .withMessage("Email must not be empty")
     .isEmail()
-    .withMessage('Please enter a valid email address')
-]
+    .withMessage("Please enter a valid email address"),
+];
 
 export const validateResetPassword = [
-  check('email')
+  check("email")
     .isEmail()
-    .withMessage('Please provide a valid email address')
+    .withMessage("Please provide a valid email address")
     .notEmpty()
-    .withMessage('Email must not be empty'),
+    .withMessage("Email must not be empty"),
 
-  check('otp')
+  check("otp")
     .notEmpty()
-    .withMessage('otp must not be empty')
+    .withMessage("otp must not be empty")
     .isLength({ min: 6, max: 6 })
-    .withMessage('OTP must contain 6 characters'),
+    .withMessage("OTP must contain 6 characters"),
 
-  check('password')
+  check("password")
     .notEmpty()
-    .withMessage('Password must not be empty')
+    .withMessage("Password must not be empty")
     .isLength({ min: 6, max: 20 })
-    .withMessage('Password length must be between 6 and 20')
-
-]
+    .withMessage("Password length must be between 6 and 20"),
+];

@@ -1,114 +1,123 @@
-/* watchlist.css */
-
 @import "~font-awesome/css/font-awesome.css";
 :root {
-    --primary-color: #3F51B5;
-    --dark-gray: #333333;
+  --primary-color: #3f51b5;
+  --dark-gray: #333333;
 }
-
 
 /* Secondary Colors */
 
 :root {
-    --green: #4CAF50;
-    --red: #F44336;
-    --amber: #FFC107;
+  --green: #4caf50;
+  --red: #f44336;
+  --amber: #ffc107;
 }
-
 
 /* Neutral Colors */
 
 :root {
-    --white: #FFFFFF;
-    --light-gray: #CCCCCC;
+  --white: #ffffff;
+  --light-gray: #cccccc;
 }
-
 
 /* Accent Colors */
 
 :root {
-    --gold: #FFD700;
-    --turquoise: #00BCD4;
+  --gold: #ffd700;
+  --turquoise: #00bcd4;
 }
-
 
 /* Interactive Colors */
 
 :root {
-    --light-blue: #2196F3;
-    --purple: #9C27B0;
+  --light-blue: #2196f3;
+  --purple: #9c27b0;
 }
 
-
-/* Example Usage */
-
 body {
-    background-color: var(--white);
-    color: var(--dark-gray);
-    font-family: Arial, sans-serif;
+  background-color: var(--white);
+  color: var(--dark-gray);
+  font-family: Arial, sans-serif;
 }
 
 .wl_heading {
-    /* background-color: #bbf7d0; */
-    /* border: 1px solid var(--light-gray); */
-    margin-top: 30px ;
-    padding: 1px;
-    /* overflow-y: hidden; */
-    /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
+  margin-top: 30px;
+  padding: 1px;
 }
 
 .watchlist h2 {
-    padding-left: 26em;
-    font-size: 25px;
-    color: var(--black);
+  padding-left: 26em;
+  font-size: 25px;
+  color: var(--black);
 }
 
 .stock {
-    background-color: var(--white);
-    border: 1px solid var(--light-gray);
-    border-radius: 2px;
-    padding: 10px;
-    display: flex;
-    margin: 10px;
-    justify-content: space-around;
-    flex-wrap: nowrap;
-    align-items: baseline;
+  background-color: white;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 10px;
+}
+
+.stock-card {
+  flex-basis: calc(33.33% - 20px);
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid var(--light-gray);
+  border-radius: 2px;
 }
 
 .stock h1 {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .green-text {
-    color: var(--green);
+  color: var(--green);
 }
 
 .red-text {
-    color: var(--red);
-}
-
-.stock button {
-    border: 1px;
-    padding: 8px 10px;
-    cursor: pointer;
-    border: 1px solid var(--light-gray);
+  color: var(--red);
 }
 
 
-.stock-action-button{
-    display: flex;
-        gap: 15px;
+.stock-action-button {
+  display: flex;
+  gap: 15px;
 }
 .sell-button {
-    display: flex;
-    border-color: #333333;
-    gap: 8px;
-    border: 1px solid var(--light-gray);
-        padding: 8px 16px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-    margin-top: 10px;
-    /* Add margin to separate it from other content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-color: #333333;
+  gap: 8px;
+  border: 1px solid var(--light-gray);
+  padding: 8px 36px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
+.sell-button:hover{
+    color: white;
+    background: red;
+    font-weight: 600;
+}
+
+.buy-button:hover{
+    color: white;
+    background: green;
+    font-weight: 600;
+}
+
+.buy-button {
+  display: flex;
+  border-color: #333333;
+  gap: 8px;
+  border: 1px solid var(--light-gray);
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-top: 10px;
+}

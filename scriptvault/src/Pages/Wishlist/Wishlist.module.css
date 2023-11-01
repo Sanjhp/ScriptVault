@@ -101,15 +101,10 @@
     font-weight: bold;
 }
 
-.stockPrice {}
-
-.percentChange {
-    margin-left: auto;
-}
-
 .stockWrapper {
     display: flex;
     margin-top: 10px;
+    justify-content: space-between;
 }
 
 .dataHead,
