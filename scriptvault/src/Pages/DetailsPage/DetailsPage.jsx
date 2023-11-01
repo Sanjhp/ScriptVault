@@ -43,7 +43,7 @@ const Profile = () => {
   const [quantity, setQuantity] = useState(1);
   const [investmentType, setInvestmentType] = useState("lumpsum");
   const [sipAmount, setSipAmount] = useState(0);
-  const [installmentDate, setInstallmentDate] = useState(1);
+  const [installmentDate, setInstallmentDate] = useState("");
   const [sipDuration, setSipDuration] = useState("months");
 
   const navigate = useNavigate();
@@ -55,6 +55,8 @@ const Profile = () => {
   const [id, setId] = useState(null);
   const [priceFluctuation, setPriceFluctuation] = useState([]);
   const [error, setError] = useState(null);
+  const isETF = stockData?.assetType === "ETF";
+  const isMutualFund = stockData?.assetType === "Mutual Fund";
 
   // Retrieve the token from localStorage
   useEffect(() => {
@@ -137,24 +139,6 @@ const Profile = () => {
     fetchPriceFluctuation();
   }, [symbol]);
 
-  const handleDataForBackend = async (data) => {
-    try {
-      console.log(data);
-      const response = await axios.post("/api/fund/investments", data);
-      if (response.data === undefined) {
-        alert("API calls limit reached, try again later.");
-      } else {
-        console.log("Backend response:", response.data);
-        alert("Purchase Successful");
-        navigate("/dashboard");
-      }
-    } catch (error) {
-      alert("Request failed. Try again later. Api call limit reached");
-      closeModal();
-      console.error("Request failed:", error);
-    }
-  };
-
   const handleBuy = async () => {
     const cardElement = elements.getElement(CardElement);
     if (!cardElement) {
@@ -172,8 +156,6 @@ const Profile = () => {
       if (error) {
         setError(error.message);
       } else {
-        // Payment Method created successfully
-
         // Now, you can confirm a Payment Intent with the paymentMethod ID
         const fundData = {
           fund_id: stockData.symbol,
@@ -185,7 +167,21 @@ const Profile = () => {
         };
 
         // Send the data to the backend to confirm the Payment Intent
-        handleDataForBackend("/api/fund/investments", fundData);
+        try {
+          console.log(fundData);
+          const response = await axios.post("/api/fund/investments", fundData);
+          if (response.data === undefined) {
+            alert("API calls limit reached, try again later.");
+          } else {
+            console.log("Backend response:", response.data);
+            alert("Purchase Successful");
+            navigate("/dashboard");
+          }
+        } catch (error) {
+          alert("Request failed. Try again later. Api call limit reached");
+          closeModal();
+          console.error("Request failed:", error);
+        }
       }
     } catch (error) {
       setError("Payment processing error. Please try again.");
@@ -465,17 +461,20 @@ const Profile = () => {
                 />
                 <label htmlFor="lumpsum">Lumpsum</label>
               </div>
-              <div className="flex gap-2">
-                <input
-                  type="radio"
-                  id="sip"
-                  name="investmentType"
-                  value="sip"
-                  checked={investmentType === "sip"}
-                  onChange={() => setInvestmentType("sip")}
-                />
-                <label htmlFor="sip">SIP</label>
-              </div>
+              {(stockData.assetType === null || isMutualFund) && (
+                <div className="flex gap-2">
+                  <input
+                    type="radio"
+                    id="sip"
+                    name="investmentType"
+                    value="sip"
+                    checked={investmentType === "sip"}
+                    onChange={() => setInvestmentType("sip")}
+                    disabled={isETF} // Disable SIP option for ETF
+                  />
+                  <label htmlFor="sip">SIP</label>
+                </div>
+              )}
             </div>
           </div>
 
@@ -514,24 +513,25 @@ const Profile = () => {
                   <label>Amount you want to invest in rupees:</label>
                   <input
                     type="number"
+                    className="border-black border-[1px] p-3"
                     value={sipAmount}
                     onChange={(e) => setSipAmount(parseFloat(e.target.value))}
                   />
                 </div>
-                Minimum amount you can invest is ₹{stockData?.minInvestment  ? stockData?.minInvestment : 1000}
+                Minimum amount you can invest is ₹
+                {stockData?.minInvestment ? stockData?.minInvestment : 1000}
                 <div className={styles.formGroup}>
                   <label>Select monthly installment date:</label>
                   <input
                     type="date"
+                    className="border-black border-[1px] p-3"
                     value={installmentDate}
-                    onChange={(e) =>
-                      setInstallmentDate(parseInt(e.target.value, 10))
-                    }
+                    onChange={(e) => setInstallmentDate(e.target.value)} // Update state on change
+                    onBlur={(e) => setInstallmentDate(e.target.value)} // Add onBlur event
                   />
                 </div>
               </>
             )}
-
             <div className="m-2">
               <h3>Card Details</h3>
               <CardElement options={{ style: cardElementStyle }} />

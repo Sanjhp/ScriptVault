@@ -12,7 +12,7 @@
   }
   .policyName .name {
     display: grid;
-    grid-template-columns: 0.3fr 2fr;
+    /* grid-template-columns: 0.3fr 2fr; */
     align-items: center;
   }
   .policyName .name img {

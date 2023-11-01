@@ -22,14 +22,12 @@ const Home = () => {
       if (assetType && assetType !== "Select Asset Type") {
         queryParams.push(`assetType=${assetType}`);
       }
-      console.log("assetType:", assetType);
 
       if (queryParams.length > 0) {
         url += `?${queryParams.join("&")}`;
       }
-      console.log("url :>> ", url);
+
       const response = await axios.get(url);
-      console.log("response.data :>> ", response.data);
       setData(response?.data.investments);
     } catch (error) {
       console.error("Error:", error);
@@ -37,9 +35,9 @@ const Home = () => {
     }
   };
 
-  useEffect(()=>{
-    fetchAllInvestments()
-  },[])
+  useEffect(() => {
+    fetchAllInvestments();
+  }, []);
   useEffect(() => {
     fetchAllInvestments(searchQuery, assetType);
   }, [searchQuery, assetType]);
@@ -61,8 +59,9 @@ const Home = () => {
           >
             <option>Select Asset Type</option>
             <option>ETF</option>
-            <option>NPS</option>
-            <option>Mutual Funds</option>
+            {/* <option>NPS</option> */}
+            <option>Mutual Fund</option>
+            <option>NFO</option>
           </select>
           <div className={styles.searchBar}>
             <input
@@ -93,7 +92,9 @@ const Home = () => {
                       <h2 className={styles.percentChange}>
                         {invest.changePercent ? invest.changePercent : "N/A"}
                       </h2>
-                      <h2 className={styles.percentChange}>{invest.assetType ? invest.assetType : "N/A"} </h2>
+                      <h2 className={styles.percentChange}>
+                        {invest.assetType ? invest.assetType : "N/A"}{" "}
+                      </h2>
                     </div>
                   </div>
                   <div className={styles.boxWrapper}>
@@ -138,10 +139,8 @@ const Home = () => {
             ))
           ) : (
             <div className="flex justify-center items-center mt-[10%]">
-            <p className="text-center text-3xl font-bold ">No Data Found</p>
+              <p className="text-center text-3xl font-bold ">No Data Found</p>
             </div>
-
-          
           )}
         </div>
       </div>

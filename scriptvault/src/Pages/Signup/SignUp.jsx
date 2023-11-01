@@ -31,7 +31,7 @@ function SignupPage() {
       .string()
       .min(6, "Password should be a minimum of 6 characters")
       .required("Password is required"),
-      PAN: yup
+    PAN: yup
       .string()
       .matches(/^([A-Z]){5}([0-9]){4}([A-Z]){1}$/, "Invalid PAN number")
       .required("PAN number is required"),
@@ -46,7 +46,6 @@ function SignupPage() {
   });
   const [loading, setLoading] = useState(false);
 
-  
   const handleRegister = async (data) => {
     const formattedBirthDate = new Date(data.dob).toISOString().split("T")[0];
     const formattedData = { ...data, dob: formattedBirthDate };
@@ -160,7 +159,7 @@ function SignupPage() {
                   {...register("PAN")}
                   required
                 />
-                 {errors && errors?.PAN && (
+                {errors && errors?.PAN && (
                   <p className={styles.errorMessage}>{errors?.PAN?.message}</p>
                 )}
               </div>
