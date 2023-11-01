@@ -93,6 +93,7 @@ const Home = () => {
                       <h2 className={styles.percentChange}>
                         {invest.changePercent ? invest.changePercent : "N/A"}
                       </h2>
+                      <h2 className={styles.percentChange}>{invest.assetType ? invest.assetType : "N/A"} </h2>
                     </div>
                   </div>
                   <div className={styles.boxWrapper}>
