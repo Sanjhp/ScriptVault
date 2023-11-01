@@ -27,7 +27,6 @@ const Home = () => {
       }
 
       const response = await axios.get(url);
-      console.log(response?.data.investments);
       setData(response?.data.investments);
     } catch (error) {
       console.error("Error:", error);

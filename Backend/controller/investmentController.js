@@ -122,9 +122,7 @@ export const getAllInvestments = async (req, res) => {
 export const getSingleInvestment = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("investment controller", id);
     const investment = await InvestmentModel.findById(id);
-    console.log(investment);
 
     if (!investment) {
       console.log("investment not found");

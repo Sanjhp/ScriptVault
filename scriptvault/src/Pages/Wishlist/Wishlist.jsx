@@ -15,10 +15,10 @@ const Wishlist = () => {
       const parts = accessToken.split(".");
       const payload = JSON.parse(atob(parts[1]));
       const userId = payload._id;
-      console.log("User ID from localStorage:", userId);
+      // console.log("User ID from localStorage:", userId);
       setUserId(userId);
-      console.log("User ID state:", userId);
-      console.log("Fetching fund IDs...");
+      // console.log("User ID state:", userId);
+      // console.log("Fetching fund IDs...");
       fetchFundIds(userId);
     } else {
       console.log("Token not found");
@@ -27,9 +27,7 @@ const Wishlist = () => {
 
   const fetchFundIds = async (userId) => {
     try {
-      console.log("User id in wishlist", userId);
       const response = await axios.get(`/api/watchlist/getlist/${userId}`);
-      console.log(response.data);
 
       if (response.data) {
         setFundIds(response.data);
