@@ -3,8 +3,8 @@ import Watchlist from "../model/Watchlist.js";
 // Function to add a fund to the watchlist
 export const addFundToWatchlist = async (req, res) => {
   try {
-    const { user_id, symbol } = req.body;
     console.log(req.body);
+    const { user_id, symbol } = req.body;
 
     // Check if the symbol already exists for the user
     const existingItem = await Watchlist.findOne({ user_id, symbol });
@@ -19,7 +19,7 @@ export const addFundToWatchlist = async (req, res) => {
       user_id: user_id,
       symbol: symbol,
     });
-
+    console.log(newWatchlistItem);
     const savedWatchlistItem = await newWatchlistItem.save();
 
     res.status(201).json(savedWatchlistItem);

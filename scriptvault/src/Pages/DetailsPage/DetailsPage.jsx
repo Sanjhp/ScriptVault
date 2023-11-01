@@ -88,7 +88,7 @@ const Profile = () => {
       }
     }
 
-    return 0; 
+    return 0;
   };
 
   const fetchPriceFluctuation = async () => {
@@ -132,7 +132,7 @@ const Profile = () => {
     fetchPriceFluctuation();
   }, [symbol]);
 
-  const handleDataForBackend = async ( data) => {
+  const handleDataForBackend = async (data) => {
     try {
       console.log(data);
       const response = await axios.post("/api/fund/investments", data);
@@ -190,11 +190,24 @@ const Profile = () => {
 
   const handleAddToWatchlist = async () => {
     const watchlistData = {
-      symbol: stockData.Symbol,
+      symbol: stockData.symbol,
       user_id: id,
     };
 
-    handleDataForBackend("/api/watchlist/add", watchlistData);
+    try {
+      console.log(watchlistData);
+      const response = await axios.post("/api/watchlist/add", watchlistData);
+      if (response.data === undefined) {
+        alert("API calls limit reached, try again later.");
+      } else {
+        console.log("Backend response:", response.data);
+        alert("Fund Added to Watchlist");
+      }
+    } catch (error) {
+      alert("Fund already exists in the watchlist");
+      closeModal();
+      console.error("Request failed:", error);
+    }
   };
 
   function openModal() {
