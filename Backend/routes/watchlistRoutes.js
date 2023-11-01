@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post("/add", addFundToWatchlist);
 router.get("/getlist/:userid", getWatchlistByUserId);
-router.delete("/remove/:userId/:symbol", deleteFundFromWatchlist);
+router.delete("/remove/:userId/:stockId", deleteFundFromWatchlist);
 
 export default router;

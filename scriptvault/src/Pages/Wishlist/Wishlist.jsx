@@ -39,6 +39,7 @@ const Wishlist = () => {
 
   const removeFromWishlist = async (stockId) => {
     try {
+      console.log(stockId);
       const response = await axios.delete(
         `/api/watchlist/remove/${userId}/${stockId}`
       );
@@ -59,9 +60,9 @@ const Wishlist = () => {
   useEffect(() => {
     const fetchData = async (stockId) => {
       try {
-        console.log(stockId);
+        // console.log(stockId);
         const response = await axios.get(`/api/investment/${stockId}`);
-        console.log("response from your backend", response?.data.investment);
+        // console.log("response from your backend", response?.data.investment);
         return response?.data.investment;
       } catch (error) {
         console.error("Error:", error);
@@ -139,7 +140,7 @@ const Wishlist = () => {
                       </Link>
                       <button
                         className={styles.removeButton}
-                        onClick={() => removeFromWishlist(fundIds.stockId)}
+                        onClick={() => removeFromWishlist(apiResponse?._id)}
                       >
                         Remove
                       </button>

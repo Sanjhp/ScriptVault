@@ -34,13 +34,13 @@ export const addFundToWatchlist = async (req, res) => {
 // Function to delete a fund from the watchlist by _id
 export const deleteFundFromWatchlist = async (req, res) => {
   try {
-    const { userId, symbol } = req.params;
+    const { userId, stockId } = req.params;
     console.log("in wacthlist delete controller", req.params);
     console.log("delete", req.body);
 
     const deletedWatchlistItem = await Watchlist.findOneAndDelete({
       user_id: userId,
-      symbol: symbol,
+      stockId: stockId,
     });
 
     if (!deletedWatchlistItem) {
