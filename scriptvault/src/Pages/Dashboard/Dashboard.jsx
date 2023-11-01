@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
 import { useLocation } from "react-router-dom";
-import { FaHandHoldingUsd, FaMoneyBill } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 import axios from "axios";
@@ -10,10 +9,6 @@ function Dashboard() {
   const location = useLocation();
   const { stockDetails, stockDetailsList: initialStockDetailsList } =
     location.state ?? { stockDetails: null, stockDetailsList: [] };
-
-  const [stockDetailsList, setStockDetailsList] = useState(
-    initialStockDetailsList
-  );
 
   const [token, setToken] = useState(null);
   const accessToken = localStorage.getItem("token");
@@ -158,7 +153,7 @@ function Dashboard() {
                   {isSelling ? "Selling..." : <>Sell</>}
                 </button>
                 <Link
-                  to={`/details-page/${investment.fund_id}`}
+                  to={`/details-page/${investment?.fund_id}/${investment?.fundId}`}
                   className="invest-more-link"
                 >
                   <button className="sell-button">Invest More</button>

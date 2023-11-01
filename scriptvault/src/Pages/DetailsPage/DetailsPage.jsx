@@ -166,6 +166,7 @@ const Profile = () => {
           cost: price,
           user: id,
           quantity: quantity.toString(),
+          fundId: stockId,
         };
 
         // Send the data to the backend to confirm the Payment Intent

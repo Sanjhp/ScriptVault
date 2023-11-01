@@ -24,6 +24,10 @@ const fundsSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    fundId: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

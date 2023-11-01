@@ -3,7 +3,10 @@ import InvestedFunds from "../model/Funds.js";
 // Function to create a new investment record
 export const createInvestment = async (req, res) => {
   try {
-    const { user, fund_id, fund_name, sector, cost, quantity } = req.body;
+    const { user, fund_id, fund_name, sector, cost, quantity, fundId } =
+      req.body;
+
+    console.log(req.body);
 
     // Ensure that cost and quantity are valid numbers
     const costAsNumber = parseFloat(cost);
@@ -31,6 +34,7 @@ export const createInvestment = async (req, res) => {
         sector,
         cost: costAsNumber,
         quantity: quantityAsNumber,
+        fundId,
       });
 
       const savedInvestment = await newInvestment.save();
