@@ -210,6 +210,7 @@ const Profile = () => {
     setQuantity(1);
     setIsOpen(false);
   }
+  
 
   const fetchStockData = async () => {
     try {
